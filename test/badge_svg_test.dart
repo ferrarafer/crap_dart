@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/report/badge_svg.dart';
+import 'package:crap_dart/src/report/badge_svg.dart';
 import 'package:test/test.dart';
 
 void main() {

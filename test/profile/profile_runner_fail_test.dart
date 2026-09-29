@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
 import 'package:test/test.dart';
 
 import 'profile_runner_run_test.dart' show createProfiledProject, timingJson;
 
 void main() {
   test('run returns null without a pubspec (no package name)', () async {
-    final root = Directory.systemTemp.createTempSync('crap4dart_profile_err_');
+    final root = Directory.systemTemp.createTempSync('crap_dart_profile_err_');
     addTearDown(() => root.deleteSync(recursive: true));
     const runner = ProfileRunner();
     final result = await runner.run(root.path);

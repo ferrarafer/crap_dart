@@ -1,8 +1,8 @@
-# crap4dart Specification
+# crap_dart Specification
 
 ## 1. Purpose
 
-`crap4dart` is a CRAP metric analyzer and quality-gate tool for Dart and
+`crap_dart` is a CRAP metric analyzer and quality-gate tool for Dart and
 Flutter projects. It is a Dart port of the Java tool `crap4java`.
 
 It shall:
@@ -17,7 +17,7 @@ It shall:
 - fail when the maximum CRAP score exceeds the configured threshold or a
   quality gate fails
 
-`crap4dart` is intended as a project-quality gate rather than a mutation
+`crap_dart` is intended as a project-quality gate rather than a mutation
 tool.
 
 ## 2. Scope
@@ -44,7 +44,7 @@ This specification does not define:
 ## 3. Terminology
 
 - `project root`
-  The working directory from which `crap4dart` is invoked.
+  The working directory from which `crap_dart` is invoked.
 
 - `method metric`
   A single report row consisting of method identity, cyclomatic
@@ -59,7 +59,7 @@ This specification does not define:
 
 - `managed block`
   The region of an installed git hook delimited by the markers
-  `# >>> crap4dart >>>` and `# <<< crap4dart <<<`.
+  `# >>> crap_dart >>>` and `# <<< crap_dart <<<`.
 
 ## 4. Command-Line Interface
 
@@ -67,13 +67,13 @@ This specification does not define:
 
 The tool shall support these commands:
 
-- `crap4dart` (equivalent to `crap4dart analyze`)
-- `crap4dart analyze [paths...]`
-- `crap4dart check`
-- `crap4dart init`
-- `crap4dart install`
-- `crap4dart profile`
-- `crap4dart --help` / `crap4dart --version`
+- `crap_dart` (equivalent to `crap_dart analyze`)
+- `crap_dart analyze [paths...]`
+- `crap_dart check`
+- `crap_dart init`
+- `crap_dart install`
+- `crap_dart profile`
+- `crap_dart --help` / `crap_dart --version`
 
 ### 4.2 analyze Options
 
@@ -129,7 +129,7 @@ The tool shall support these commands:
 
 ### 4.4 init
 
-Creates a fully commented default `crap4dart.yaml` in the current
+Creates a fully commented default `crap_dart.yaml` in the current
 directory. An existing file shall not be overwritten unless `--force` is
 given; without `--force` the tool shall print an error to stderr and exit
 with usage-error status.
@@ -137,7 +137,7 @@ with usage-error status.
 ### 4.5 install
 
 - Installs a git hook (default `pre-commit`, overridable with `--hook`)
-  that runs `crap4dart check --staged`.
+  that runs `crap_dart check --staged`.
 - `--ci` additionally installs `.github/workflows/quality.yml`.
 - `--force` allows merging into an existing foreign hook or overwriting
   an existing workflow file.
@@ -425,7 +425,7 @@ milliseconds.
 
 ### 10.1 File Location and Defaults
 
-The tool shall read `crap4dart.yaml` from the project root, or the file
+The tool shall read `crap_dart.yaml` from the project root, or the file
 given by `--config`. A missing default file shall not be an error and
 shall yield the built-in defaults. A partial config shall be merged with
 defaults per key.
@@ -743,8 +743,8 @@ shall be treated as `0.0`.
 ### 14.1 Git Hook
 
 The hook shall be a POSIX sh script with a managed block. The block shall
-prefer a `crap4dart` binary from `PATH`, fall back to
-`dart run bin/crap4dart.dart` when present, and exit 0 with a warning
+prefer a `crap_dart` binary from `PATH`, fall back to
+`dart run bin/crap_dart.dart` when present, and exit 0 with a warning
 when neither is available. When `coverage.run_tests` is true, the test
 suite with coverage shall run before the check.
 
@@ -756,8 +756,8 @@ content preserved. A project without `.git` shall be an error.
 ### 14.2 CI Workflow
 
 `install --ci` shall create `.github/workflows/quality.yml` running
-format check, static analysis, tests with coverage, `crap4dart check
---all` and `crap4dart analyze` on push and pull request. Flutter projects
+format check, static analysis, tests with coverage, `crap_dart check
+--all` and `crap_dart analyze` on push and pull request. Flutter projects
 shall get a Flutter-based workflow; pure Dart projects a Dart-based one.
 An existing file shall not be overwritten without `--force`.
 

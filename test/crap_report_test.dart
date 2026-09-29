@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/crap/crap_analyzer.dart';
-import 'package:crap4dart/src/crap/crap_report.dart';
+import 'package:crap_dart/src/crap/crap_analyzer.dart';
+import 'package:crap_dart/src/crap/crap_report.dart';
 import 'package:test/test.dart';
 
 import 'crap_test_fixture.dart';

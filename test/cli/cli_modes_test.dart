@@ -13,7 +13,7 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart analyze selection modes', () {
+  group('crap_dart analyze selection modes', () {
     test('--changed analyzes changed files in a git repo', () async {
       writeCleanProject(tempDir);
       await gitInitAndCommit(tempDir, 'base');

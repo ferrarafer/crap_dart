@@ -1,4 +1,4 @@
-/// Template written by `crap4dart init`.
+/// Template written by `crap_dart init`.
 ///
 /// Every gate supports two common keys (shown here once):
 /// - `severity: error | warning` — warning gates report violations but
@@ -7,8 +7,8 @@
 ///   `// crap:ignore-file` markers suppressing violations of this gate.
 ///   OFF by default: suppression must be explicitly allowed.
 const String defaultConfigTemplate = '''
-# crap4dart configuration.
-# See https://github.com/IstiN/crap4dart for details.
+# crap_dart configuration.
+# See https://github.com/ferrarafer/crap_dart for details.
 
 # Directories scanned for Dart sources by "analyze" and "check"
 # (default mode, without --changed/--staged).

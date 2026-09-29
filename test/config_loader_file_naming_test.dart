@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/config/config_loader.dart';
+import 'package:crap_dart/src/config/config_loader.dart';
 import 'package:test/test.dart';
 
 void main() {

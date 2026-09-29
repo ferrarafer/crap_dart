@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/crap/crap_score.dart';
+import 'package:crap_dart/src/crap/crap_score.dart';
 import 'package:test/test.dart';
 
 void main() {

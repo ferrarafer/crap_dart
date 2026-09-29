@@ -491,7 +491,7 @@ class ProfileRunner {
     if (!content.endsWith('\n') && content.isNotEmpty) {
       addition.writeln();
     }
-    addition.writeln('# crap4dart profiling');
+    addition.writeln('# crap_dart profiling');
     for (final e in missing) {
       addition.writeln(e);
     }

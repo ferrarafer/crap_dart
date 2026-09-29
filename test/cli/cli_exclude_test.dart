@@ -14,7 +14,7 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart global exclude', () {
+  group('crap_dart global exclude', () {
     test('excluded files are skipped in check', () async {
       writeCleanProject(tempDir);
       Directory(p.join(tempDir.path, 'lib', 'gen')).createSync();
@@ -25,7 +25,7 @@ void main() {
       final withoutExclude = await runCliInProcess(tempDir, ['check']);
       expect(withoutExclude.exitCode, 2);
 
-      File(p.join(tempDir.path, 'crap4dart.yaml')).writeAsStringSync('''
+      File(p.join(tempDir.path, 'crap_dart.yaml')).writeAsStringSync('''
 coverage:
   required: false
   run_tests: false
@@ -48,7 +48,7 @@ exclude:
         "import '../src/screen.dart';\n\n"
         '/// Routes.\nvoid route() => screen();\n',
       );
-      File(p.join(tempDir.path, 'crap4dart.yaml')).writeAsStringSync('''
+      File(p.join(tempDir.path, 'crap_dart.yaml')).writeAsStringSync('''
 coverage:
   required: false
   run_tests: false
@@ -71,7 +71,7 @@ exclude:
       File(
         p.join(tempDir.path, 'lib', 'gen', 'extra.dart'),
       ).writeAsStringSync('int extra() => 1;\n');
-      File(p.join(tempDir.path, 'crap4dart.yaml')).writeAsStringSync('''
+      File(p.join(tempDir.path, 'crap_dart.yaml')).writeAsStringSync('''
 exclude:
   - 'lib/gen/**'
 ''');

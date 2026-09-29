@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/coverage/coverage_runner.dart';
+import 'package:crap_dart/src/coverage/coverage_runner.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -16,7 +16,7 @@ void main() {
   late Directory project;
 
   setUp(() {
-    project = Directory.systemTemp.createTempSync('crap4dart_covrun_test_');
+    project = Directory.systemTemp.createTempSync('crap_dart_covrun_test_');
     File(
       p.join(project.path, 'pubspec.yaml'),
     ).writeAsStringSync('name: fixture\n');

@@ -1,9 +1,9 @@
 ---
-name: crap4dart-profiling
-description: CPU profiling for Dart/Flutter projects using crap4dart. Use when the user wants to find performance bottlenecks, measure method execution time, profile tests, or optimize Dart/Flutter code. Activated by keywords like "profile", "performance", "bottleneck", "slow methods", "optimize timing", "microseconds".
+name: crap-dart-profiling
+description: CPU profiling for Dart/Flutter projects using crap_dart. Use when the user wants to find performance bottlenecks, measure method execution time, profile tests, or optimize Dart/Flutter code. Activated by keywords like "profile", "performance", "bottleneck", "slow methods", "optimize timing", "microseconds".
 ---
 
-# crap4dart Profiling Skill
+# crap_dart Profiling Skill
 
 ## When to Use
 
@@ -15,9 +15,9 @@ Use this skill when the user wants to:
 - Identify frequently-called methods that accumulate cost
 - Optimize Flutter UI jank (60fps budget analysis)
 
-## What is crap4dart profile?
+## What is crap_dart profile?
 
-`crap4dart profile` is a source-instrumentation profiler. It wraps every
+`crap_dart profile` is a source-instrumentation profiler. It wraps every
 method body in `lib/` with `Stopwatch` + `try/finally`, runs the test suite
 against the instrumented code, and reports precise per-method timing.
 
@@ -27,36 +27,36 @@ microsecond timing for every single call — no missed fast methods.
 ## Prerequisites
 
 ```bash
-# Install crap4dart
-dart pub global activate crap4dart
+# Install crap_dart
+dart pub global activate crap_dart
 
 # Or run from source
-dart run /path/to/crap4dart/bin/crap4dart.dart profile
+dart run /path/to/crap_dart/bin/crap_dart.dart profile
 ```
 
 ## Basic Usage
 
 ```bash
 # Profile all tests — full report
-crap4dart profile
+crap_dart profile
 
 # Filter by test name
-crap4dart profile --name "collaboration"
+crap_dart profile --name "collaboration"
 
 # Filter by tags
-crap4dart profile --tags "golden,integration"
+crap_dart profile --tags "golden,integration"
 
 # Specific test file/directory
-crap4dart profile test/collaboration_test.dart
+crap_dart profile test/collaboration_test.dart
 
 # Limit output to top N (console only)
-crap4dart profile --top 10
+crap_dart profile --top 10
 
 # Threshold check (exit code 2 if exceeded)
-crap4dart profile --threshold 10.0
+crap_dart profile --threshold 10.0
 
 # JSON output for CI/scripts
-crap4dart profile --format json
+crap_dart profile --format json
 ```
 
 ## Reading the Report
@@ -89,7 +89,7 @@ This is the key metric for Flutter optimization:
 ### Step 1: Run the profiler
 
 ```bash
-crap4dart profile --format json > /tmp/profile.json 2>/dev/null
+crap_dart profile --format json > /tmp/profile.json 2>/dev/null
 ```
 
 ### Step 2: Read the JSON report
@@ -115,13 +115,13 @@ Look for:
 
 ```bash
 # After making changes, re-profile to verify improvement
-crap4dart profile --diff  # only changed methods
+crap_dart profile --diff  # only changed methods
 ```
 
 ## Config (optional)
 
 ```yaml
-# crap4dart.yaml
+# crap_dart.yaml
 profile:
   enabled: true        # enable/disable profiling
   threshold_ms: 10.0   # warn on methods above this (optional)

@@ -1,6 +1,6 @@
-import 'package:crap4dart/src/analysis/method_extractor.dart';
-import 'package:crap4dart/src/coverage/lcov_parser.dart';
-import 'package:crap4dart/src/coverage/method_coverage.dart';
+import 'package:crap_dart/src/analysis/method_extractor.dart';
+import 'package:crap_dart/src/coverage/lcov_parser.dart';
+import 'package:crap_dart/src/coverage/method_coverage.dart';
 import 'package:test/test.dart';
 
 void main() {

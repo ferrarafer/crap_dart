@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/config/config_loader.dart';
+import 'package:crap_dart/src/config/config_loader.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -10,7 +10,7 @@ void main() {
   late Directory tempDir;
 
   setUp(() {
-    tempDir = Directory.systemTemp.createTempSync('crap4dart_config_test_');
+    tempDir = Directory.systemTemp.createTempSync('crap_dart_config_test_');
   });
 
   tearDown(() {

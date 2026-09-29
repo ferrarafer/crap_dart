@@ -1,4 +1,4 @@
-/// Typed model of the `crap4dart.yaml` configuration file.
+/// Typed model of the `crap_dart.yaml` configuration file.
 library;
 
 part 'gate_configs.dart';
@@ -23,10 +23,10 @@ enum GateSeverity {
   };
 }
 
-/// Root configuration of crap4dart.
-class Crap4DartConfig {
-  /// Creates a [Crap4DartConfig].
-  const Crap4DartConfig({
+/// Root configuration of crap_dart.
+class CrapDartConfig {
+  /// Creates a [CrapDartConfig].
+  const CrapDartConfig({
     this.crap = const CrapConfig(),
     this.coverage = const CoverageConfig(),
     this.gates = const GatesConfig(),
@@ -56,7 +56,7 @@ class Crap4DartConfig {
   final List<String> exclude;
 
   /// The default configuration used when no config file is present.
-  factory Crap4DartConfig.defaults() => const Crap4DartConfig();
+  factory CrapDartConfig.defaults() => const CrapDartConfig();
 }
 
 /// Settings of the CRAP analysis itself.

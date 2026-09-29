@@ -1,4 +1,4 @@
-# crap4dart self-configuration (dogfooding).
+# crap_dart self-configuration (dogfooding).
 # This repository is a pure Dart package, so Flutter-specific gates
 # (golden, accessibility, hardcoded_strings) are disabled.
 sources: [lib, bin, test]

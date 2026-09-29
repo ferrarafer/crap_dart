@@ -4,7 +4,7 @@ import 'package:path/path.dart' as p;
 
 /// Creates a temp directory for CRAP analyzer tests.
 Directory createCrapTestProject() =>
-    Directory.systemTemp.createTempSync('crap4dart_test_');
+    Directory.systemTemp.createTempSync('crap_dart_test_');
 
 /// Writes the shared mini project: lib/sample.dart with an `uncovered`
 /// (CC 2, 0% covered) and a `covered` (CC 1, 100% covered) function plus

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/hooks/hook_installer.dart';
+import 'package:crap_dart/src/hooks/hook_installer.dart';
 import 'package:test/test.dart';
 
 import 'hook_test_utils.dart';

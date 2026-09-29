@@ -1,19 +1,19 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/cli/runner.dart';
-import 'package:crap4dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/cli/runner.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
 import 'package:path/path.dart' as p;
 
-/// Path to the crap4dart executable under test.
+/// Path to the crap_dart executable under test.
 final String binScript = p.normalize(
-  p.join(Directory.current.path, 'bin', 'crap4dart.dart'),
+  p.join(Directory.current.path, 'bin', 'crap_dart.dart'),
 );
 
 /// Creates a temporary project directory for CLI tests.
 Directory createCliTestProject() =>
-    Directory.systemTemp.createTempSync('crap4dart_cli_test_');
+    Directory.systemTemp.createTempSync('crap_dart_cli_test_');
 
-/// Runs the crap4dart CLI in [workDir] with [args] as a subprocess.
+/// Runs the crap_dart CLI in [workDir] with [args] as a subprocess.
 ///
 /// Used only for smoke tests of the real binary; prefer
 /// [runCliInProcess] so coverage is attributed to the test run.
@@ -39,13 +39,13 @@ class CliResult {
   final String stderr;
 }
 
-/// Runs the crap4dart CLI with [args] in the current process, with
+/// Runs the crap_dart CLI with [args] in the current process, with
 /// [workDir] as the project root and stdout/stderr captured.
 Future<CliResult> runCliInProcess(Directory workDir, List<String> args) async {
   final out = StringBuffer();
   final err = StringBuffer();
   final code = await IOOverrides.runZoned(
-    () => Crap4DartRunner(projectRoot: workDir.path).run(args),
+    () => CrapDartRunner(projectRoot: workDir.path).run(args),
     stdout: () => _BufferStdout(out),
     stderr: () => _BufferStdout(err),
   );
@@ -119,7 +119,7 @@ Future<CliResult> runCliInProcessWithProfile(
   final out = StringBuffer();
   final err = StringBuffer();
   final code = await IOOverrides.runZoned(
-    () => Crap4DartRunner(
+    () => CrapDartRunner(
       projectRoot: workDir.path,
       profileRunner: ProfileRunner(runner: processRunner),
     ).run(args),
@@ -169,7 +169,7 @@ int risky(int x) {
 ''');
   Directory(p.join(root.path, 'coverage')).createSync();
   File(p.join(root.path, 'coverage', 'lcov.info')).writeAsStringSync(lcov);
-  File(p.join(root.path, 'crap4dart.yaml')).writeAsStringSync('''
+  File(p.join(root.path, 'crap_dart.yaml')).writeAsStringSync('''
 coverage:
   run_tests: false
 ''');
@@ -187,7 +187,7 @@ void documented() {}
     "import '../lib/src/a.dart';\n\n/// Runs the app.\n"
     'void main() => documented();\n',
   );
-  File(p.join(root.path, 'crap4dart.yaml')).writeAsStringSync('''
+  File(p.join(root.path, 'crap_dart.yaml')).writeAsStringSync('''
 coverage:
   required: false
   run_tests: false

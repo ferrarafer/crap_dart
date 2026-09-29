@@ -53,7 +53,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
         'exclude-tags',
         help: 'Exclude tests with these tags (comma-separated).',
       )
-      ..addOption('config', help: 'Path to a crap4dart.yaml config file.')
+      ..addOption('config', help: 'Path to a crap_dart.yaml config file.')
       ..addOption(
         'format',
         allowed: ['console', 'json'],
@@ -86,15 +86,15 @@ class ProfileCommand extends Command<int> with CommandHelpers {
 
   @override
   String get invocation =>
-      'crap4dart profile [options] [test_paths...]\n'
+      'crap_dart profile [options] [test_paths...]\n'
       '\n'
       'Examples:\n'
-      '  crap4dart profile                          # all tests\n'
-      '  crap4dart profile test/collab/             # specific dir\n'
-      '  crap4dart profile --name "golden"          # by test name\n'
-      '  crap4dart profile --tags "integration"     # by tag\n'
-      '  crap4dart profile --threshold 10.0 --top 20\n'
-      '  crap4dart profile --format json > prof.json';
+      '  crap_dart profile                          # all tests\n'
+      '  crap_dart profile test/collab/             # specific dir\n'
+      '  crap_dart profile --name "golden"          # by test name\n'
+      '  crap_dart profile --tags "integration"     # by tag\n'
+      '  crap_dart profile --threshold 10.0 --top 20\n'
+      '  crap_dart profile --format json > prof.json';
 
   @override
   Future<int> run() async {
@@ -248,7 +248,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
     }
   }
 
-  double? _resolveThreshold(Crap4DartConfig config) {
+  double? _resolveThreshold(CrapDartConfig config) {
     if (argResults!.wasParsed(_thresholdFlag)) {
       final raw = argResults![_thresholdFlag] as String;
       final value = double.tryParse(raw);
@@ -260,7 +260,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
     return config.profile.thresholdMs;
   }
 
-  int? _resolveTop(Crap4DartConfig config) {
+  int? _resolveTop(CrapDartConfig config) {
     if (argResults!.wasParsed('top')) {
       final raw = argResults!['top'] as String?;
       if (raw == null) return null;

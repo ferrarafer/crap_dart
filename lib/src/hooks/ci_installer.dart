@@ -53,10 +53,10 @@ jobs:
         run: >-
           dart pub global run coverage:format_coverage
           --lcov --in coverage --out coverage/lcov.info --report-on lib
-      - name: Install crap4dart
-        run: dart pub global activate crap4dart
-      - run: crap4dart check --all
-      - run: crap4dart analyze
+      - name: Install crap_dart
+        run: dart pub global activate crap_dart
+      - run: crap_dart check --all
+      - run: crap_dart analyze
 ''';
 
   String _flutterWorkflow() => '''
@@ -76,9 +76,9 @@ jobs:
       - run: dart format --set-exit-if-changed .
       - run: flutter analyze
       - run: flutter test --coverage
-      - name: Install crap4dart
-        run: dart pub global activate crap4dart
-      - run: crap4dart check --all
-      - run: crap4dart analyze
+      - name: Install crap_dart
+        run: dart pub global activate crap_dart
+      - run: crap_dart check --all
+      - run: crap_dart analyze
 ''';
 }

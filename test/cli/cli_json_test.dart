@@ -18,7 +18,7 @@ void main() {
   Map<String, dynamic> decode(CliResult result) =>
       jsonDecode(result.stdout) as Map<String, dynamic>;
 
-  group('crap4dart --format json', () {
+  group('crap_dart --format json', () {
     test('analyze emits only JSON and keeps exit 2', () async {
       writeMiniProject(tempDir, lcov: zeroCoverageLcov);
       final result = await runCliInProcess(tempDir, [

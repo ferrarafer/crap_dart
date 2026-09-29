@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/crap/crap_analyzer.dart';
+import 'package:crap_dart/src/crap/crap_analyzer.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 

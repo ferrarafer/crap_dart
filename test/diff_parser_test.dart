@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/files/diff_parser.dart';
+import 'package:crap_dart/src/files/diff_parser.dart';
 import 'package:test/test.dart';
 
 void main() {

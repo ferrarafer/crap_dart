@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
 import 'package:test/test.dart';
 
 /// Timing JSON of one slow method call.
@@ -11,7 +11,7 @@ const timingJson = '''
 /// Creates a workspace-member project: pubspec with
 /// `resolution: workspace`, a lib and a test dir.
 Directory createWorkspaceMemberProject() {
-  final root = Directory.systemTemp.createTempSync('crap4dart_ws_test_');
+  final root = Directory.systemTemp.createTempSync('crap_dart_ws_test_');
   File('${root.path}/pubspec.yaml').writeAsStringSync('''
 name: wsmember
 resolution: workspace

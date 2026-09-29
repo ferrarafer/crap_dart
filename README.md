@@ -1,10 +1,15 @@
-# crap4dart
+# crap_dart
 
 CRAP metric analyzer and configurable quality gates for Dart and Flutter
 projects.
 
-[![Quality](https://github.com/IstiN/crap4dart/actions/workflows/quality.yml/badge.svg)](https://github.com/IstiN/crap4dart/actions/workflows/quality.yml)
-[![pub package](https://img.shields.io/pub/v/crap4dart.svg)](https://pub.dev/packages/crap4dart)
+crap_dart continues [crap4dart](https://github.com/IstiN/crap4dart) by
+Uladzimir Klyshevich, from the
+[ferrarafer/crap4dart](https://github.com/ferrarafer/crap4dart) fork. See
+[Migrating from crap4dart](#migrating-from-crap4dart).
+
+[![Quality](https://github.com/ferrarafer/crap_dart/actions/workflows/quality.yml/badge.svg)](https://github.com/ferrarafer/crap_dart/actions/workflows/quality.yml)
+[![pub package](https://img.shields.io/pub/v/crap_dart.svg)](https://pub.dev/packages/crap_dart)
 ![CRAP](badges/crap.svg)
 
 ## What is CRAP?
@@ -22,7 +27,7 @@ CRAP = CC² · (1 − coverage)³ + CC
 A method that is both complex and untested gets a high score. Scores above
 the default threshold of **8.0** fail the analysis.
 
-crap4dart is a Dart port of the Java tool
+crap_dart is a Dart port of the Java tool
 [crap4java](https://github.com/unclebob/crap4java).
 
 ## Features
@@ -36,9 +41,9 @@ crap4dart is a Dart port of the Java tool
   `folder_structure`, `external`
 - **Gate framework**: per-path thresholds (`entries`), warning
   severity, baseline mode, opt-in ignore markers
-- **Configuration** via `crap4dart.yaml` with strict validation
+- **Configuration** via `crap_dart.yaml` with strict validation
 - **Pre-commit hook** installation (`check --staged` on every commit)
-- **GitHub Actions workflow** template (`crap4dart install --ci`)
+- **GitHub Actions workflow** template (`crap_dart install --ci`)
 - **JSON output** for CI integration (`--format json`)
 - **Branch coverage** (BRDA records) next to line coverage
 
@@ -47,14 +52,24 @@ crap4dart is a Dart port of the Java tool
 Published on pub.dev:
 
 ```sh
-dart pub global activate crap4dart
+dart pub global activate crap_dart
 ```
 
 From the repository:
 
 ```sh
-dart pub global activate -sgit https://github.com/IstiN/crap4dart.git
+dart pub global activate -sgit https://github.com/ferrarafer/crap_dart.git
 ```
+
+## Migrating from crap4dart
+
+- Install `crap_dart` and call `crap_dart` instead of `crap4dart`.
+- Rename `crap4dart.yaml` to `crap_dart.yaml`. Until then the old file is
+  still read.
+- Run `crap_dart install` again: it replaces the hook block crap4dart
+  installed.
+- Dart imports become `package:crap_dart/crap_dart.dart`; `Crap4Dart*`
+  classes are `CrapDart*`.
 
 ## Usage
 
@@ -63,40 +78,40 @@ dart pub global activate -sgit https://github.com/IstiN/crap4dart.git
 Computes CRAP scores and prints a report sorted by worst score first.
 
 ```sh
-crap4dart                                  # analyze lib/ and bin/
-crap4dart analyze lib/src/foo.dart         # explicit files/directories
-crap4dart analyze --changed                # changed files (git working tree)
-crap4dart analyze --threshold 10.0         # override the config threshold
-crap4dart analyze --lcov build/lcov.info   # override the coverage file
-crap4dart analyze --run-tests              # run tests with coverage first
-crap4dart analyze --format json            # machine-readable output
-crap4dart analyze --diff                   # only methods touched since HEAD
-crap4dart analyze --diff-base main         # only methods touched since main
+crap_dart                                  # analyze lib/ and bin/
+crap_dart analyze lib/src/foo.dart         # explicit files/directories
+crap_dart analyze --changed                # changed files (git working tree)
+crap_dart analyze --threshold 10.0         # override the config threshold
+crap_dart analyze --lcov build/lcov.info   # override the coverage file
+crap_dart analyze --run-tests              # run tests with coverage first
+crap_dart analyze --format json            # machine-readable output
+crap_dart analyze --diff                   # only methods touched since HEAD
+crap_dart analyze --diff-base main         # only methods touched since main
 ```
 
 ### check
 
-Runs the quality gates enabled in `crap4dart.yaml`.
+Runs the quality gates enabled in `crap_dart.yaml`.
 
 ```sh
-crap4dart check                            # all files under lib/ and bin/
-crap4dart check --changed                  # changed files only
-crap4dart check --staged                   # staged files only (pre-commit)
-crap4dart check --only loc,complexity      # selected gates
-crap4dart check --skip public_docs         # all but some gates
-crap4dart check --run-tests                # run tests with coverage first
-crap4dart check --format json              # machine-readable output
-crap4dart check --diff                     # only lines changed since HEAD
-crap4dart check --diff-base main           # only lines changed since main
+crap_dart check                            # all files under lib/ and bin/
+crap_dart check --changed                  # changed files only
+crap_dart check --staged                   # staged files only (pre-commit)
+crap_dart check --only loc,complexity      # selected gates
+crap_dart check --skip public_docs         # all but some gates
+crap_dart check --run-tests                # run tests with coverage first
+crap_dart check --format json              # machine-readable output
+crap_dart check --diff                     # only lines changed since HEAD
+crap_dart check --diff-base main           # only lines changed since main
 ```
 
 ### init
 
-Creates a fully commented default `crap4dart.yaml`:
+Creates a fully commented default `crap_dart.yaml`:
 
 ```sh
-crap4dart init            # refuses to overwrite an existing file
-crap4dart init --force    # overwrite
+crap_dart init            # refuses to overwrite an existing file
+crap_dart init --force    # overwrite
 ```
 
 ### install
@@ -104,10 +119,10 @@ crap4dart init --force    # overwrite
 Installs the pre-commit hook and, optionally, the CI workflow:
 
 ```sh
-crap4dart install                    # pre-commit hook only
-crap4dart install --ci               # hook + .github/workflows/quality.yml
-crap4dart install --hook pre-push    # different hook name
-crap4dart install --force            # merge into an existing foreign hook
+crap_dart install                    # pre-commit hook only
+crap_dart install --ci               # hook + .github/workflows/quality.yml
+crap_dart install --hook pre-push    # different hook name
+crap_dart install --force            # merge into an existing foreign hook
 ```
 
 ### profile
@@ -118,17 +133,17 @@ Unlike VM-sampling profilers, timing is deterministic and exact
 (microseconds, not statistical samples).
 
 ```sh
-crap4dart profile                          # profile all sources, run all tests
-crap4dart profile test/collab/             # run only tests in this directory
-crap4dart profile --name "golden"          # run only tests matching a name
-crap4dart profile --tags "integration"     # run only tests with these tags
-crap4dart profile --exclude-tags "slow"    # exclude tagged tests
-crap4dart profile --threshold 10.0         # warn on methods slower than 10ms
-crap4dart profile --top 50                 # show top 50 slowest methods
-crap4dart profile --format json            # machine-readable output
-crap4dart profile --config my.yaml         # use a non-default config file
-crap4dart profile --diff                   # only methods touched since HEAD
-crap4dart profile --diff-base main         # only methods touched since main
+crap_dart profile                          # profile all sources, run all tests
+crap_dart profile test/collab/             # run only tests in this directory
+crap_dart profile --name "golden"          # run only tests matching a name
+crap_dart profile --tags "integration"     # run only tests with these tags
+crap_dart profile --exclude-tags "slow"    # exclude tagged tests
+crap_dart profile --threshold 10.0         # warn on methods slower than 10ms
+crap_dart profile --top 50                 # show top 50 slowest methods
+crap_dart profile --format json            # machine-readable output
+crap_dart profile --config my.yaml         # use a non-default config file
+crap_dart profile --diff                   # only methods touched since HEAD
+crap_dart profile --diff-base main         # only methods touched since main
 ```
 
 Example console output:
@@ -183,9 +198,9 @@ at once. Diff mode ratchets quality in: it requires quality only for code
 changed since a git base.
 
 ```sh
-crap4dart check --diff                 # changes against HEAD
-crap4dart check --diff-base main       # changes against a branch
-crap4dart analyze --diff
+crap_dart check --diff                 # changes against HEAD
+crap_dart check --diff-base main       # changes against a branch
+crap_dart analyze --diff
 ```
 
 - `check --diff` runs the gates on the changed files and then keeps only
@@ -203,11 +218,11 @@ crap4dart analyze --diff
 
 ## Configuration
 
-`crap4dart init` generates this fully commented default config:
+`crap_dart init` generates this fully commented default config:
 
 ```yaml
-# crap4dart configuration.
-# See https://github.com/IstiN/crap4dart for details.
+# crap_dart configuration.
+# See https://github.com/ferrarafer/crap_dart for details.
 
 # Directories scanned for Dart sources by "analyze" and "check"
 # (default mode, without --changed/--staged).
@@ -490,7 +505,7 @@ gates:
   captured (often permanently, via `--update-goldens`), so the pixels
   are the only witness. For standard `Image.asset`/`Image.network`
   failures you can additionally fail the TEST itself:
-  `crap4dart goldens --write` drops in a `guardGoldens` helper that
+  `crap_dart goldens --write` drops in a `guardGoldens` helper that
   turns image-load errors into failing assertions (widgets with their
   own fallback icons emit no error — the pixel detector still covers
   those).
@@ -509,7 +524,7 @@ gates:
   becomes a standard violation — severity, baseline, ignore markers
   and diff mode work on top of the wrapped tool. With no rules the
   gate passes. This is how Kotlin/Swift code in a Flutter monorepo
-  joins the same `crap4dart check` run.
+  joins the same `crap_dart check` run.
 - **magic_constants** — flags magic literals: hex color values
   (`0xFFFF5733`, `0x00AAFF`) used outside `const` declarations, and any
   numeric or string literal repeating at least `min_duplicates`
@@ -544,9 +559,9 @@ violations. Instead of lowering thresholds, record them once and fail
 only on new ones:
 
 ```sh
-crap4dart check --save-baseline     # record current violations to .crap-baseline.json
-crap4dart check --baseline          # pass unless NEW violations appear
-crap4dart check --tighten-baseline  # ratchet down after cleanup, then check
+crap_dart check --save-baseline     # record current violations to .crap-baseline.json
+crap_dart check --baseline          # pass unless NEW violations appear
+crap_dart check --tighten-baseline  # ratchet down after cleanup, then check
 ```
 
 The baseline matches violations by gate + file + message *shape*
@@ -568,9 +583,9 @@ of gates that did not run are kept. It needs a full run (no `--changed`,
 
 ## Pre-commit hook
 
-`crap4dart install` writes a `pre-commit` hook that runs
-`crap4dart check --staged` on every commit. The hook script lives in a
-marked block (`# >>> crap4dart >>>` ... `# <<< crap4dart <<<`) so repeated
+`crap_dart install` writes a `pre-commit` hook that runs
+`crap_dart check --staged` on every commit. The hook script lives in a
+marked block (`# >>> crap_dart >>>` ... `# <<< crap_dart <<<`) so repeated
 installations only update the managed block. An existing foreign hook is
 never overwritten: installation fails unless `--force` is given, in which
 case the block is appended and the existing content is preserved.
@@ -583,10 +598,10 @@ git commit --no-verify
 
 ## CI
 
-`crap4dart install --ci` generates `.github/workflows/quality.yml`: a
+`crap_dart install --ci` generates `.github/workflows/quality.yml`: a
 "Quality" workflow that runs on push and pull request — format check,
-`dart analyze`, tests with coverage, and finally `crap4dart check --all`
-and `crap4dart analyze`. Flutter projects get a Flutter-based workflow
+`dart analyze`, tests with coverage, and finally `crap_dart check --all`
+and `crap_dart analyze`. Flutter projects get a Flutter-based workflow
 (`subosito/flutter-action`, `flutter test --coverage`); pure Dart projects
 get a Dart-based one (`dart-lang/setup-dart`, `format_coverage`).
 
@@ -596,7 +611,7 @@ get a Dart-based one (`dart-lang/setup-dart`, `format_coverage`).
 maximum CRAP score — no external services involved:
 
 ```sh
-crap4dart analyze --badge badges/crap.svg
+crap_dart analyze --badge badges/crap.svg
 ```
 
 Embed it in your README:
@@ -687,7 +702,7 @@ dart analyze
 ```
 
 This repository dogfoods its own gates: the pre-commit hook runs
-`crap4dart check --staged`, and the generated `quality.yml` workflow runs
+`crap_dart check --staged`, and the generated `quality.yml` workflow runs
 the full `check`/`analyze` pipeline on every push.
 
 ## License

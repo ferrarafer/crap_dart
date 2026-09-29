@@ -14,7 +14,7 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart check selection modes', () {
+  group('crap_dart check selection modes', () {
     test('empty selection exits 0 with a message', () async {
       final result = await runCliInProcess(tempDir, ['check']);
       expect(result.exitCode, 0);
@@ -24,7 +24,7 @@ void main() {
     test('invalid config exits 1', () async {
       writeCleanProject(tempDir);
       File(
-        p.join(tempDir.path, 'crap4dart.yaml'),
+        p.join(tempDir.path, 'crap_dart.yaml'),
       ).writeAsStringSync('bogus: 1\n');
       final result = await runCliInProcess(tempDir, ['check']);
       expect(result.exitCode, 1);

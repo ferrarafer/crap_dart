@@ -37,7 +37,7 @@ class GoldensCommand extends Command<int> {
       'Golden test helpers: generate the runtime image-error guard.';
 
   @override
-  String get invocation => 'crap4dart goldens [--print-snippet | --write]';
+  String get invocation => 'crap_dart goldens [--print-snippet | --write]';
 
   @override
   Future<int> run() async {

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
 import 'package:test/test.dart';
 
 /// Timing JSON written by the fake test run into the output file.
@@ -13,7 +13,7 @@ const timingJson = '''
 
 /// Builds a minimal profiled project: pubspec, lib and test dirs.
 Directory createProfiledProject() {
-  final root = Directory.systemTemp.createTempSync('crap4dart_profile_run_');
+  final root = Directory.systemTemp.createTempSync('crap_dart_profile_run_');
   File('${root.path}/pubspec.yaml').writeAsStringSync('name: testpkg\n');
   Directory('${root.path}/lib').createSync();
   File('${root.path}/lib/a.dart').writeAsStringSync('''

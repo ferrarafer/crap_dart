@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/files/source_finder.dart';
+import 'package:crap_dart/src/files/source_finder.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -10,7 +10,7 @@ void main() {
   late Directory project;
 
   setUp(() {
-    project = Directory.systemTemp.createTempSync('crap4dart_finder_test_');
+    project = Directory.systemTemp.createTempSync('crap_dart_finder_test_');
     for (final dir in ['lib', 'bin', 'tool']) {
       File(p.join(project.path, dir, 'a.dart')).createSync(recursive: true);
     }

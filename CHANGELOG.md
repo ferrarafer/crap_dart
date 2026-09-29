@@ -2,9 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.13.0
+
+crap4dart is now **crap_dart**, maintained independently at
+[ferrarafer/crap_dart](https://github.com/ferrarafer/crap_dart). It
+continues the ferrarafer/crap4dart fork of
+[IstiN/crap4dart](https://github.com/IstiN/crap4dart).
 
 ### Changed
+
+- Package `crap_dart` (`package:crap_dart/crap_dart.dart`), command
+  `crap_dart`. Public classes drop the 4: `CrapDartRunner`,
+  `CrapDartConfig`, `crapDartVersion`.
+- Config file `crap_dart.yaml`; `crap4dart.yaml` is still read when
+  `crap_dart.yaml` is absent. `crap_dart init` writes the new name.
+- `crap_dart install` replaces git hook blocks installed by crap4dart.
+- The profiling skill is `crap-dart-profiling`.
 
 - Merged upstream IstiN/crap4dart 0.10.0: `analyzer` 7.3 -> 14.4 (new
   "parts" AST), `xml` 7.1, `test` 1.32, `lints` 6.1. The SDK floor rises

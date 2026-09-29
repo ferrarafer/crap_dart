@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/cli/exit_codes.dart';
+import 'package:crap_dart/src/cli/exit_codes.dart';
 import 'package:test/test.dart';
 
 import 'cli_test_utils.dart';

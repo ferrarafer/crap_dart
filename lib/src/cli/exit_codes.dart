@@ -1,4 +1,4 @@
-/// Exit codes used by the crap4dart CLI.
+/// Exit codes used by the crap_dart CLI.
 abstract final class ExitCodes {
   /// Successful analysis (including empty selections and reports where all
   /// scores are at or below the threshold).

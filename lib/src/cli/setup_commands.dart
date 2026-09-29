@@ -1,6 +1,6 @@
 part of 'runner.dart';
 
-/// The `init` command: writes a default `crap4dart.yaml` config file.
+/// The `init` command: writes a default `crap_dart.yaml` config file.
 class InitCommand extends Command<int> {
   /// Creates an [InitCommand].
   InitCommand({this.projectRoot}) {
@@ -20,7 +20,7 @@ class InitCommand extends Command<int> {
 
   @override
   final String description =
-      'Create a default crap4dart.yaml config file in the current directory.';
+      'Create a default crap_dart.yaml config file in the current directory.';
 
   @override
   int run() {

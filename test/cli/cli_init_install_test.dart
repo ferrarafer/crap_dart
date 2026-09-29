@@ -3,7 +3,7 @@ library;
 
 import 'dart:io';
 
-import 'package:crap4dart/src/config/config_loader.dart';
+import 'package:crap_dart/src/config/config_loader.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -15,12 +15,12 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart init', () {
+  group('crap_dart init', () {
     test('creates a config file that the loader accepts', () async {
       final result = await runCliInProcess(tempDir, ['init']);
       expect(result.exitCode, 0);
-      expect(result.stdout, contains('Created crap4dart.yaml'));
-      final file = File(p.join(tempDir.path, 'crap4dart.yaml'));
+      expect(result.stdout, contains('Created crap_dart.yaml'));
+      final file = File(p.join(tempDir.path, 'crap_dart.yaml'));
       expect(file.existsSync(), isTrue);
       // Round-trip: the generated file must be valid for the loader.
       final config = const ConfigLoader().load(tempDir.path);
@@ -42,7 +42,7 @@ void main() {
     });
   });
 
-  group('crap4dart install', () {
+  group('crap_dart install', () {
     test('sets up the hook and (with --ci) the workflow', () async {
       final init = await Process.run('git', ['init', tempDir.path]);
       expect(init.exitCode, 0);

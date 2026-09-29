@@ -1,6 +1,6 @@
-import 'package:crap4dart/src/gates/gate_context.dart';
-import 'package:crap4dart/src/gates/unused_code_gate.dart';
-import 'package:crap4dart/src/gates/unused_files_gate.dart';
+import 'package:crap_dart/src/gates/gate_context.dart';
+import 'package:crap_dart/src/gates/unused_code_gate.dart';
+import 'package:crap_dart/src/gates/unused_files_gate.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 

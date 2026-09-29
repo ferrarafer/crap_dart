@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/gates/weight_of_class_gate.dart';
+import 'package:crap_dart/src/gates/weight_of_class_gate.dart';
 import 'package:test/test.dart';
 
 import 'gate_test_utils.dart';

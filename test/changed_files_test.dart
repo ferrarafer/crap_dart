@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/files/changed_files.dart';
+import 'package:crap_dart/src/files/changed_files.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -12,7 +12,7 @@ void main() {
   late Directory repo;
 
   setUp(() {
-    repo = Directory.systemTemp.createTempSync('crap4dart_changed_test_');
+    repo = Directory.systemTemp.createTempSync('crap_dart_changed_test_');
   });
 
   tearDown(() {

@@ -14,7 +14,7 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart check', () {
+  group('crap_dart check', () {
     test('exit 0 on a clean project', () async {
       writeCleanProject(tempDir);
       final result = await runCliInProcess(tempDir, ['check']);
@@ -27,7 +27,7 @@ void main() {
       writeCleanProject(tempDir);
       final filler = List.filled(900, '// filler\n').join();
       File(p.join(tempDir.path, 'lib', 'big.dart')).writeAsStringSync(filler);
-      File(p.join(tempDir.path, 'crap4dart.yaml')).writeAsStringSync('''
+      File(p.join(tempDir.path, 'crap_dart.yaml')).writeAsStringSync('''
 coverage:
   required: false
   run_tests: false

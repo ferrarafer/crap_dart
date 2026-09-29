@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Guidance for AI agents and contributors working on crap4dart.
+Guidance for AI agents and contributors working on crap_dart.
 
 ## What this is
 
-`crap4dart` is a CLI tool and Dart package providing:
+`crap_dart` is a CLI tool and Dart package providing:
 
 1. **CRAP metric analysis** (`analyze`) — `CRAP = CC²·(1−coverage)³ + CC`
    per method, combining AST-based cyclomatic complexity with LCOV coverage.
@@ -38,8 +38,8 @@ dart pub get
 dart test                    # all tests must pass
 dart analyze                 # must report "No issues found!"
 dart format .                # apply before committing
-dart run bin/crap4dart.dart check    # self-check (dogfooding) — must pass
-dart run bin/crap4dart.dart analyze  # self CRAP — max must stay <= 8.0
+dart run bin/crap_dart.dart check    # self-check (dogfooding) — must pass
+dart run bin/crap_dart.dart analyze  # self CRAP — max must stay <= 8.0
 ```
 
 Coverage-dependent verification (needed before judging `analyze` output):
@@ -53,25 +53,25 @@ dart pub global run coverage:format_coverage \
 ## Dogfooding rules (mandatory)
 
 This repository is checked by its own tool. The pre-commit hook
-(`.git/hooks/pre-commit`, installed via `crap4dart install`) runs
+(`.git/hooks/pre-commit`, installed via `crap_dart install`) runs
 `check --staged`, and `.github/workflows/quality.yml` runs the full gate
 suite in CI.
 
-- All changes must keep `dart run bin/crap4dart.dart check` green:
+- All changes must keep `dart run bin/crap_dart.dart check` green:
   `loc` (800 lines), `test_coverage` (>= 70%), `complexity` (CC 12),
   `method_size` (80 lines / 8 params), `public_docs` (dartdoc on public API).
-- `crap4dart.yaml` in the repo root configures this; `sources` includes
+- `crap_dart.yaml` in the repo root configures this; `sources` includes
   `test/`, so **test code is gated too** — keep test files small and split
   them by topic instead of growing giant `main()` bodies.
-- Do not relax thresholds in `crap4dart.yaml` to make a change pass;
+- Do not relax thresholds in `crap_dart.yaml` to make a change pass;
   refactor or add tests instead.
 
 ## Architecture
 
 ```
-bin/crap4dart.dart           # entry point -> Crap4DartRunner
+bin/crap_dart.dart           # entry point -> CrapDartRunner
 lib/src/cli/runner.dart      # commands: analyze, check, init, install, profile
-lib/src/config/              # crap4dart.yaml model, loader (strict), template
+lib/src/config/              # crap_dart.yaml model, loader (strict), template
 lib/src/analysis/            # analyzer wrappers: parser, method extractor, CC
 lib/src/coverage/            # LCOV parser, per-method coverage, test runner
 lib/src/crap/                # CRAP formula, analyzer, console report
@@ -104,7 +104,7 @@ Conventions:
   per test (see `test/gates/gate_test_utils.dart`, `test/cli/`).
 - CLI tests run **in-process** via `runCliInProcess` (see
   `test/cli/cli_test_utils.dart`): it invokes
-  `Crap4DartRunner(projectRoot: workDir)` directly and captures
+  `CrapDartRunner(projectRoot: workDir)` directly and captures
   stdout/stderr through `IOOverrides.runZoned`, so command code gets real
   coverage attribution. Assert on the returned `CliResult`
   (exitCode/stdout/stderr), never on the global `exitCode` setter.
@@ -112,7 +112,7 @@ Conventions:
   is reserved for the smoke tests in `test/cli/cli_smoke_test.dart`
   (`--help`, `--version`, `check --help`) that verify the real binary
   entry point; do not add new subprocess tests.
-- `Crap4DartRunner` and all commands accept an optional `projectRoot`
+- `CrapDartRunner` and all commands accept an optional `projectRoot`
   (default: `Directory.current`) — pass it instead of changing cwd.
   Config-relative LCOV paths resolve against the project root.
 - Never run the project's own test suite from inside unit tests

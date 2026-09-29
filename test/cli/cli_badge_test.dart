@@ -16,7 +16,7 @@ void main() {
 
   String badgePath() => p.join(tempDir.path, 'badges', 'crap.svg');
 
-  group('crap4dart analyze --badge', () {
+  group('crap_dart analyze --badge', () {
     test('writes a green SVG badge below the threshold', () async {
       writeMiniProject(tempDir, lcov: fullCoverageLcov);
       final result = await runCliInProcess(tempDir, [

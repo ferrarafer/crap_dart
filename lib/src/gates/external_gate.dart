@@ -45,7 +45,7 @@ class ExternalGate implements Gate {
   ) async {
     final report = File(
       rule.reportPath ??
-          '${Directory.systemTemp.createTempSync('crap4dart_ext_').path}'
+          '${Directory.systemTemp.createTempSync('crap_dart_ext_').path}'
               '/report.xml',
     );
     final args = [

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:crap4dart/src/gates/baseline.dart';
-import 'package:crap4dart/src/gates/gate.dart';
+import 'package:crap_dart/src/gates/baseline.dart';
+import 'package:crap_dart/src/gates/gate.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 

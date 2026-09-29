@@ -10,7 +10,7 @@ part 'gate_config_readers.dart';
 part 'gate_config_readers_extra.dart';
 part 'gate_config_readers_flutter.dart';
 
-/// Top-level and section keys of `crap4dart.yaml`.
+/// Top-level and section keys of `crap_dart.yaml`.
 const String _crapKey = 'crap';
 const String _coverageKey = 'coverage';
 const String _profileKey = 'profile';
@@ -19,7 +19,7 @@ const String _runTestsKey = 'run_tests';
 const String _gatesKey = 'gates';
 const String _thresholdMsKey = 'threshold_ms';
 
-/// Error raised for malformed or invalid `crap4dart.yaml` content.
+/// Error raised for malformed or invalid `crap_dart.yaml` content.
 class ConfigException implements Exception {
   /// Creates a [ConfigException].
   const ConfigException(this.path, this.key, this.message);
@@ -37,13 +37,17 @@ class ConfigException implements Exception {
   String toString() => 'Invalid config "$path": $key: $message';
 }
 
-/// Loads `crap4dart.yaml` with strict validation and per-key defaults.
+/// Loads `crap_dart.yaml` with strict validation and per-key defaults.
 class ConfigLoader {
   /// Creates a [ConfigLoader].
   const ConfigLoader();
 
   /// Default config file name looked up in the project root.
-  static const String configFileName = 'crap4dart.yaml';
+  static const String configFileName = 'crap_dart.yaml';
+
+  /// Config file name of crap_dart's predecessor, crap4dart, still read
+  /// when [configFileName] is absent.
+  static const String legacyConfigFileName = 'crap4dart.yaml';
 
   /// Known gate identifiers under the `gates` key.
   static const Set<String> knownGates = {
@@ -73,31 +77,42 @@ class ConfigLoader {
   /// Loads the configuration for the project at [projectRoot].
   ///
   /// When [configPath] is given, that file is loaded and must exist.
-  /// Otherwise `<projectRoot>/crap4dart.yaml` is used when present; a
-  /// missing file is not an error and yields [Crap4DartConfig.defaults].
+  /// Otherwise `<projectRoot>/crap_dart.yaml` is used when present, then
+  /// the legacy `crap4dart.yaml`; a missing file is not an error and
+  /// yields [CrapDartConfig.defaults].
   ///
   /// Throws a [ConfigException] on unknown keys or wrongly typed values.
-  Crap4DartConfig load(String projectRoot, {String? configPath}) {
-    final path = configPath ?? p.join(projectRoot, configFileName);
+  CrapDartConfig load(String projectRoot, {String? configPath}) {
+    final path = configPath ?? defaultConfigPath(projectRoot);
     final file = File(path);
     if (!file.existsSync()) {
       if (configPath != null) {
         throw ConfigException(path, path, 'config file not found');
       }
-      return Crap4DartConfig.defaults();
+      return CrapDartConfig.defaults();
     }
     return loadString(file.readAsStringSync(), path: path);
   }
 
+  /// The config file of [projectRoot]: `crap_dart.yaml`, or
+  /// `crap4dart.yaml` when only that one exists.
+  static String defaultConfigPath(String projectRoot) {
+    final current = p.join(projectRoot, configFileName);
+    final legacy = p.join(projectRoot, legacyConfigFileName);
+    return !File(current).existsSync() && File(legacy).existsSync()
+        ? legacy
+        : current;
+  }
+
   /// Parses and validates config [content] (used with [path] in errors).
-  Crap4DartConfig loadString(String content, {String path = configFileName}) {
+  CrapDartConfig loadString(String content, {String path = configFileName}) {
     final Object? doc;
     try {
       doc = loadYaml(content);
     } on YamlException catch (e) {
       throw ConfigException(path, path, 'invalid YAML: ${e.message}');
     }
-    if (doc == null) return Crap4DartConfig.defaults();
+    if (doc == null) return CrapDartConfig.defaults();
     final root = _ConfigScalars.asMap(doc, path, '(root)');
     _ConfigScalars.checkKeys(
       root,
@@ -112,8 +127,8 @@ class ConfigLoader {
       path,
       '',
     );
-    final defaults = Crap4DartConfig.defaults();
-    return Crap4DartConfig(
+    final defaults = CrapDartConfig.defaults();
+    return CrapDartConfig(
       crap: _readCrap(root[_crapKey], defaults.crap, path),
       coverage: _readCoverage(root[_coverageKey], defaults.coverage, path),
       gates: _readGates(root[_gatesKey], defaults.gates, path),

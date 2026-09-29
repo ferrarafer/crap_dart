@@ -12,7 +12,7 @@ Future<Directory> createGitRepo(Directory dir) async {
 
 /// Creates a temp directory for hook tests.
 Directory createHooksTestProject() =>
-    Directory.systemTemp.createTempSync('crap4dart_hooks_test_');
+    Directory.systemTemp.createTempSync('crap_dart_hooks_test_');
 
 /// Path of the pre-commit hook inside [dir].
 String hookPath(Directory dir) =>

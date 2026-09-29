@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/profile/source_instrumenter.dart';
+import 'package:crap_dart/src/profile/source_instrumenter.dart';
 import 'package:test/test.dart';
 
 void main() {

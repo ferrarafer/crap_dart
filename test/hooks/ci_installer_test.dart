@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/hooks/ci_installer.dart';
-import 'package:crap4dart/src/hooks/hook_installer.dart';
+import 'package:crap_dart/src/hooks/ci_installer.dart';
+import 'package:crap_dart/src/hooks/hook_installer.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -30,8 +30,8 @@ void main() {
       expect(content, contains('dart pub get'));
       expect(content, contains('dart test --coverage=coverage'));
       expect(content, contains('format_coverage'));
-      expect(content, contains('crap4dart check --all'));
-      expect(content, contains('crap4dart analyze'));
+      expect(content, contains('crap_dart check --all'));
+      expect(content, contains('crap_dart analyze'));
       expect(content, isNot(contains('flutter-action')));
     });
 

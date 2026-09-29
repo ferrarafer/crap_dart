@@ -53,8 +53,8 @@ Future<String> gitTopLevel(String dir) async {
   return '${result.stdout}'.trim();
 }
 
-/// Current crap4dart version.
-const String crap4dartVersion = '0.12.3';
+/// Current crap_dart version.
+const String crapDartVersion = '0.13.0';
 
 /// Shared CLI flag names used by multiple commands.
 const String _configFlag = 'config';
@@ -74,15 +74,15 @@ const String _jsonFormat = 'json';
 const String _thresholdFlagName = 'threshold';
 const String _lcovFlag = 'lcov';
 const String _tightenBaselineFlag = 'tighten-baseline';
-const String _configHelp = 'Path to a crap4dart.yaml config file.';
+const String _configHelp = 'Path to a crap_dart.yaml config file.';
 
-/// Command-line entry point of crap4dart.
-class Crap4DartRunner {
-  /// Creates a [Crap4DartRunner].
+/// Command-line entry point of crap_dart.
+class CrapDartRunner {
+  /// Creates a [CrapDartRunner].
   ///
   /// [projectRoot] overrides the project root (default: the current
   /// working directory) — used by in-process invocations and tests.
-  Crap4DartRunner({String? projectRoot, ProfileRunner? profileRunner})
+  CrapDartRunner({String? projectRoot, ProfileRunner? profileRunner})
     : _runner = _buildRunner(projectRoot, profileRunner);
 
   final CommandRunner<int> _runner;
@@ -93,7 +93,7 @@ class Crap4DartRunner {
   ) {
     final runner =
         CommandRunner<int>(
-            'crap4dart',
+            'crap_dart',
             'CRAP metric analyzer for Dart and Flutter projects.',
           )
           ..addCommand(AnalyzeCommand(projectRoot: projectRoot))
@@ -112,20 +112,20 @@ class Crap4DartRunner {
       'version',
       abbr: 'v',
       negatable: false,
-      help: 'Print the crap4dart version.',
+      help: 'Print the crap_dart version.',
     );
     return runner;
   }
 
   /// Runs the CLI with [args] and returns the process exit code.
   Future<int> run(List<String> args) async {
-    // Bare invocation is equivalent to `crap4dart analyze`.
+    // Bare invocation is equivalent to `crap_dart analyze`.
     if (args.isEmpty) {
       return await _runner.run(const ['analyze']) ?? ExitCodes.success;
     }
     try {
       if (args.first == '--version' || args.first == '-v') {
-        stdout.writeln('crap4dart $crap4dartVersion');
+        stdout.writeln('crap_dart $crapDartVersion');
         return ExitCodes.success;
       }
       return await _runner.run(args) ?? ExitCodes.success;
@@ -150,7 +150,7 @@ Future<DiffLineMap?> _loadDiff(String projectRoot, String base) async {
 mixin CommandHelpers on Command<int> {
   /// Loads the config, reporting errors to stderr and returning `null` on
   /// failure.
-  Crap4DartConfig? loadConfig(String projectRoot) {
+  CrapDartConfig? loadConfig(String projectRoot) {
     try {
       return const ConfigLoader().load(
         projectRoot,
@@ -237,7 +237,7 @@ mixin CommandHelpers on Command<int> {
   }
 
   /// Loads LCOV coverage data when the configured file exists.
-  List<FileCoverage>? loadLcov(String projectRoot, Crap4DartConfig config) {
+  List<FileCoverage>? loadLcov(String projectRoot, CrapDartConfig config) {
     final lcovPath = config.coverage.lcovPath;
     final resolved = p.isAbsolute(lcovPath)
         ? lcovPath
@@ -271,7 +271,7 @@ mixin CommandHelpers on Command<int> {
   /// needs to validate command-specific arguments before file selection.
   Future<
     ({
-      Crap4DartConfig? config,
+      CrapDartConfig? config,
       List<String>? files,
       DiffLineMap? diffMap,
       String? diffBase,
@@ -282,7 +282,7 @@ mixin CommandHelpers on Command<int> {
   prepareRun(
     String projectRoot,
     String emptyMessage, {
-    Crap4DartConfig? config,
+    CrapDartConfig? config,
   }) async {
     final resolvedConfig = config ?? loadConfig(projectRoot);
     if (resolvedConfig == null) {
@@ -403,8 +403,8 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
 
   @override
   String get invocation =>
-      'crap4dart analyze [paths...] [--changed] [--threshold 8.0] '
-      '[--lcov coverage/lcov.info] [--run-tests] [--config crap4dart.yaml]';
+      'crap_dart analyze [paths...] [--changed] [--threshold 8.0] '
+      '[--lcov coverage/lcov.info] [--run-tests] [--config crap_dart.yaml]';
 
   @override
   Future<int> run() async {
@@ -430,7 +430,7 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
         'will be reported as N/A.\n'
         'Hint: rerun with --run-tests to generate coverage and real '
         'CRAP scores automatically (or `flutter test --coverage` / set '
-        '`coverage.run_tests: true` in crap4dart.yaml).',
+        '`coverage.run_tests: true` in crap_dart.yaml).',
       );
     }
     final report = CrapReport(
@@ -452,7 +452,7 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
     List<String> files,
     String? lcovPath,
     String projectRoot,
-    Crap4DartConfig config,
+    CrapDartConfig config,
     DiffLineMap? diffMap,
   ) {
     var metrics = const CrapAnalyzer().analyze(
@@ -515,7 +515,7 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
     }
   }
 
-  double _resolveThreshold(Crap4DartConfig config) {
+  double _resolveThreshold(CrapDartConfig config) {
     if (!argResults!.wasParsed(_thresholdFlagName)) {
       return config.crap.threshold;
     }
@@ -527,7 +527,7 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
     return value;
   }
 
-  Future<String?> _resolveLcov(String projectRoot, Crap4DartConfig config) {
+  Future<String?> _resolveLcov(String projectRoot, CrapDartConfig config) {
     final explicitLcov = argResults!.wasParsed(_lcovFlag);
     // An explicit --lcov file is the coverage to use: the config's
     // run_tests (default true) must not replace it with a fresh run.
@@ -580,7 +580,7 @@ class CheckCommand extends Command<int> with CommandHelpers {
       )
       ..addOption('only', help: 'Run only these gates (comma-separated ids).')
       ..addOption('skip', help: 'Skip these gates (comma-separated ids).')
-      ..addOption(_configFlag, help: 'Path to a crap4dart.yaml config file.')
+      ..addOption(_configFlag, help: 'Path to a crap_dart.yaml config file.')
       ..addFlag(
         _runTestsFlag,
         negatable: false,
@@ -634,8 +634,8 @@ class CheckCommand extends Command<int> with CommandHelpers {
 
   @override
   String get invocation =>
-      'crap4dart check [--all|--changed|--staged] [--only g1,g2] '
-      '[--skip g3] [--config crap4dart.yaml]';
+      'crap_dart check [--all|--changed|--staged] [--only g1,g2] '
+      '[--skip g3] [--config crap_dart.yaml]';
 
   @override
   Future<int> run() async {
@@ -689,7 +689,7 @@ class CheckCommand extends Command<int> with CommandHelpers {
 
   Future<bool> _runTestsIfRequested(
     String projectRoot,
-    Crap4DartConfig config,
+    CrapDartConfig config,
   ) async {
     final runTests =
         (argResults![_runTestsFlag] as bool) || config.coverage.runTests;

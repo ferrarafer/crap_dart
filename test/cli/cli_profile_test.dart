@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/cli/exit_codes.dart';
+import 'package:crap_dart/src/cli/exit_codes.dart';
 import 'package:test/test.dart';
 
 import 'cli_test_utils.dart';
@@ -38,7 +38,7 @@ void main() {
     final root = createCliProfileProject();
     addTearDown(() => root.deleteSync(recursive: true));
     File(
-      '${root.path}/crap4dart.yaml',
+      '${root.path}/crap_dart.yaml',
     ).writeAsStringSync('profile:\n  enabled: false\n');
     final result = await runCliInProcessWithProfile(root, [
       'profile',

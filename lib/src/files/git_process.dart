@@ -2,7 +2,7 @@ import 'dart:io';
 
 /// Variables git exports to hooks that pin the repository. With `GIT_DIR`
 /// set and no `GIT_WORK_TREE`, git treats the current directory as the
-/// work-tree root, so a hook running crap4dart in a sub-package (e.g.
+/// work-tree root, so a hook running crap_dart in a sub-package (e.g.
 /// `app/`) would resolve paths against the package instead of the
 /// repository.
 const Set<String> _repoPinningVariables = {'GIT_DIR', 'GIT_WORK_TREE'};

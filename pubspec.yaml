@@ -1,11 +1,11 @@
-name: crap4dart
+name: crap_dart
 description: >-
   CRAP metric analyzer and configurable quality gates for Dart and Flutter
   projects. Combines cyclomatic complexity with test coverage, enforces
   file size, golden test, l10n, accessibility and API documentation gates.
-version: 0.12.3
-repository: https://github.com/IstiN/crap4dart
-issue_tracker: https://github.com/IstiN/crap4dart/issues
+version: 0.13.0
+repository: https://github.com/ferrarafer/crap_dart
+issue_tracker: https://github.com/ferrarafer/crap_dart/issues
 topics:
   - code-quality
   - metrics
@@ -17,7 +17,7 @@ environment:
   sdk: ^3.11.0
 
 executables:
-  crap4dart: crap4dart
+  crap_dart: crap_dart
 
 dependencies:
   analyzer: ^14.4.0

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/gates/baseline.dart';
-import 'package:crap4dart/src/gates/gate.dart';
+import 'package:crap_dart/src/gates/baseline.dart';
+import 'package:crap_dart/src/gates/gate.dart';
 import 'package:test/test.dart';
 
 GateViolation _loc(int lines, {int? line, String file = 'lib/a.dart'}) =>

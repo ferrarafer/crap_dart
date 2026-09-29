@@ -1,6 +1,6 @@
-import 'package:crap4dart/src/analysis/method_extractor.dart';
-import 'package:crap4dart/src/profile/profile_reporter.dart';
-import 'package:crap4dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/analysis/method_extractor.dart';
+import 'package:crap_dart/src/profile/profile_reporter.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
 
 /// Shared [MethodInfo] fixtures for profile attribution tests.
 const testMethods = <MethodInfo>[

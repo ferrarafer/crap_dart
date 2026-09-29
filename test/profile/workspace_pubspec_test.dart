@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/profile/workspace_pubspec.dart';
+import 'package:crap_dart/src/profile/workspace_pubspec.dart';
 import 'package:test/test.dart';
 
 void main() {

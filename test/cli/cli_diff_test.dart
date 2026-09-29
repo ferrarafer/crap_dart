@@ -44,7 +44,7 @@ void main() {
     File(legacyFile()).writeAsStringSync(content, mode: FileMode.append);
   }
 
-  group('crap4dart check --diff', () {
+  group('crap_dart check --diff', () {
     test('ignores violations on untouched legacy lines', () async {
       await commitBase();
       append('int addedClean() => 1;\n');

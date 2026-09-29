@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:crap4dart/src/analysis/method_extractor.dart';
-import 'package:crap4dart/src/crap/crap_analyzer.dart';
-import 'package:crap4dart/src/crap/crap_report.dart';
-import 'package:crap4dart/src/report/json_reporter.dart';
+import 'package:crap_dart/src/analysis/method_extractor.dart';
+import 'package:crap_dart/src/crap/crap_analyzer.dart';
+import 'package:crap_dart/src/crap/crap_report.dart';
+import 'package:crap_dart/src/report/json_reporter.dart';
 import 'package:test/test.dart';
 
 /// Builds a [MethodMetrics] with a synthetic method and CRAP from the

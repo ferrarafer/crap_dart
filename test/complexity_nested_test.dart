@@ -1,4 +1,4 @@
-import 'package:crap4dart/src/analysis/complexity.dart';
+import 'package:crap_dart/src/analysis/complexity.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';

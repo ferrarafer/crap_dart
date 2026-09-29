@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/coverage/lcov_parser.dart';
-import 'package:crap4dart/src/gates/coverage_gate.dart';
+import 'package:crap_dart/src/coverage/lcov_parser.dart';
+import 'package:crap_dart/src/gates/coverage_gate.dart';
 import 'package:test/test.dart';
 
 import 'gate_test_utils.dart';

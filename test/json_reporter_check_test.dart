@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:crap4dart/src/gates/gate.dart';
-import 'package:crap4dart/src/gates/gate_runner.dart';
-import 'package:crap4dart/src/report/json_reporter.dart';
+import 'package:crap_dart/src/gates/gate.dart';
+import 'package:crap_dart/src/gates/gate_runner.dart';
+import 'package:crap_dart/src/report/json_reporter.dart';
 import 'package:test/test.dart';
 
 void main() {

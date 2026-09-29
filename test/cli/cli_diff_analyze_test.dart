@@ -22,7 +22,7 @@ void main() {
     await gitInitAndCommit(tempDir, 'base');
   }
 
-  group('crap4dart analyze --diff', () {
+  group('crap_dart analyze --diff', () {
     test('reports only methods touched by the diff', () async {
       await commitBase();
       File(

@@ -16,20 +16,26 @@ class HookInstallException implements Exception {
   String toString() => 'Hook installation failed: $message';
 }
 
-/// Installs crap4dart git hooks into a project's `.git/hooks` directory.
+/// Installs crap_dart git hooks into a project's `.git/hooks` directory.
 class HookInstaller {
   /// Creates a [HookInstaller].
   const HookInstaller();
 
   /// Start marker of the managed block inside a hook script.
-  static const String beginMarker = '# >>> crap4dart >>>';
+  static const String beginMarker = '# >>> crap_dart >>>';
 
   /// End marker of the managed block inside a hook script.
-  static const String endMarker = '# <<< crap4dart <<<';
+  static const String endMarker = '# <<< crap_dart <<<';
+
+  /// Markers of blocks installed by crap_dart's predecessor, crap4dart,
+  /// replaced like our own.
+  static const List<(String, String)> legacyMarkers = [
+    ('# >>> crap4dart >>>', '# <<< crap4dart <<<'),
+  ];
 
   /// Installs a git hook named [hookName] into [projectRoot].
   ///
-  /// The hook runs `crap4dart check --staged --baseline` so that
+  /// The hook runs `crap_dart check --staged --baseline` so that
   /// violations recorded in a committed baseline do not block commits;
   /// only new violations do. When [runTests] is true, the
   /// test suite with coverage runs first (`flutter test --coverage` for
@@ -69,17 +75,17 @@ class HookInstaller {
 
   String _mergeContent(String? existing, String block, {required bool force}) {
     if (existing == null) return '#!/bin/sh\n$block';
-    if (existing.contains(beginMarker)) {
-      final start = existing.indexOf(beginMarker);
-      final end = existing.indexOf(endMarker);
-      if (end > start) {
-        final after = end + endMarker.length;
+    for (final (begin, end) in [(beginMarker, endMarker), ...legacyMarkers]) {
+      final start = existing.indexOf(begin);
+      final stop = existing.indexOf(end);
+      if (start >= 0 && stop > start) {
+        final after = stop + end.length;
         return existing.substring(0, start) + block + existing.substring(after);
       }
     }
     if (!force) {
       throw HookInstallException(
-        'hook exists without a crap4dart block, use --force',
+        'hook exists without a crap_dart block, use --force',
       );
     }
     final separator = existing.endsWith('\n') ? '' : '\n';
@@ -89,13 +95,13 @@ class HookInstaller {
   String _hookBlock({required bool runTests, required bool isFlutter}) {
     final buffer = StringBuffer()
       ..writeln(beginMarker)
-      ..writeln('# crap4dart quality gate (installed by "crap4dart install").')
-      ..writeln('if command -v crap4dart >/dev/null 2>&1; then')
-      ..writeln('  CRAP4DART="crap4dart"')
-      ..writeln('elif [ -f bin/crap4dart.dart ]; then')
-      ..writeln('  CRAP4DART="dart run bin/crap4dart.dart"')
+      ..writeln('# crap_dart quality gate (installed by "crap_dart install").')
+      ..writeln('if command -v crap_dart >/dev/null 2>&1; then')
+      ..writeln('  CRAP_DART="crap_dart"')
+      ..writeln('elif [ -f bin/crap_dart.dart ]; then')
+      ..writeln('  CRAP_DART="dart run bin/crap_dart.dart"')
       ..writeln('else')
-      ..writeln('  echo "crap4dart not found; skipping quality checks." >&2')
+      ..writeln('  echo "crap_dart not found; skipping quality checks." >&2')
       ..writeln('  exit 0')
       ..writeln('fi');
     if (runTests) {
@@ -106,7 +112,7 @@ class HookInstaller {
       );
     }
     buffer
-      ..writeln('\$CRAP4DART check --staged --baseline')
+      ..writeln('\$CRAP_DART check --staged --baseline')
       ..writeln(endMarker);
     return buffer.toString();
   }

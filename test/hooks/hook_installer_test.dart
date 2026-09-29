@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/hooks/hook_installer.dart';
+import 'package:crap_dart/src/hooks/hook_installer.dart';
 import 'package:test/test.dart';
 
 import 'hook_test_utils.dart';
@@ -23,9 +23,9 @@ void main() {
       final content = File(path).readAsStringSync();
       expect(content, startsWith('#!/bin/sh'));
       expect(content, contains(HookInstaller.beginMarker));
-      expect(content, contains('command -v crap4dart'));
+      expect(content, contains('command -v crap_dart'));
       expect(content, contains('check --staged --baseline'));
-      expect(content, contains('dart run bin/crap4dart.dart'));
+      expect(content, contains('dart run bin/crap_dart.dart'));
       expect(content, isNot(contains('test --coverage')));
     });
 

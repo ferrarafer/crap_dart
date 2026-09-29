@@ -14,7 +14,7 @@ void main() {
   setUp(() => tempDir = createCliTestProject());
   tearDown(() => tempDir.deleteSync(recursive: true));
 
-  group('crap4dart analyze', () {
+  group('crap_dart analyze', () {
     test('empty selection exits 0 with a message', () async {
       final result = await runCliInProcess(tempDir, []);
       expect(result.exitCode, 0);

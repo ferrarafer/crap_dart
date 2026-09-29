@@ -25,8 +25,8 @@ class GateContext {
   /// Absolute path of the project root.
   final String projectRoot;
 
-  /// The loaded crap4dart configuration.
-  final Crap4DartConfig config;
+  /// The loaded crap_dart configuration.
+  final CrapDartConfig config;
 
   /// Dart files targeted by this run (mode: all / changed / staged).
   final List<String> files;

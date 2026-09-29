@@ -7,10 +7,10 @@ import 'exit_codes.dart';
 
 /// Path segments of the bundled skill file.
 const String _skillsDirName = 'skills';
-const String _skillDirName = 'crap4dart-profiling';
+const String _skillDirName = 'crap-dart-profiling';
 const String _skillFileName = 'SKILL.md';
 
-/// The `skill` command: prints the crap4dart profiling skill content for
+/// The `skill` command: prints the crap_dart profiling skill content for
 /// agents, or shows installation instructions.
 class SkillCommand extends Command<int> {
   /// Creates a [SkillCommand].
@@ -31,11 +31,11 @@ class SkillCommand extends Command<int> {
 
   @override
   final description =
-      'Print the crap4dart profiling skill for AI agents, or show '
+      'Print the crap_dart profiling skill for AI agents, or show '
       'installation instructions.';
 
   @override
-  String get invocation => 'crap4dart skill [--format text|install]';
+  String get invocation => 'crap_dart skill [--format text|install]';
 
   @override
   int run() {
@@ -59,13 +59,13 @@ class SkillCommand extends Command<int> {
 
   void _printInstallInstructions() {
     stdout.writeln('''
-# Installing the crap4dart profiling skill
+# Installing the crap_dart profiling skill
 
 ## Option 1: Install to user-level skills (recommended)
 
 ```bash
-mkdir -p ~/.agents/skills/crap4dart-profiling
-crap4dart skill --format text > ~/.agents/skills/crap4dart-profiling/SKILL.md
+mkdir -p ~/.agents/skills/crap-dart-profiling
+crap_dart skill --format text > ~/.agents/skills/crap-dart-profiling/SKILL.md
 ```
 
 The skill will be automatically available to all AI agents running in any
@@ -74,8 +74,8 @@ project on this machine.
 ## Option 2: Install to a specific project
 
 ```bash
-mkdir -p .agents/skills/crap4dart-profiling
-crap4dart skill --format text > .agents/skills/crap4dart-profiling/SKILL.md
+mkdir -p .agents/skills/crap-dart-profiling
+crap_dart skill --format text > .agents/skills/crap-dart-profiling/SKILL.md
 ```
 
 Add `.agents/` to git if you want to share it with your team.
@@ -83,13 +83,13 @@ Add `.agents/` to git if you want to share it with your team.
 ## Option 3: Install via npx skills CLI
 
 ```bash
-npx skills add github:IstiN/crap4dart
+npx skills add github:ferrarafer/crap_dart
 ```
 
 ## Verify installation
 
 ```bash
-cat ~/.agents/skills/crap4dart-profiling/SKILL.md
+cat ~/.agents/skills/crap-dart-profiling/SKILL.md
 ```
 ''');
   }
@@ -113,7 +113,7 @@ cat ~/.agents/skills/crap4dart-profiling/SKILL.md
       ),
     ];
 
-    // Also look relative to the crap4dart package itself.
+    // Also look relative to the crap_dart package itself.
     final scriptPath = Platform.script.toFilePath();
     if (scriptPath.isNotEmpty) {
       candidates.add(

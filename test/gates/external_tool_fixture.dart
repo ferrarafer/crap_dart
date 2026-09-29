@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/gates/gate_context.dart';
+import 'package:crap_dart/src/gates/gate_context.dart';
 
 import 'gate_test_utils.dart';
 

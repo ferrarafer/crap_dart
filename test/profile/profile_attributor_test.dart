@@ -1,5 +1,5 @@
-import 'package:crap4dart/src/profile/profile_runner.dart';
-import 'package:crap4dart/src/profile/profile_reporter.dart';
+import 'package:crap_dart/src/profile/profile_runner.dart';
+import 'package:crap_dart/src/profile/profile_reporter.dart';
 import 'package:test/test.dart';
 
 import 'profile_test_data.dart';

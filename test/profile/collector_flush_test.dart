@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:crap4dart/src/profile/collector_template.dart';
+import 'package:crap_dart/src/profile/collector_template.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
@@ -13,7 +13,7 @@ import 'package:test/test.dart';
 /// the template and drive it with the actual Dart VM (a temp fixture, not
 /// this project's test suite).
 Map<String, dynamic> runCollector(String driverBody) {
-  final dir = Directory.systemTemp.createTempSync('crap4dart_collector_');
+  final dir = Directory.systemTemp.createTempSync('crap_dart_collector_');
   addTearDown(() => dir.deleteSync(recursive: true));
   final script = File(p.join(dir.path, 'collector_driver.dart'))
     ..writeAsStringSync('$collectorSource\n\nvoid main() {\n$driverBody}\n');

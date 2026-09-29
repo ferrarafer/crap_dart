@@ -19,7 +19,7 @@ void main() {
   test('--help exits 0 and prints usage', () async {
     final result = await runCli(tempDir, ['--help']);
     expect(result.exitCode, 0);
-    expect(result.stdout, contains('Usage: crap4dart'));
+    expect(result.stdout, contains('Usage: crap_dart'));
   });
 
   test('--version prints the pubspec version', () async {
@@ -29,7 +29,7 @@ void main() {
     ).firstMatch(File('pubspec.yaml').readAsStringSync())!.group(1);
     final result = await runCli(tempDir, ['--version']);
     expect(result.exitCode, 0);
-    expect(result.stdout, contains('crap4dart $version'));
+    expect(result.stdout, contains('crap_dart $version'));
   });
 
   test('check --help lists the flags including --run-tests', () async {

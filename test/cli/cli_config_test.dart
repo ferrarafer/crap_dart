@@ -15,10 +15,10 @@ void main() {
   tearDown(() => tempDir.deleteSync(recursive: true));
 
   void writeConfig(String content) {
-    File(p.join(tempDir.path, 'crap4dart.yaml')).writeAsStringSync(content);
+    File(p.join(tempDir.path, 'crap_dart.yaml')).writeAsStringSync(content);
   }
 
-  group('crap4dart analyze with config', () {
+  group('crap_dart analyze with config', () {
     test('threshold from the config file applies', () async {
       writeMiniProject(tempDir, lcov: zeroCoverageLcov);
       // risky() has CRAP 12.00: passes with threshold 15, fails with 8.

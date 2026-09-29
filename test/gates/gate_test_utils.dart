@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:crap4dart/src/config/config.dart';
-import 'package:crap4dart/src/config/config_loader.dart';
-import 'package:crap4dart/src/coverage/lcov_parser.dart';
-import 'package:crap4dart/src/gates/gate_context.dart';
+import 'package:crap_dart/src/config/config.dart';
+import 'package:crap_dart/src/config/config_loader.dart';
+import 'package:crap_dart/src/coverage/lcov_parser.dart';
+import 'package:crap_dart/src/gates/gate_context.dart';
 import 'package:path/path.dart' as p;
 
 /// Creates a temporary project directory for gate tests.
 Directory createTempProject() =>
-    Directory.systemTemp.createTempSync('crap4dart_gate_test_');
+    Directory.systemTemp.createTempSync('crap_dart_gate_test_');
 
 /// Writes [content] to [relative] under [root], creating directories.
 void writeFile(Directory root, String relative, String content) {
@@ -35,7 +35,7 @@ GateContext makeContext(
   List<FileCoverage>? lcov,
 }) {
   final config = configYaml == null
-      ? Crap4DartConfig.defaults()
+      ? CrapDartConfig.defaults()
       : const ConfigLoader().loadString(configYaml);
   return GateContext(
     projectRoot: root.path,

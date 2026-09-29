@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.13.1
+
+### Fixed
+
+- Sources are parsed at their package's language version (the lower
+  bound of `environment: sdk:` in the nearest `pubspec.yaml`), as the Dart
+  tools do. Analyzer 14 parses at the newest version by default, which
+  rejects code older versions accept, such as `final` on a function
+  parameter: `check` crashed with `extraneous_modifier` on a Dart 3.9
+  Flutter app.
+- `method_size` reports unnamed enum and extension type constructors
+  under their type's name again (`E has 7 params`), as before analyzer 14,
+  instead of `constructor`, so existing baselines keep matching.
+
 ## 0.13.0
 
 crap4dart is now **crap_dart**, maintained independently at

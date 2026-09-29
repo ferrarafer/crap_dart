@@ -1,7 +1,10 @@
+import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/source/line_info.dart';
+
+import 'language_version.dart';
 
 /// Result of parsing a single Dart source file.
 class ParsedUnit {
@@ -41,12 +44,25 @@ class DartParseException implements Exception {
 class DartParser {
   /// Parses [content] as a Dart compilation unit.
   ///
+  /// The language version is that of the package containing [path] (see
+  /// [packageLanguageVersion]), or the latest one without a pubspec.
+  ///
   /// Throws a [DartParseException] with line/column diagnostics when the
   /// content produces parse errors.
   ParsedUnit parse({required String content, String path = ''}) {
     final ParseStringResult result;
     try {
-      result = parseString(content: content, path: path);
+      final version = packageLanguageVersion(path);
+      result = parseString(
+        content: content,
+        path: path,
+        featureSet: version == null
+            ? null
+            : FeatureSet.fromEnableFlags2(
+                sdkLanguageVersion: version,
+                flags: const [],
+              ),
+      );
     } on ArgumentError catch (e) {
       throw DartParseException(path, e.message.toString());
     }

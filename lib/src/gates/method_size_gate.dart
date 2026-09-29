@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:glob/glob.dart';
 
+import '../analysis/container_name.dart';
 import '../analysis/dart_parser.dart';
 import 'gate.dart';
 import 'gate_context.dart';
@@ -112,14 +113,10 @@ class _SizeVisitor extends RecursiveAstVisitor<void> {
   void visitConstructorDeclaration(ConstructorDeclaration node) {
     // Constructors are checked only for parameter count.
     checked++;
+    // Unnamed constructors are reported under their type's name, as
+    // crap4dart did before analyzer 14, so baselines keep matching.
     final name =
-        node.name?.lexeme ??
-        node
-            .thisOrAncestorOfType<ClassDeclaration>()
-            ?.namePart
-            .typeName
-            .lexeme ??
-        'constructor';
+        node.name?.lexeme ?? enclosingContainerName(node) ?? 'constructor';
     _checkParams(node, name, node.parameters);
   }
 

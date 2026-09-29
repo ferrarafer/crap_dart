@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/source/line_info.dart';
 
+import 'container_name.dart';
+
 /// Class name used for top-level functions that have no container.
 const String topLevelClassName = '(top-level)';
 
@@ -129,21 +131,11 @@ class _MethodVisitor extends RecursiveAstVisitor<void> {
     _add(node.name?.lexeme ?? 'new', node, _containerName(node));
   }
 
-  String _containerName(AstNode node) {
-    final clazz = node.thisOrAncestorOfType<ClassDeclaration>();
-    if (clazz != null) return clazz.namePart.typeName.lexeme;
-    final enumDecl = node.thisOrAncestorOfType<EnumDeclaration>();
-    if (enumDecl != null) return enumDecl.namePart.typeName.lexeme;
-    final mixinDecl = node.thisOrAncestorOfType<MixinDeclaration>();
-    if (mixinDecl != null) return mixinDecl.name.lexeme;
-    final extType = node.thisOrAncestorOfType<ExtensionTypeDeclaration>();
-    if (extType != null) return extType.namePart.typeName.lexeme;
-    final extension = node.thisOrAncestorOfType<ExtensionDeclaration>();
-    if (extension != null) {
-      return extension.name?.lexeme ?? unnamedExtensionName;
-    }
-    return topLevelClassName;
-  }
+  String _containerName(AstNode node) => switch (enclosingContainerName(node)) {
+        null => topLevelClassName,
+        '' => unnamedExtensionName,
+        final name => name,
+      };
 
   void _add(String name, AnnotatedNode node, String className) {
     final start = node.firstTokenAfterCommentAndMetadata.offset;

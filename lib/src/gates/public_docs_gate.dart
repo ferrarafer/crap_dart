@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 
+import '../analysis/container_name.dart';
 import '../analysis/dart_parser.dart';
 import 'file_visitor.dart';
 import 'gate.dart';
@@ -131,24 +132,8 @@ class _DocsVisitor extends RecursiveAstVisitor<void> {
 
   // Members of private containers are not public API.
   bool _enclosingIsPublic(AstNode node) {
-    final clazz = node.thisOrAncestorOfType<ClassDeclaration>();
-    if (clazz != null) return _isPublic(clazz.namePart.typeName.lexeme);
-    final enumDecl = node.thisOrAncestorOfType<EnumDeclaration>();
-    if (enumDecl != null) {
-      return _isPublic(enumDecl.namePart.typeName.lexeme);
-    }
-    final mixinDecl = node.thisOrAncestorOfType<MixinDeclaration>();
-    if (mixinDecl != null) return _isPublic(mixinDecl.name.lexeme);
-    final extType = node.thisOrAncestorOfType<ExtensionTypeDeclaration>();
-    if (extType != null) {
-      return _isPublic(extType.namePart.typeName.lexeme);
-    }
-    final extension = node.thisOrAncestorOfType<ExtensionDeclaration>();
-    if (extension != null) {
-      final name = extension.name?.lexeme;
-      return name != null && _isPublic(name);
-    }
-    return true;
+    final name = enclosingContainerName(node);
+    return name == null || (name.isNotEmpty && _isPublic(name));
   }
 
   bool _hasOverride(AnnotatedNode node) => node.metadata.any(

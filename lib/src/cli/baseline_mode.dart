@@ -34,9 +34,11 @@ enum BaselineMode {
   /// gates run.
   bool validate({required bool partialSelection}) {
     if (this != BaselineMode.tighten || !partialSelection) return true;
-    stderr.writeln('Error: --tighten-baseline needs a full run '
-        '(no --changed, --staged, --diff or paths): entries of unchecked '
-        'files would be dropped.');
+    stderr.writeln(
+      'Error: --tighten-baseline needs a full run '
+      '(no --changed, --staged, --diff or paths): entries of unchecked '
+      'files would be dropped.',
+    );
     return false;
   }
 
@@ -49,8 +51,10 @@ enum BaselineMode {
         return result;
       case BaselineMode.save:
         final count = writeBaseline(projectRoot, result.results);
-        stderr.writeln('Baseline saved: $count violation(s) recorded in '
-            '$baselineFileName');
+        stderr.writeln(
+          'Baseline saved: $count violation(s) recorded in '
+          '$baselineFileName',
+        );
         return result;
       case BaselineMode.tighten:
         if (!_tighten(projectRoot, result)) return null;
@@ -63,19 +67,23 @@ enum BaselineMode {
   /// The exit code for the processed [result]; saving always succeeds.
   int exitCode(GateRunResult result) =>
       this == BaselineMode.save || result.passed
-          ? ExitCodes.success
-          : ExitCodes.thresholdExceeded;
+      ? ExitCodes.success
+      : ExitCodes.thresholdExceeded;
 
   static bool _tighten(String projectRoot, GateRunResult result) {
     final stats = tightenBaseline(projectRoot, result.results);
     if (stats == null) {
-      stderr.writeln('Error: no $baselineFileName to tighten; create one '
-          'with --save-baseline first.');
+      stderr.writeln(
+        'Error: no $baselineFileName to tighten; create one '
+        'with --save-baseline first.',
+      );
       return false;
     }
-    stderr.writeln('Baseline tightened: ${stats.kept} kept '
-        '(${stats.lowered} lowered), ${stats.removed} removed, '
-        '${stats.notAdded} new or grown violation(s) not accepted.');
+    stderr.writeln(
+      'Baseline tightened: ${stats.kept} kept '
+      '(${stats.lowered} lowered), ${stats.removed} removed, '
+      '${stats.notAdded} new or grown violation(s) not accepted.',
+    );
     return true;
   }
 

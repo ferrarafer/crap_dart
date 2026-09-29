@@ -20,8 +20,9 @@ void main() {
 
   group('CiInstaller', () {
     test('creates a Dart workflow for pure Dart projects', () {
-      File(p.join(tempDir.path, 'pubspec.yaml'))
-          .writeAsStringSync('name: fixture\n');
+      File(
+        p.join(tempDir.path, 'pubspec.yaml'),
+      ).writeAsStringSync('name: fixture\n');
       final path = ci.installCi(tempDir.path);
       expect(path, workflowPath());
       final content = File(path).readAsStringSync();

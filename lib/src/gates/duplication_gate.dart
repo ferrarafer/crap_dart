@@ -141,8 +141,9 @@ class DuplicationGate implements Gate {
       if (violation != null) violations.add(violation);
     }
 
-    final totalPercent =
-        checkedLines == 0 ? 0.0 : (duplicatedLines / checkedLines) * 100.0;
+    final totalPercent = checkedLines == 0
+        ? 0.0
+        : (duplicatedLines / checkedLines) * 100.0;
     final summary = violations.isEmpty
         ? '${files.length} files, ${totalPercent.toStringAsFixed(2)}% duplicated lines'
         : '${violations.length}/${files.length} files over ${config.threshold}% duplication';
@@ -163,7 +164,8 @@ class DuplicationGate implements Gate {
     return GateViolation(
       file: context.relativePath(file.file),
       line: firstLine,
-      message: '${percent.toStringAsFixed(2)}% duplicated lines > '
+      message:
+          '${percent.toStringAsFixed(2)}% duplicated lines > '
           '${config.threshold}%',
       measure: percent,
     );
@@ -269,9 +271,9 @@ class DuplicationGate implements Gate {
     final firstLine = lines[start];
     final lastLine = lines[start + minTokens - 1];
     if (lastLine - firstLine + 1 < minLines) return;
-    occurrences.putIfAbsent(hash, () => <_TokenPos>[]).add(
-          _TokenPos(fileIndex, start),
-        );
+    occurrences
+        .putIfAbsent(hash, () => <_TokenPos>[])
+        .add(_TokenPos(fileIndex, start));
   }
 
   /// Computes `base^exp mod 2^64`.

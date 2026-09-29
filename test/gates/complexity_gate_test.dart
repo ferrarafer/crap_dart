@@ -46,9 +46,6 @@ class A {
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(1));
     expect(result.violations.single.line, 2);
-    expect(
-      result.violations.single.message,
-      contains('A.f CC=3 > max 2'),
-    );
+    expect(result.violations.single.message, contains('A.f CC=3 > max 2'));
   });
 }

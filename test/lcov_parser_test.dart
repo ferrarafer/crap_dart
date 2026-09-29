@@ -61,8 +61,9 @@ end_of_record
     });
 
     test('relativizes absolute paths against the project root', () {
-      final files = const LcovParser(projectRoot: '/repo')
-          .parse('SF:/repo/lib/a.dart\nDA:1,1\nend_of_record\n');
+      final files = const LcovParser(
+        projectRoot: '/repo',
+      ).parse('SF:/repo/lib/a.dart\nDA:1,1\nend_of_record\n');
       expect(files.single.path, 'lib/a.dart');
     });
   });

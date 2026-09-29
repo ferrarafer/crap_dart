@@ -33,8 +33,11 @@ class Baseline {
   factory Baseline.load(String projectRoot) {
     final entries = <String, List<num?>>{};
     for (final entry in _readEntries(projectRoot) ?? const []) {
-      final key = _key(entry['gate'] as String, entry['file'] as String,
-          entry['message'] as String);
+      final key = _key(
+        entry['gate'] as String,
+        entry['file'] as String,
+        entry['message'] as String,
+      );
       (entries[key] ??= []).add(entry['measure'] as num?);
     }
     return Baseline(entries);
@@ -61,10 +64,7 @@ class Baseline {
 
   /// Returns the violations of [gateId] in [violations] that the
   /// baseline does not cover, in their original order.
-  List<GateViolation> uncovered(
-    String gateId,
-    List<GateViolation> violations,
-  ) {
+  List<GateViolation> uncovered(String gateId, List<GateViolation> violations) {
     final covered = matches(gateId, violations);
     return [
       for (final violation in violations)
@@ -78,8 +78,7 @@ class Baseline {
   Map<GateViolation, num> matches(
     String gateId,
     List<GateViolation> violations,
-  ) =>
-      pairUp(gateId, violations).matched;
+  ) => pairUp(gateId, violations).matched;
 
   /// Pairs the violations of [gateId] with stored entries of the same key.
   ///
@@ -168,10 +167,7 @@ Map<String, Object?> _entry(
 
 void _writeEntries(String projectRoot, List<Map<String, Object?>> entries) {
   File(p.join(projectRoot, baselineFileName)).writeAsStringSync(
-    JsonEncoder.withIndent('  ').convert({
-      'version': 2,
-      'violations': entries,
-    }),
+    JsonEncoder.withIndent('  ').convert({'version': 2, 'violations': entries}),
   );
 }
 

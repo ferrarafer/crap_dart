@@ -42,10 +42,10 @@ class DiffLineMap {
   /// Paths of files in the diff that exist on disk, joined to
   /// [projectRoot].
   List<String> existingFiles() => [
-        for (final file in addedLines.keys)
-          if (File(p.join(projectRoot, file)).existsSync())
-            p.join(projectRoot, file),
-      ];
+    for (final file in addedLines.keys)
+      if (File(p.join(projectRoot, file)).existsSync())
+        p.join(projectRoot, file),
+  ];
 
   String _relative(String file) =>
       p.isAbsolute(file) ? p.relative(file, from: projectRoot) : file;
@@ -63,10 +63,14 @@ class GitDiffParser {
   /// Throws a [ProcessException] when git fails (e.g. not a git
   /// repository or an unknown ref).
   Future<DiffLineMap> diff(String projectRoot, {String base = 'HEAD'}) async {
-    final result = await runGit(
-      ['diff', '--relative', '--unified=0', base, '--', '*.dart'],
-      workingDirectory: projectRoot,
-    );
+    final result = await runGit([
+      'diff',
+      '--relative',
+      '--unified=0',
+      base,
+      '--',
+      '*.dart',
+    ], workingDirectory: projectRoot);
     if (result.exitCode != 0) {
       throw ProcessException(
         'git',
@@ -100,8 +104,9 @@ class GitDiffParser {
 
   void _parseHunk(String line, String? current, Map<String, Set<int>> added) {
     if (current == null) return;
-    final match =
-        RegExp(r'@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@').firstMatch(line);
+    final match = RegExp(
+      r'@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@',
+    ).firstMatch(line);
     if (match == null) return;
     final start = int.parse(match.group(1)!);
     final count = match.group(2) == null ? 1 : int.parse(match.group(2)!);

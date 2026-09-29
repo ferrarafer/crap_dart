@@ -4,11 +4,12 @@ import 'package:test/test.dart';
 import 'gate_test_utils.dart';
 
 void main() {
-  test('test_assertions ignores trailing named arguments such as skip:',
-      () async {
-    final project = createTempProject();
-    addTearDown(() => project.deleteSync(recursive: true));
-    writeFile(project, 'test/skip_test.dart', '''
+  test(
+    'test_assertions ignores trailing named arguments such as skip:',
+    () async {
+      final project = createTempProject();
+      addTearDown(() => project.deleteSync(recursive: true));
+      writeFile(project, 'test/skip_test.dart', '''
 import 'package:test/test.dart';
 
 void main() {
@@ -29,18 +30,28 @@ void main() {
   }, timeout: const Timeout(Duration(seconds: 30)));
 }
 ''');
-    final result = await TestAssertionsGate().run(
-      makeContext(project, ['test/skip_test.dart']),
-    );
-    expect(result.passed, isFalse);
-    final messages = result.violations.map((v) => v.message).toList();
-    expect(
-        messages.where((m) => m.contains("'skipped but empty'")), hasLength(1),
-        reason: 'skip: should not hide missing assertions');
-    expect(messages.where((m) => m.contains("'widget skipped but empty'")),
-        hasLength(1));
-    expect(messages.where((m) => m.contains('asserted despite skip')), isEmpty);
-    expect(messages.where((m) => m.contains('widget asserted despite timeout')),
-        isEmpty);
-  });
+      final result = await TestAssertionsGate().run(
+        makeContext(project, ['test/skip_test.dart']),
+      );
+      expect(result.passed, isFalse);
+      final messages = result.violations.map((v) => v.message).toList();
+      expect(
+        messages.where((m) => m.contains("'skipped but empty'")),
+        hasLength(1),
+        reason: 'skip: should not hide missing assertions',
+      );
+      expect(
+        messages.where((m) => m.contains("'widget skipped but empty'")),
+        hasLength(1),
+      );
+      expect(
+        messages.where((m) => m.contains('asserted despite skip')),
+        isEmpty,
+      );
+      expect(
+        messages.where((m) => m.contains('widget asserted despite timeout')),
+        isEmpty,
+      );
+    },
+  );
 }

@@ -14,29 +14,20 @@ void main() {
     test('invalid sources throws with the key name', () {
       expect(
         () => loader.loadString('sources: lib\n'),
-        throwsA(
-          isA<ConfigException>().having((e) => e.key, 'key', 'sources'),
-        ),
+        throwsA(isA<ConfigException>().having((e) => e.key, 'key', 'sources')),
       );
       expect(
         () => loader.loadString('sources: [lib, ""]\n'),
-        throwsA(
-          isA<ConfigException>().having((e) => e.key, 'key', 'sources'),
-        ),
+        throwsA(isA<ConfigException>().having((e) => e.key, 'key', 'sources')),
       );
       expect(
         () => loader.loadString('sources: [lib, 42]\n'),
-        throwsA(
-          isA<ConfigException>().having((e) => e.key, 'key', 'sources'),
-        ),
+        throwsA(isA<ConfigException>().having((e) => e.key, 'key', 'sources')),
       );
     });
 
     test('test_coverage dirs defaults to lib and merges from config', () {
-      expect(
-        loader.loadString('').gates.testCoverage.dirs,
-        ['lib'],
-      );
+      expect(loader.loadString('').gates.testCoverage.dirs, ['lib']);
       final config = loader.loadString(
         'gates:\n  test_coverage:\n    dirs: [lib, test]\n',
       );
@@ -62,8 +53,9 @@ void main() {
 
     test('exclude defaults to empty and merges from config', () {
       expect(loader.loadString('').exclude, isEmpty);
-      final config =
-          loader.loadString("exclude: ['example/**', '**.g.dart']\n");
+      final config = loader.loadString(
+        "exclude: ['example/**', '**.g.dart']\n",
+      );
       expect(config.exclude, ['example/**', '**.g.dart']);
     });
   });

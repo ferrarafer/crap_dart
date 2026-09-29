@@ -63,20 +63,24 @@ class SourceInstrumenter {
       final key = _methodKey(entry.info);
 
       // Insert after the opening brace: mark entry + try.
-      insertions.add(_Insertion(
-        leftBracket.offset + leftBracket.length,
-        '\n      CrapCollector.instance.enter(\'$key\');\n      try {',
-      ));
+      insertions.add(
+        _Insertion(
+          leftBracket.offset + leftBracket.length,
+          '\n      CrapCollector.instance.enter(\'$key\');\n      try {',
+        ),
+      );
 
       // Insert before the closing brace: finally + exit. The collector
       // owns the Stopwatch (a stack frame per open call), which also lets
       // it subtract nested call time to compute self time.
-      insertions.add(_Insertion(
-        rightBracket.offset,
-        '} finally { '
-        "CrapCollector.instance.exit('$key'); "
-        '}\n    ',
-      ));
+      insertions.add(
+        _Insertion(
+          rightBracket.offset,
+          '} finally { '
+          "CrapCollector.instance.exit('$key'); "
+          '}\n    ',
+        ),
+      );
     }
 
     if (insertions.isEmpty) return source;
@@ -86,7 +90,8 @@ class SourceInstrumenter {
 
     var result = source;
     for (final ins in insertions) {
-      result = result.substring(0, ins.offset) +
+      result =
+          result.substring(0, ins.offset) +
           ins.text +
           result.substring(ins.offset);
     }

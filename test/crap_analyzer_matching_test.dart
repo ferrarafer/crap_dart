@@ -21,8 +21,9 @@ void main() {
 
     test('ignores LCOV entries outside the project root', () {
       Directory(p.join(tempDir.path, 'lib', 'src')).createSync();
-      File(p.join(tempDir.path, 'lib', 'src', 'dep.dart'))
-          .writeAsStringSync('int dep() => 1;\n');
+      File(
+        p.join(tempDir.path, 'lib', 'src', 'dep.dart'),
+      ).writeAsStringSync('int dep() => 1;\n');
       File(p.join(tempDir.path, 'coverage', 'deps.info')).writeAsStringSync(
         'SF:/Users/x/.pub-cache/hosted/pub.dev/some_pkg/lib/src/dep.dart\n'
         'DA:1,7\n'
@@ -42,10 +43,9 @@ void main() {
     test('matches coverage by suffix when the roots differ', () {
       // No projectRoot: the analyzed absolute path cannot be relativized
       // onto the LCOV key, so the suffix fallback has to match.
-      final metrics = const CrapAnalyzer().analyze(
-        [sampleFile(tempDir)],
-        lcovPath: sampleLcov(tempDir),
-      );
+      final metrics = const CrapAnalyzer().analyze([
+        sampleFile(tempDir),
+      ], lcovPath: sampleLcov(tempDir));
       final byName = {for (final m in metrics) m.method.methodName: m};
       expect(byName['uncovered']!.coverage, 0.0);
       expect(byName['uncovered']!.crap, 6.0);
@@ -53,9 +53,9 @@ void main() {
     });
 
     test('reports N/A when no LCOV entry matches the file', () {
-      File(p.join(tempDir.path, 'coverage', 'other.info')).writeAsStringSync(
-        'SF:lib/other.dart\nDA:1,1\nend_of_record\n',
-      );
+      File(
+        p.join(tempDir.path, 'coverage', 'other.info'),
+      ).writeAsStringSync('SF:lib/other.dart\nDA:1,1\nend_of_record\n');
       final metrics = const CrapAnalyzer().analyze(
         [sampleFile(tempDir)],
         lcovPath: p.join(tempDir.path, 'coverage', 'other.info'),

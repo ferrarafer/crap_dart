@@ -64,20 +64,17 @@ class JsonReporter {
 
   /// Renders the `profile` report from [report], optionally limited to [top]
   /// entries and flagged against [thresholdMs].
-  String renderProfile(
-    ProfileReport report, {
-    double? thresholdMs,
-    int? top,
-  }) {
+  String renderProfile(ProfileReport report, {double? thresholdMs, int? top}) {
     final sorted = report.sorted;
     final shown = top != null && top > 0 ? sorted.take(top).toList() : sorted;
     final totalMicros = report.totalMicros;
-    final passed = thresholdMs == null ||
+    final passed =
+        thresholdMs == null ||
         sorted.every((p) => p.timing.totalMillis <= thresholdMs);
     return _encoder.convert({
       _commandKey: 'profile',
       'totalMicros': totalMicros,
-      if (thresholdMs != null) 'thresholdMs': thresholdMs,
+      'thresholdMs': ?thresholdMs,
       _passedKey: passed,
       'methods': [
         for (final p in shown)

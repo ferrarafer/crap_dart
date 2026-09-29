@@ -65,7 +65,8 @@ void main() {
       makeContext(
         project,
         const [],
-        configYaml: 'gates:\n'
+        configYaml:
+            'gates:\n'
             '  test_coverage:\n'
             '    min_percent: 80.0\n'
             '    per_file: true\n',

@@ -54,8 +54,9 @@ void main() {
       expect(hook.existsSync(), isTrue);
       expect(hook.readAsStringSync(), contains('check --staged --baseline'));
       expect(
-        File(p.join(tempDir.path, '.github/workflows/quality.yml'))
-            .existsSync(),
+        File(
+          p.join(tempDir.path, '.github/workflows/quality.yml'),
+        ).existsSync(),
         isTrue,
       );
     });

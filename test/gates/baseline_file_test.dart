@@ -16,15 +16,21 @@ void main() {
       applyBaseline('loc', GateResult.fail('loc', now), baseline).violations;
 
   test('version 1 files load, ignoring line and measure', () {
-    File(p.join(root.path, baselineFileName)).writeAsStringSync(jsonEncode({
-      'version': 1,
-      'violations': [
-        {'gate': 'loc', 'file': 'lib/a.dart', 'line': 3, 'message': 'x'},
-      ],
-    }));
+    File(p.join(root.path, baselineFileName)).writeAsStringSync(
+      jsonEncode({
+        'version': 1,
+        'violations': [
+          {'gate': 'loc', 'file': 'lib/a.dart', 'line': 3, 'message': 'x'},
+        ],
+      }),
+    );
     final v1 = Baseline.load(root.path);
-    const now =
-        GateViolation(file: 'lib/a.dart', line: 7, message: 'x', measure: 1000);
+    const now = GateViolation(
+      file: 'lib/a.dart',
+      line: 7,
+      message: 'x',
+      measure: 1000,
+    );
     expect(fresh(v1, [now]), isEmpty);
   });
 
@@ -46,7 +52,7 @@ void main() {
       'gate': 'loc',
       'file': 'lib/a.dart',
       'message': '900 lines > max 800',
-      'measure': 900
+      'measure': 900,
     });
   });
 

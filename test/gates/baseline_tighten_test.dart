@@ -7,10 +7,10 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 GateViolation _loc(int lines, {String file = 'lib/a.dart'}) => GateViolation(
-      file: file,
-      message: '$lines lines > max 400',
-      measure: lines,
-    );
+  file: file,
+  message: '$lines lines > max 400',
+  measure: lines,
+);
 
 void main() {
   late Directory root;
@@ -21,9 +21,9 @@ void main() {
   void save(List<GateResult> results) => writeBaseline(root.path, results);
 
   List<Map<String, dynamic>> stored() {
-    final json = jsonDecode(
-      File(p.join(root.path, baselineFileName)).readAsStringSync(),
-    ) as Map<String, dynamic>;
+    final json =
+        jsonDecode(File(p.join(root.path, baselineFileName)).readAsStringSync())
+            as Map<String, dynamic>;
     return (json['violations'] as List).cast<Map<String, dynamic>>();
   }
 
@@ -32,7 +32,7 @@ void main() {
 
   test('lowers the ceiling of a shrunk violation', () {
     save([
-      GateResult.fail('loc', [_loc(900)])
+      GateResult.fail('loc', [_loc(900)]),
     ]);
     final stats = tighten([_loc(850)]);
     expect((stats.kept, stats.lowered, stats.removed), (1, 1, 0));
@@ -53,7 +53,7 @@ void main() {
 
   test('never adds new violations', () {
     save([
-      GateResult.fail('loc', [_loc(900)])
+      GateResult.fail('loc', [_loc(900)]),
     ]);
     final stats = tighten([_loc(900), _loc(700, file: 'lib/new.dart')]);
     expect((stats.kept, stats.notAdded), (1, 1));
@@ -62,7 +62,7 @@ void main() {
 
   test('keeps the old ceiling of a grown violation', () {
     save([
-      GateResult.fail('loc', [_loc(900)])
+      GateResult.fail('loc', [_loc(900)]),
     ]);
     final stats = tighten([_loc(950)]);
     expect((stats.kept, stats.removed, stats.notAdded), (1, 0, 1));

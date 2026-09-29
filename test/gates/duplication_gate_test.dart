@@ -39,7 +39,8 @@ void main() {
   });
 
   test('detects duplicated top-level declarations outside methods', () async {
-    const topLevel = '''
+    const topLevel =
+        '''
 const String kA = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const String kB = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
 const String kC = 'cccccccccccccccccccccccccccccccccccccccccccccccccc';
@@ -56,8 +57,9 @@ const String kK = 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk';
 '''; // Keep total token stream above min_tokens.
     writeFile(project, 'lib/a.dart', topLevel);
     writeFile(project, 'lib/b.dart', topLevel);
-    final result =
-        await gate.run(makeContext(project, ['lib/a.dart', 'lib/b.dart']));
+    final result = await gate.run(
+      makeContext(project, ['lib/a.dart', 'lib/b.dart']),
+    );
     expect(result.passed, isFalse);
     final files = result.violations.map((v) => v.file).toSet();
     expect(files, contains('lib/a.dart'));

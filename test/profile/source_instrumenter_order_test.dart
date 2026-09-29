@@ -40,8 +40,10 @@ class Foo {
       final result = instrumenter.instrument(source);
 
       // Without a library directive, collector import still goes first.
-      expect(result.indexOf('__crap_collector'),
-          lessThan(result.indexOf("import 'dart:async';")));
+      expect(
+        result.indexOf('__crap_collector'),
+        lessThan(result.indexOf("import 'dart:async';")),
+      );
     });
   });
 }

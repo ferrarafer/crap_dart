@@ -66,14 +66,16 @@ void main() {
         final output = environment!['CRAP_PROFILE_OUTPUT']!;
         File(output).writeAsStringSync(timingJson);
         // Read before run() deletes the temp dir.
-        rewritten =
-            File('$tempRoot/.dart_tool/package_config.json').readAsStringSync();
+        rewritten = File(
+          '$tempRoot/.dart_tool/package_config.json',
+        ).readAsStringSync();
         return ProcessResult(0, 0, 'ok', '');
       },
     );
     await runner.run(root.path);
-    final rootUri =
-        RegExp('"rootUri":"([^"]*)"').firstMatch(rewritten)!.group(1)!;
+    final rootUri = RegExp(
+      '"rootUri":"([^"]*)"',
+    ).firstMatch(rewritten)!.group(1)!;
     expect(Uri.parse(rootUri).toFilePath(), '$tempRoot/');
     expect(rewritten, contains('"name":"testpkg"'));
     expect(rewritten, contains('"name":"other"'));

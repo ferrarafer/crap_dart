@@ -34,8 +34,11 @@ void main() {
     test('CLI --threshold overrides the config value', () async {
       writeMiniProject(tempDir, lcov: zeroCoverageLcov);
       writeConfig('crap:\n  threshold: 15.0\n');
-      final result =
-          await runCliInProcess(tempDir, ['analyze', '--threshold', '8.0']);
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--threshold',
+        '8.0',
+      ]);
       expect(result.exitCode, 2);
       expect(result.stderr, contains('CRAP threshold exceeded: 12.00 > 8.0'));
     });

@@ -24,12 +24,14 @@ void main() {
     test('analyze --lcov uses the given coverage file', () async {
       writeMiniProject(tempDir, lcov: zeroCoverageLcov);
       Directory(p.join(tempDir.path, 'custom')).createSync();
-      File(p.join(tempDir.path, 'custom', 'cov.info'))
-          .writeAsStringSync(fullCoverageLcov);
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', '--lcov', p.join(tempDir.path, 'custom', 'cov.info')],
-      );
+      File(
+        p.join(tempDir.path, 'custom', 'cov.info'),
+      ).writeAsStringSync(fullCoverageLcov);
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--lcov',
+        p.join(tempDir.path, 'custom', 'cov.info'),
+      ]);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('Max CRAP: 3.00'));
     });
@@ -40,8 +42,11 @@ void main() {
       File(p.join(tempDir.path, 'crap4dart.yaml')).deleteSync();
       final lcov = p.join(tempDir.path, 'custom.info');
       File(lcov).writeAsStringSync(fullCoverageLcov);
-      final result =
-          await runCliInProcess(tempDir, ['analyze', '--lcov', lcov]);
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--lcov',
+        lcov,
+      ]);
       expect(result.exitCode, 0);
       expect(result.stderr, isNot(contains('Running "')));
       expect(result.stdout, contains('Max CRAP: 3.00'));
@@ -54,10 +59,11 @@ gates:
   test_coverage:
     min_percent: 50.0
 ''');
-      final result = await runCliInProcess(
-        tempDir,
-        ['check', '--only', 'test_coverage'],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--only',
+        'test_coverage',
+      ]);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('[PASS] test_coverage'));
     });
@@ -65,8 +71,9 @@ gates:
     test('install with an invalid config exits 1', () async {
       writeCleanProject(tempDir);
       await gitInitAndCommit(tempDir, 'base');
-      File(p.join(tempDir.path, 'crap4dart.yaml'))
-          .writeAsStringSync('bogus: 1\n');
+      File(
+        p.join(tempDir.path, 'crap4dart.yaml'),
+      ).writeAsStringSync('bogus: 1\n');
       final result = await runCliInProcess(tempDir, ['install']);
       expect(result.exitCode, 1);
     });

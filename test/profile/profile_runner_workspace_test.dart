@@ -66,8 +66,8 @@ void main() {
     final runner = ProfileRunner(
       runner: (exe, args, {workingDirectory, environment}) async =>
           args.first == 'pub'
-              ? ProcessResult(0, 1, '', 'no network')
-              : ProcessResult(0, 0, 'ok', ''),
+          ? ProcessResult(0, 1, '', 'no network')
+          : ProcessResult(0, 0, 'ok', ''),
     );
     final result = await runner.run(root.path);
     expect(result, isNull);

@@ -21,11 +21,9 @@ void main() {
   test('honors extra allowed stems case-insensitively', () async {
     writeFile(project, 'lib/mqtt5.dart', 'void f() {}\n');
     final result = await gate.run(
-      makeContext(
-        project,
-        ['lib/mqtt5.dart'],
-        configYaml: 'gates:\n  file_naming:\n    allow: [MQTT5]\n',
-      ),
+      makeContext(project, [
+        'lib/mqtt5.dart',
+      ], configYaml: 'gates:\n  file_naming:\n    allow: [MQTT5]\n'),
     );
     expect(result.passed, isTrue);
   });
@@ -33,11 +31,9 @@ void main() {
   test('only the whole stem can be allowlisted', () async {
     writeFile(project, 'lib/report2.dart', 'void f() {}\n');
     final result = await gate.run(
-      makeContext(
-        project,
-        ['lib/report2.dart'],
-        configYaml: 'gates:\n  file_naming:\n    allow: [report]\n',
-      ),
+      makeContext(project, [
+        'lib/report2.dart',
+      ], configYaml: 'gates:\n  file_naming:\n    allow: [report]\n'),
     );
     expect(result.passed, isFalse);
     expect(result.violations.single.file, 'lib/report2.dart');

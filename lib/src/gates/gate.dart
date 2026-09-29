@@ -52,21 +52,20 @@ class GateResult {
     String gateId,
     List<GateViolation> violations, {
     String? summary,
-  }) =>
-      GateResult(
-        gateId: gateId,
-        passed: false,
-        violations: violations,
-        summary: summary,
-      );
+  }) => GateResult(
+    gateId: gateId,
+    passed: false,
+    violations: violations,
+    summary: summary,
+  );
 
   /// A skipped result with a [reason] (e.g. "not a Flutter project").
   factory GateResult.skip(String gateId, String reason) => GateResult(
-        gateId: gateId,
-        passed: true,
-        skipped: true,
-        skipReason: reason,
-      );
+    gateId: gateId,
+    passed: true,
+    skipped: true,
+    skipReason: reason,
+  );
 
   /// A downgraded result: violations are kept and reported, but the run
   /// is not failed (severity `warning`).
@@ -74,14 +73,13 @@ class GateResult {
     String gateId,
     List<GateViolation> violations, {
     String? summary,
-  }) =>
-      GateResult(
-        gateId: gateId,
-        passed: true,
-        violations: violations,
-        summary: summary,
-        warning: true,
-      );
+  }) => GateResult(
+    gateId: gateId,
+    passed: true,
+    violations: violations,
+    summary: summary,
+    warning: true,
+  );
 
   /// Identifier of the gate that produced this result.
   final String gateId;

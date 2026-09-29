@@ -24,15 +24,14 @@ class PublicDocsGate implements Gate {
   @override
   Future<GateResult> run(GateContext context) async {
     final config = context.config.gates.publicDocs;
-    final (checked, violations) = visitGateFiles(
-      context,
-      config.exclude,
-      (relative, parsed) {
-        final visitor = _DocsVisitor(relative, parsed);
-        parsed.unit.accept(visitor);
-        return (visitor.checked, visitor.violations);
-      },
-    );
+    final (checked, violations) = visitGateFiles(context, config.exclude, (
+      relative,
+      parsed,
+    ) {
+      final visitor = _DocsVisitor(relative, parsed);
+      parsed.unit.accept(visitor);
+      return (visitor.checked, visitor.violations);
+    });
     final summary = violations.isEmpty
         ? '$checked public declarations documented'
         : '${violations.length}/$checked public declarations missing dartdoc';
@@ -136,9 +135,8 @@ class _DocsVisitor extends RecursiveAstVisitor<void> {
     return name == null || (name.isNotEmpty && _isPublic(name));
   }
 
-  bool _hasOverride(AnnotatedNode node) => node.metadata.any(
-        (a) => a.name.name == 'override',
-      );
+  bool _hasOverride(AnnotatedNode node) =>
+      node.metadata.any((a) => a.name.name == 'override');
 
   void _checkNamed(CompilationUnitMember node, String name, String kind) {
     if (_isPublic(name)) _check(node, name, kind);

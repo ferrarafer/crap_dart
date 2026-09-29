@@ -31,11 +31,9 @@ void main() {
           'void b(List<String> value) {\n$smallBody}\n',
     );
     final result = await gate.run(
-      makeContext(
-        project,
-        ['lib/a.dart'],
-        configYaml: 'gates:\n  duplication:\n    min_tokens: 100\n',
-      ),
+      makeContext(project, [
+        'lib/a.dart',
+      ], configYaml: 'gates:\n  duplication:\n    min_tokens: 100\n'),
     );
     expect(result.passed, isTrue);
   });
@@ -54,11 +52,9 @@ void main() {
           'void b() {\n$denseBody}\n',
     );
     final result = await gate.run(
-      makeContext(
-        project,
-        ['lib/a.dart'],
-        configYaml: 'gates:\n  duplication:\n    min_lines: 10\n',
-      ),
+      makeContext(project, [
+        'lib/a.dart',
+      ], configYaml: 'gates:\n  duplication:\n    min_lines: 10\n'),
     );
     expect(result.passed, isTrue);
   });

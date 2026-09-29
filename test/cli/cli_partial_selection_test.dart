@@ -12,13 +12,13 @@ void main() {
     writeCleanProject(tempDir);
     await gitInitAndCommit(tempDir, 'base');
     // A staged file no one imports: must NOT fail in a partial run.
-    File('${tempDir.path}/lib/staged.dart')
-        .writeAsStringSync('/// Docs.\nvoid staged() {}\n');
-    await Process.run(
-      'git',
-      ['add', 'lib/staged.dart'],
-      workingDirectory: tempDir.path,
-    );
+    File(
+      '${tempDir.path}/lib/staged.dart',
+    ).writeAsStringSync('/// Docs.\nvoid staged() {}\n');
+    await Process.run('git', [
+      'add',
+      'lib/staged.dart',
+    ], workingDirectory: tempDir.path);
     final result = await runCliInProcess(tempDir, ['check', '--staged']);
     expect(result.exitCode, ExitCodes.success, reason: result.stdout);
     expect(result.stdout, contains('[SKIP] unused_files'));

@@ -43,7 +43,7 @@ class UnusedFilesGate implements Gate {
     final summary = violations.isEmpty
         ? '${candidates.length} files in ${config.dirs.join(', ')} are used'
         : '${violations.length}/${candidates.length} files are never '
-            'imported';
+              'imported';
     return violations.isEmpty
         ? GateResult.pass(id, summary: summary)
         : GateResult.fail(id, violations, summary: summary);
@@ -111,9 +111,8 @@ class UnusedFilesGate implements Gate {
     return relative != p.join('lib', '${context.packageName}.dart');
   }
 
-  bool _inDirs(String relative, List<String> dirs) => dirs.any(
-        (dir) => relative == dir || relative.startsWith('$dir/'),
-      );
+  bool _inDirs(String relative, List<String> dirs) =>
+      dirs.any((dir) => relative == dir || relative.startsWith('$dir/'));
 
   /// Resolves an import URI to a project-relative path when it targets
   /// the project itself; `null` for external packages and dart: URIs.

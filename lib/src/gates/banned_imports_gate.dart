@@ -31,25 +31,21 @@ class BannedImportsGate implements Gate {
   Future<GateResult> run(GateContext context) async {
     final rules = context.config.gates.bannedImports.rules;
     if (rules.isEmpty) {
-      return GateResult.pass(
-        'banned_imports',
-        summary: 'no rules configured',
-      );
+      return GateResult.pass('banned_imports', summary: 'no rules configured');
     }
     final compiled = [
       for (final rule in rules)
-        _CompiledRule(
-          Glob(rule.from),
-          [for (final pattern in rule.forbid) Glob(pattern)],
-          rule.message,
-        ),
+        _CompiledRule(Glob(rule.from), [
+          for (final pattern in rule.forbid) Glob(pattern),
+        ], rule.message),
     ];
     final violations = <GateViolation>[];
     var checked = 0;
     for (final file in context.files) {
       final relative = context.relativePath(file);
-      final applicable =
-          compiled.where((rule) => rule.from.matches(relative)).toList();
+      final applicable = compiled
+          .where((rule) => rule.from.matches(relative))
+          .toList();
       if (applicable.isEmpty) continue;
       checked++;
       violations.addAll(_violationsIn(file, relative, applicable, context));
@@ -73,8 +69,13 @@ class BannedImportsGate implements Gate {
     final violations = <GateViolation>[];
     for (final directive in parsed.unit.directives) {
       if (directive is! ImportDirective) continue;
-      final violation =
-          _firstViolation(directive, relative, rules, context, parsed);
+      final violation = _firstViolation(
+        directive,
+        relative,
+        rules,
+        context,
+        parsed,
+      );
       if (violation != null) violations.add(violation);
     }
     return violations;
@@ -95,7 +96,8 @@ class BannedImportsGate implements Gate {
       return GateViolation(
         file: relative,
         line: line,
-        message: 'import ${directive.uri.stringValue} is banned '
+        message:
+            'import ${directive.uri.stringValue} is banned '
             'for $relative$extra',
       );
     }
@@ -108,11 +110,10 @@ class BannedImportsGate implements Gate {
     ImportDirective directive,
     String relative,
     GateContext context,
-  ) =>
-      rule.forbid.any(
-        (pattern) =>
-            _matches(pattern, directive.uri.stringValue, relative, context),
-      );
+  ) => rule.forbid.any(
+    (pattern) =>
+        _matches(pattern, directive.uri.stringValue, relative, context),
+  );
 
   /// Whether [pattern] matches the import [uri] or its resolved
   /// project-relative path ([importerRelative] is the importing file).
@@ -130,11 +131,7 @@ class BannedImportsGate implements Gate {
 
   /// Resolves a relative or self-`package:` import URI to a
   /// project-relative path; returns `null` for anything else.
-  String? _resolve(
-    String uri,
-    String importerRelative,
-    GateContext context,
-  ) {
+  String? _resolve(String uri, String importerRelative, GateContext context) {
     if (uri.startsWith('package:')) {
       return _resolvePackage(uri, context.packageName);
     }

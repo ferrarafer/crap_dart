@@ -24,8 +24,9 @@ class ComplexityGate implements Gate {
           (glob: Glob(path), maxComplexity: entry.maxComplexity),
     ];
     const extractor = MethodExtractor();
-    final calculator =
-        ComplexityCalculator(countLambdas: gateConfig.countLambdas);
+    final calculator = ComplexityCalculator(
+      countLambdas: gateConfig.countLambdas,
+    );
     final violations = <GateViolation>[];
     var checked = 0;
     for (final file in context.files) {
@@ -66,7 +67,8 @@ class ComplexityGate implements Gate {
         GateViolation(
           file: relative,
           line: info.startLine,
-          message: '${info.className}.${info.methodName} '
+          message:
+              '${info.className}.${info.methodName} '
               'CC=$complexity > max $maxComplexity',
           measure: complexity,
         ),

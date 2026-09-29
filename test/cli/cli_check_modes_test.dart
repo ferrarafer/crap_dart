@@ -23,8 +23,9 @@ void main() {
 
     test('invalid config exits 1', () async {
       writeCleanProject(tempDir);
-      File(p.join(tempDir.path, 'crap4dart.yaml'))
-          .writeAsStringSync('bogus: 1\n');
+      File(
+        p.join(tempDir.path, 'crap4dart.yaml'),
+      ).writeAsStringSync('bogus: 1\n');
       final result = await runCliInProcess(tempDir, ['check']);
       expect(result.exitCode, 1);
       expect(result.stderr, contains('bogus'));
@@ -37,13 +38,13 @@ void main() {
       expect(changed.exitCode, 0);
       expect(changed.stdout, contains('No Dart files to check.'));
 
-      File(p.join(tempDir.path, 'lib', 'staged.dart'))
-          .writeAsStringSync('/// Docs.\nvoid staged() {}\n');
-      await Process.run(
-        'git',
-        ['add', 'lib/staged.dart'],
-        workingDirectory: tempDir.path,
-      );
+      File(
+        p.join(tempDir.path, 'lib', 'staged.dart'),
+      ).writeAsStringSync('/// Docs.\nvoid staged() {}\n');
+      await Process.run('git', [
+        'add',
+        'lib/staged.dart',
+      ], workingDirectory: tempDir.path);
       final staged = await runCliInProcess(tempDir, ['check', '--staged']);
       expect(staged.exitCode, 0);
       expect(staged.stdout, contains('[PASS] loc'));
@@ -51,10 +52,11 @@ void main() {
 
     test('--changed and --staged are mutually exclusive', () async {
       writeCleanProject(tempDir);
-      final result = await runCliInProcess(
-        tempDir,
-        ['check', '--changed', '--staged'],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--changed',
+        '--staged',
+      ]);
       expect(result.exitCode, 1);
     });
 

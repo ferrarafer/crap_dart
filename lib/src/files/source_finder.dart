@@ -90,10 +90,10 @@ class SourceFinder {
       p.isAbsolute(path) ? p.relative(path, from: rootDir) : path;
 
   List<String> _findUnder(String dir) => [
-        for (final entity in Directory(dir).listSync(recursive: true))
-          if (entity is File &&
-              entity.path.endsWith('.dart') &&
-              !isExcluded(p.normalize(entity.path)))
-            entity.path,
-      ];
+    for (final entity in Directory(dir).listSync(recursive: true))
+      if (entity is File &&
+          entity.path.endsWith('.dart') &&
+          !isExcluded(p.normalize(entity.path)))
+        entity.path,
+  ];
 }

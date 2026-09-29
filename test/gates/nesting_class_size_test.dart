@@ -33,11 +33,10 @@ void deep() {
 }
 ''');
     final result = await NestingGate().run(
-      makeContext(
-        project,
-        ['lib/shallow.dart', 'lib/deep.dart'],
-        configYaml: 'gates:\n  nesting:\n    max_nesting: 4\n',
-      ),
+      makeContext(project, [
+        'lib/shallow.dart',
+        'lib/deep.dart',
+      ], configYaml: 'gates:\n  nesting:\n    max_nesting: 4\n'),
     );
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(1));

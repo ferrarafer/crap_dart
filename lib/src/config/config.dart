@@ -17,10 +17,10 @@ enum GateSeverity {
 
   /// Parses a config string ('error' or 'warning').
   static GateSeverity parse(String value) => switch (value) {
-        'error' => GateSeverity.error,
-        'warning' => GateSeverity.warning,
-        _ => throw ArgumentError('unknown gate severity "$value"'),
-      };
+    'error' => GateSeverity.error,
+    'warning' => GateSeverity.warning,
+    _ => throw ArgumentError('unknown gate severity "$value"'),
+  };
 }
 
 /// Root configuration of crap4dart.
@@ -233,11 +233,7 @@ class FlutterGatesConfig {
 /// CPU profiling settings (`profile` command).
 class ProfileConfig {
   /// Creates a [ProfileConfig].
-  const ProfileConfig({
-    this.enabled = true,
-    this.thresholdMs,
-    this.top,
-  });
+  const ProfileConfig({this.enabled = true, this.thresholdMs, this.top});
 
   /// Whether profiling is enabled.
   final bool enabled;

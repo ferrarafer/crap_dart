@@ -50,10 +50,6 @@ class DartParser {
     } on ArgumentError catch (e) {
       throw DartParseException(path, e.message.toString());
     }
-    return ParsedUnit(
-      unit: result.unit,
-      lineInfo: result.lineInfo,
-      path: path,
-    );
+    return ParsedUnit(unit: result.unit, lineInfo: result.lineInfo, path: path);
   }
 }

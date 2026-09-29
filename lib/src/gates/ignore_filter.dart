@@ -61,7 +61,8 @@ bool _ignoredByFileMarker(String file, GateContext context) {
 bool _ignoredByLineMarker(String path, int line, GateContext context) {
   final onLine = context.line(path, line);
   final aboveLine = line > 1 ? context.line(path, line - 1) : null;
-  final marked = (onLine != null && onLine.contains(ignoreMarker)) ||
+  final marked =
+      (onLine != null && onLine.contains(ignoreMarker)) ||
       (aboveLine != null && aboveLine.contains(ignoreMarker));
   return marked;
 }

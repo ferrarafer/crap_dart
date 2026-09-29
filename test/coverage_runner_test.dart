@@ -17,8 +17,9 @@ void main() {
 
   setUp(() {
     project = Directory.systemTemp.createTempSync('crap4dart_covrun_test_');
-    File(p.join(project.path, 'pubspec.yaml'))
-        .writeAsStringSync('name: fixture\n');
+    File(
+      p.join(project.path, 'pubspec.yaml'),
+    ).writeAsStringSync('name: fixture\n');
   });
 
   tearDown(() {
@@ -70,8 +71,7 @@ void main() {
         String exe,
         List<String> args, {
         String? workingDirectory,
-      }) async =>
-          _result(1);
+      }) async => _result(1);
 
       final lcov = await CoverageRunner(spawn: spawn).run(project.path);
       expect(lcov, isNull);
@@ -82,8 +82,7 @@ void main() {
         String exe,
         List<String> args, {
         String? workingDirectory,
-      }) =>
-          throw ProcessException(exe, args, 'not found');
+      }) => throw ProcessException(exe, args, 'not found');
 
       final lcov = await CoverageRunner(spawn: spawn).run(project.path);
       expect(lcov, isNull);

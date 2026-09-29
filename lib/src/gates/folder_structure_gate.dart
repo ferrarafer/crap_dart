@@ -33,7 +33,8 @@ class FolderStructureGate implements Gate {
         violations.add(
           GateViolation(
             file: entry.key,
-            message: '${entry.value} loose .dart files directly in '
+            message:
+                '${entry.value} loose .dart files directly in '
                 '${entry.key} — group them into feature packages '
                 '(max ${config.maxLooseFiles})',
             measure: entry.value,
@@ -53,11 +54,10 @@ class FolderStructureGate implements Gate {
   List<String> _existingDirs(
     GateContext context,
     FolderStructureGateConfig config,
-  ) =>
-      [
-        for (final dir in config.dirs)
-          if (Directory('${context.projectRoot}/$dir').existsSync()) dir,
-      ];
+  ) => [
+    for (final dir in config.dirs)
+      if (Directory('${context.projectRoot}/$dir').existsSync()) dir,
+  ];
 
   /// Number of non-excluded `.dart` files directly inside [dir].
   int _looseCount(

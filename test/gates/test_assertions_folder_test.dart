@@ -34,8 +34,11 @@ void main() {
     expect(result.passed, isFalse);
     final messages = result.violations.map((v) => v.message).toList();
     expect(messages.where((m) => m.contains('empty test')), hasLength(1));
-    expect(messages.where((m) => m.contains('golden shot')), hasLength(1),
-        reason: 'matchesGoldenFile is not an assertion');
+    expect(
+      messages.where((m) => m.contains('golden shot')),
+      hasLength(1),
+      reason: 'matchesGoldenFile is not an assertion',
+    );
     expect(messages.where((m) => m.contains('good test')), isEmpty);
     expect(messages.where((m) => m.contains('golden verified')), isEmpty);
   });

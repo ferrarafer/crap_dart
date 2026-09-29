@@ -16,8 +16,9 @@ void main() {
 
   Directory memberOf(String workspacePubspec) {
     final workspaceRoot = Directory('${root.path}/ws')..createSync();
-    File('${workspaceRoot.path}/pubspec.yaml')
-        .writeAsStringSync(workspacePubspec);
+    File(
+      '${workspaceRoot.path}/pubspec.yaml',
+    ).writeAsStringSync(workspacePubspec);
     final member = Directory('${workspaceRoot.path}/pkgs/member')
       ..createSync(recursive: true);
     File('${member.path}/pubspec.yaml').writeAsStringSync('''
@@ -47,19 +48,13 @@ dev_dependencies:
 
   test('returns null when the workspace has no overrides', () {
     final member = memberOf('workspace:\n  - pkgs/member\n');
-    expect(
-      WorkspacePubspec(member.path).dependencyOverrides(),
-      isNull,
-    );
+    expect(WorkspacePubspec(member.path).dependencyOverrides(), isNull);
   });
 
   test('returns null without a workspace ancestor', () {
     final member = Directory('${root.path}/plain')..createSync(recursive: true);
     File('${member.path}/pubspec.yaml').writeAsStringSync('name: standalone\n');
-    expect(
-      WorkspacePubspec(member.path).dependencyOverrides(),
-      isNull,
-    );
+    expect(WorkspacePubspec(member.path).dependencyOverrides(), isNull);
   });
 
   test('writeStandalone strips the marker and absolutizes path deps', () async {

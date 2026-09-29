@@ -20,10 +20,7 @@ void main() {
     });
 
     test('countConstructors extracts factory constructors', () {
-      final methods = parseMethods(
-        _factoryWithBody,
-        countConstructors: true,
-      );
+      final methods = parseMethods(_factoryWithBody, countConstructors: true);
       expect(methods, hasLength(1));
       expect(methods.single.info.className, 'Money');
       expect(methods.single.info.methodName, 'parse');

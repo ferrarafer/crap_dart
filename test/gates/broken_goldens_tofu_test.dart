@@ -29,8 +29,12 @@ void main() {
   test('digits with outlines are NOT tofu', () async {
     writeOutlinedDigitGolden(project, 'test/goldens/zero.png');
     final result = await gate.run(makeContext(project, const []));
-    expect(result.passed, isTrue,
-        reason: 'an outlined digit must not be flagged: '
-            '${result.violations}');
+    expect(
+      result.passed,
+      isTrue,
+      reason:
+          'an outlined digit must not be flagged: '
+          '${result.violations}',
+    );
   });
 }

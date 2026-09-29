@@ -52,8 +52,9 @@ gates:
     final project = createTempProject();
     addTearDown(() => project.deleteSync(recursive: true));
     writeFile(project, 'lib/a.dart', "import 'dart:io';\nvoid a() {}\n");
-    final result =
-        await BannedImportsGate().run(makeContext(project, ['lib/a.dart']));
+    final result = await BannedImportsGate().run(
+      makeContext(project, ['lib/a.dart']),
+    );
     expect(result.passed, isTrue);
   });
 
@@ -89,19 +90,18 @@ void _packageUriResolutionTests() {
 
 /// How relative import URIs resolve against the importing file.
 void _relativeImportResolutionTests() {
-  test('relative imports resolve against the importing file directory',
-      () async {
-    final result = await _runOverSingleImport(
-      importLine: 'import \'../data/repo.dart\';',
-      forbid: ['lib/data/**'],
-    );
-    expect(result.passed, isFalse);
-    expect(result.violations, hasLength(1));
-    expect(
-      result.violations.single.message,
-      contains('../data/repo.dart'),
-    );
-  });
+  test(
+    'relative imports resolve against the importing file directory',
+    () async {
+      final result = await _runOverSingleImport(
+        importLine: 'import \'../data/repo.dart\';',
+        forbid: ['lib/data/**'],
+      );
+      expect(result.passed, isFalse);
+      expect(result.violations, hasLength(1));
+      expect(result.violations.single.message, contains('../data/repo.dart'));
+    },
+  );
 }
 
 /// Runs the gate over one `lib/ui/page.dart` importing [importLine],
@@ -123,7 +123,8 @@ void build() {}
     makeContext(
       project,
       ['lib/ui/page.dart'],
-      configYaml: '''
+      configYaml:
+          '''
 gates:
   banned_imports:
     rules:

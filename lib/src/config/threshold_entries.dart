@@ -21,8 +21,10 @@ class LocPathEntry extends PathEntry {
 /// Per-path override of the `complexity` gate threshold.
 class ComplexityPathEntry extends PathEntry {
   /// Creates a [ComplexityPathEntry].
-  const ComplexityPathEntry(
-      {required this.maxComplexity, required super.paths});
+  const ComplexityPathEntry({
+    required this.maxComplexity,
+    required super.paths,
+  });
 
   /// Maximum cyclomatic complexity for the matching paths.
   final int maxComplexity;
@@ -31,8 +33,11 @@ class ComplexityPathEntry extends PathEntry {
 /// Per-path override of the `method_size` gate thresholds.
 class MethodSizePathEntry extends PathEntry {
   /// Creates a [MethodSizePathEntry]; at least one threshold must be set.
-  const MethodSizePathEntry(
-      {this.maxLines, this.maxParams, required super.paths});
+  const MethodSizePathEntry({
+    this.maxLines,
+    this.maxParams,
+    required super.paths,
+  });
 
   /// Maximum lines per method body, or `null` to keep the gate default.
   final int? maxLines;

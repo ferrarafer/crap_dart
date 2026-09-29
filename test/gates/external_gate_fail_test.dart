@@ -16,7 +16,8 @@ void main() {
       makeContext(
         project,
         const [],
-        configYaml: '''
+        configYaml:
+            '''
 gates:
   external:
     rules:

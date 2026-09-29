@@ -13,27 +13,26 @@ MethodMetrics buildMetrics({
   required int complexity,
   double? coverage,
   double? branchCoverage,
-}) =>
-    MethodMetrics(
-      method: MethodInfo(
-        className: 'Foo',
-        methodName: name,
-        startLine: 12,
-        endLine: 20,
-        filePath: 'lib/foo.dart',
-      ),
-      complexity: complexity,
-      coverage: coverage,
-      branchCoverage: branchCoverage,
-      crap: coverage == null
-          ? null
-          : complexity *
-                  complexity *
-                  (1 - coverage) *
-                  (1 - coverage) *
-                  (1 - coverage) +
-              complexity,
-    );
+}) => MethodMetrics(
+  method: MethodInfo(
+    className: 'Foo',
+    methodName: name,
+    startLine: 12,
+    endLine: 20,
+    filePath: 'lib/foo.dart',
+  ),
+  complexity: complexity,
+  coverage: coverage,
+  branchCoverage: branchCoverage,
+  crap: coverage == null
+      ? null
+      : complexity *
+                complexity *
+                (1 - coverage) *
+                (1 - coverage) *
+                (1 - coverage) +
+            complexity,
+);
 
 void main() {
   const reporter = JsonReporter();
@@ -50,18 +49,20 @@ void main() {
           branchCoverage: 0.75,
         ),
       ]);
-      final json = jsonDecode(reporter.renderAnalyze(report, threshold: 8.0))
-          as Map<String, dynamic>;
+      final json =
+          jsonDecode(reporter.renderAnalyze(report, threshold: 8.0))
+              as Map<String, dynamic>;
       expect(json['command'], 'analyze');
       expect(json['threshold'], 8.0);
       expect(json['passed'], isTrue);
       // risky: 9 * 0.125 + 3 = 4.125; covered: 2.0; N/A last.
       expect(json['maxCrap'], closeTo(4.125, 1e-9));
       final methods = json['methods'] as List<dynamic>;
-      expect(
-        methods.map((m) => m['method']),
-        ['risky', 'covered', 'noCoverage'],
-      );
+      expect(methods.map((m) => m['method']), [
+        'risky',
+        'covered',
+        'noCoverage',
+      ]);
       final risky = methods[0] as Map<String, dynamic>;
       expect(risky['file'], 'lib/foo.dart');
       expect(risky['line'], 12);
@@ -80,8 +81,9 @@ void main() {
       final report = CrapReport([
         buildMetrics(name: 'risky', complexity: 3, coverage: 0.0),
       ]);
-      final json = jsonDecode(reporter.renderAnalyze(report, threshold: 8.0))
-          as Map<String, dynamic>;
+      final json =
+          jsonDecode(reporter.renderAnalyze(report, threshold: 8.0))
+              as Map<String, dynamic>;
       expect(json['passed'], isFalse);
       expect(json['maxCrap'], 12.0);
     });

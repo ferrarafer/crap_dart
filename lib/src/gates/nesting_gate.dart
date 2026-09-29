@@ -26,22 +26,19 @@ class NestingGate implements Gate {
     var checked = 0;
     for (final file in context.files) {
       final parsed = context.parsed(file);
-      for (final method
-          in extractor.extractWithNodes(parsed.unit, parsed.lineInfo)) {
+      for (final method in extractor.extractWithNodes(
+        parsed.unit,
+        parsed.lineInfo,
+      )) {
         checked++;
-        final violation = _violation(
-          context,
-          file,
-          method,
-          config.maxNesting,
-        );
+        final violation = _violation(context, file, method, config.maxNesting);
         if (violation != null) violations.add(violation);
       }
     }
     final summary = violations.isEmpty
         ? '$checked methods within nesting ${config.maxNesting}'
         : '${violations.length}/$checked methods nested deeper than '
-            '${config.maxNesting}';
+              '${config.maxNesting}';
     return violations.isEmpty
         ? GateResult.pass(id, summary: summary)
         : GateResult.fail(id, violations, summary: summary);
@@ -61,7 +58,8 @@ class NestingGate implements Gate {
     return GateViolation(
       file: context.relativePath(file),
       line: info.startLine,
-      message: '${info.className}.${info.methodName} '
+      message:
+          '${info.className}.${info.methodName} '
           'nesting=${visitor.maxDepth} > max $maxNesting',
       measure: visitor.maxDepth,
     );

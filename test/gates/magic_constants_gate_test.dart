@@ -28,8 +28,10 @@ Widget build() {
 ''');
     final result = await gate.run(makeContext(project, ['lib/colors.dart']));
     expect(result.passed, isFalse);
-    expect(result.violations.single.message,
-        contains('hex color outside a constant'));
+    expect(
+      result.violations.single.message,
+      contains('hex color outside a constant'),
+    );
     expect(result.violations.single.line, 4);
   });
 
@@ -53,9 +55,7 @@ void d() => print('other message');
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(3));
     expect(
-      result.violations.every(
-        (v) => v.message.contains('repeats 3 times'),
-      ),
+      result.violations.every((v) => v.message.contains('repeats 3 times')),
       isTrue,
     );
   });

@@ -18,8 +18,9 @@ void main() {
   test('fails duplicated blocks across different files', () async {
     writeSingleMethod(project, 'lib/a.dart', 'processA');
     writeSingleMethod(project, 'lib/b.dart', 'processB');
-    final result =
-        await gate.run(makeContext(project, ['lib/a.dart', 'lib/b.dart']));
+    final result = await gate.run(
+      makeContext(project, ['lib/a.dart', 'lib/b.dart']),
+    );
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(2));
     final files = result.violations.map((v) => v.file).toSet();

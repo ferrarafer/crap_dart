@@ -8,6 +8,7 @@ import 'config.dart';
 part 'config_scalars.dart';
 part 'gate_config_readers.dart';
 part 'gate_config_readers_extra.dart';
+part 'gate_config_readers_flutter.dart';
 
 /// Top-level and section keys of `crap4dart.yaml`.
 const String _crapKey = 'crap';
@@ -106,7 +107,7 @@ class ConfigLoader {
         _gatesKey,
         _profileKey,
         _sourcesKey,
-        'exclude'
+        'exclude',
       },
       path,
       '',
@@ -165,15 +166,40 @@ class ConfigLoader {
     );
     return CrapConfig(
       enabled: _ConfigScalars.readBool(
-          map, _enabledKey, base.enabled, path, _crapKey),
+        map,
+        _enabledKey,
+        base.enabled,
+        path,
+        _crapKey,
+      ),
       threshold: _ConfigScalars.readNum(
-          map, 'threshold', base.threshold, path, _crapKey),
+        map,
+        'threshold',
+        base.threshold,
+        path,
+        _crapKey,
+      ),
       runTests: _ConfigScalars.readBool(
-          map, _runTestsKey, base.runTests, path, _crapKey),
+        map,
+        _runTestsKey,
+        base.runTests,
+        path,
+        _crapKey,
+      ),
       countLambdas: _ConfigScalars.readBool(
-          map, 'count_lambdas', base.countLambdas, path, _crapKey),
+        map,
+        'count_lambdas',
+        base.countLambdas,
+        path,
+        _crapKey,
+      ),
       countConstructors: _ConfigScalars.readBool(
-          map, 'count_constructors', base.countConstructors, path, _crapKey),
+        map,
+        'count_constructors',
+        base.countConstructors,
+        path,
+        _crapKey,
+      ),
     );
   }
 
@@ -194,15 +220,40 @@ class ConfigLoader {
     );
     return CoverageConfig(
       lcovPath: _ConfigScalars.str(
-          map, 'lcov_path', base.lcovPath, path, _coverageKey),
+        map,
+        'lcov_path',
+        base.lcovPath,
+        path,
+        _coverageKey,
+      ),
       runTests: _ConfigScalars.readBool(
-          map, _runTestsKey, base.runTests, path, _coverageKey),
+        map,
+        _runTestsKey,
+        base.runTests,
+        path,
+        _coverageKey,
+      ),
       required: _ConfigScalars.readBool(
-          map, 'required', base.required, path, _coverageKey),
+        map,
+        'required',
+        base.required,
+        path,
+        _coverageKey,
+      ),
       branchCoverage: _ConfigScalars.readBool(
-          map, 'branch_coverage', base.branchCoverage, path, _coverageKey),
-      unloadedAsUncovered: _ConfigScalars.readBool(map, 'unloaded_as_uncovered',
-          base.unloadedAsUncovered, path, _coverageKey),
+        map,
+        'branch_coverage',
+        base.branchCoverage,
+        path,
+        _coverageKey,
+      ),
+      unloadedAsUncovered: _ConfigScalars.readBool(
+        map,
+        'unloaded_as_uncovered',
+        base.unloadedAsUncovered,
+        path,
+        _coverageKey,
+      ),
     );
   }
 
@@ -229,12 +280,22 @@ class ConfigLoader {
     final topRaw = map['top'];
     return ProfileConfig(
       enabled: _ConfigScalars.readBool(
-          map, _enabledKey, base.enabled, path, _profileKey),
+        map,
+        _enabledKey,
+        base.enabled,
+        path,
+        _profileKey,
+      ),
       thresholdMs: thresholdMs,
       top: topRaw == null
           ? null
           : _ConfigScalars.readInt(
-              map, 'top', base.top ?? 20, path, _profileKey),
+              map,
+              'top',
+              base.top ?? 20,
+              path,
+              _profileKey,
+            ),
     );
   }
 
@@ -246,62 +307,6 @@ class ConfigLoader {
         throw ConfigException(path, 'gates.$key', 'unknown gate id');
       }
     }
-    return GatesConfig(
-      loc: _GateConfigReaders.readLoc(map['loc'], base.loc, path),
-      testCoverage: _GateConfigReaders.readTestCoverage(
-        map['test_coverage'],
-        base.testCoverage,
-        path,
-      ),
-      complexity: _GateConfigReaders.readComplexity(
-          map['complexity'], base.complexity, path),
-      methodSize: _GateConfigReaders.readMethodSize(
-          map['method_size'], base.methodSize, path),
-      nesting:
-          _GateConfigReaders.readNesting(map['nesting'], base.nesting, path),
-      classSize: _GateConfigReaders.readClassSize(
-          map['class_size'], base.classSize, path),
-      weightOfClass: _GateConfigReaders.readWeightOfClass(
-        map['weight_of_class'],
-        base.weightOfClass,
-        path,
-      ),
-      unusedCode: _GateConfigReaders.readUnusedCode(
-          map['unused_code'], base.unusedCode, path),
-      unusedFiles: _GateConfigReaders.readUnusedFiles(
-          map['unused_files'], base.unusedFiles, path),
-      bannedImports: _GateConfigReaders.readBannedImports(
-        map['banned_imports'],
-        base.bannedImports,
-        path,
-      ),
-      publicDocs: _GateConfigReaders.readPublicDocs(
-          map['public_docs'], base.publicDocs, path),
-      duplication: _GateConfigReaders.readDuplication(
-          map['duplication'], base.duplication, path),
-      fileNaming: _GateConfigReaders.readFileNaming(
-          map['file_naming'], base.fileNaming, path),
-      magicConstants: _GateConfigReaders.readMagicConstants(
-          map['magic_constants'], base.magicConstants, path),
-      brokenGoldens: _ExtendedGateConfigReaders.readBrokenGoldens(
-          map['broken_goldens'], base.brokenGoldens, path),
-      testAssertions: _ExtendedGateConfigReaders.readTestAssertions(
-          map['test_assertions'], base.testAssertions, path),
-      folderStructure: _ExtendedGateConfigReaders.readFolderStructure(
-          map['folder_structure'], base.folderStructure, path),
-      external: _ExtendedGateConfigReaders.readExternal(
-          map['external'], base.external, path),
-      flutter: FlutterGatesConfig(
-        golden: _GateConfigReaders.readGolden(
-            map['golden'], base.flutter.golden, path),
-        hardcodedStrings: _GateConfigReaders.readHardcodedStrings(
-          map['hardcoded_strings'],
-          base.flutter.hardcodedStrings,
-          path,
-        ),
-        accessibility: _GateConfigReaders.readAccessibility(
-            map['accessibility'], base.flutter.accessibility, path),
-      ),
-    );
+    return _GateConfigReaders.readGates(map, base, path);
   }
 }

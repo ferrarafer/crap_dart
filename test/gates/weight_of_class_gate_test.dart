@@ -26,11 +26,10 @@ class Service {
 }
 ''');
     final result = await WeightOfClassGate().run(
-      makeContext(
-        project,
-        ['lib/dto.dart', 'lib/service.dart'],
-        configYaml: 'gates:\n  weight_of_class:\n    enabled: true\n',
-      ),
+      makeContext(project, [
+        'lib/dto.dart',
+        'lib/service.dart',
+      ], configYaml: 'gates:\n  weight_of_class:\n    enabled: true\n'),
     );
     expect(result.passed, isFalse);
     expect(result.violations.single.file, 'lib/dto.dart');

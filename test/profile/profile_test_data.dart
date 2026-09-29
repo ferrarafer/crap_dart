@@ -61,22 +61,21 @@ MethodTiming timing(
   int totalSelfMicros = 0,
   int minMicros = 0,
   int maxMicros = 0,
-}) =>
-    MethodTiming(
-      className: 'Foo',
-      methodName: name,
-      calls: calls,
-      totalMicros: totalMicros,
-      totalSelfMicros: totalSelfMicros,
-      minMicros: minMicros,
-      maxMicros: maxMicros,
-    );
+}) => MethodTiming(
+  className: 'Foo',
+  methodName: name,
+  calls: calls,
+  totalMicros: totalMicros,
+  totalSelfMicros: totalSelfMicros,
+  minMicros: minMicros,
+  maxMicros: maxMicros,
+);
 
 /// Builds a report rendering [timings] against the first [timings.length]
 /// entries of [testMethods].
 ProfileReport reportFor(List<MethodTiming> timings) => ProfileReport(
-      profiles: [
-        for (var i = 0; i < timings.length; i++)
-          MethodProfile(method: testMethods[i], timing: timings[i]),
-      ],
-    );
+  profiles: [
+    for (var i = 0; i < timings.length; i++)
+      MethodProfile(method: testMethods[i], timing: timings[i]),
+  ],
+);

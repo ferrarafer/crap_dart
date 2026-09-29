@@ -7,12 +7,12 @@ void main() {
   const calculator = MethodCoverageCalculator();
 
   MethodInfo method(int start, int end) => MethodInfo(
-        className: 'A',
-        methodName: 'm',
-        startLine: start,
-        endLine: end,
-        filePath: 'lib/a.dart',
-      );
+    className: 'A',
+    methodName: 'm',
+    startLine: start,
+    endLine: end,
+    filePath: 'lib/a.dart',
+  );
 
   FileCoverage file({
     Map<int, int>? hits,
@@ -48,12 +48,14 @@ void main() {
 
   group('branchCoverage', () {
     test('computes taken/total within the method range', () {
-      final coverage = file(branches: const [
-        BranchHit(line: 2, block: 0, branch: 0, taken: 3),
-        BranchHit(line: 2, block: 0, branch: 1, taken: 0),
-        BranchHit(line: 3, block: 1, branch: 0, taken: null),
-        BranchHit(line: 9, block: 2, branch: 0, taken: 1),
-      ]);
+      final coverage = file(
+        branches: const [
+          BranchHit(line: 2, block: 0, branch: 0, taken: 3),
+          BranchHit(line: 2, block: 0, branch: 1, taken: 0),
+          BranchHit(line: 3, block: 1, branch: 0, taken: null),
+          BranchHit(line: 9, block: 2, branch: 0, taken: 1),
+        ],
+      );
       expect(calculator.branchCoverage(method(2, 4), coverage), 1 / 3);
     });
 

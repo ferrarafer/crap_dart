@@ -13,19 +13,21 @@ void main() {
   });
 
   test('skill --format install prints installation instructions', () async {
-    final result = await runCliInProcess(
-      Directory.current,
-      const ['skill', '--format', 'install'],
-    );
+    final result = await runCliInProcess(Directory.current, const [
+      'skill',
+      '--format',
+      'install',
+    ]);
     expect(result.exitCode, ExitCodes.success);
     expect(result.stdout, contains('Installing the crap4dart profiling skill'));
   });
 
   test('skill rejects an unknown format', () async {
-    final result = await runCliInProcess(
-      Directory.current,
-      const ['skill', '--format', 'yaml'],
-    );
+    final result = await runCliInProcess(Directory.current, const [
+      'skill',
+      '--format',
+      'yaml',
+    ]);
     expect(result.exitCode, ExitCodes.usageError);
   });
 }

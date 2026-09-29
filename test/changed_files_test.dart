@@ -65,9 +65,6 @@ void main() {
   });
 
   test('throws outside a git repository', () {
-    expect(
-      () => finder.find(repo.path),
-      throwsA(isA<ProcessException>()),
-    );
+    expect(() => finder.find(repo.path), throwsA(isA<ProcessException>()));
   });
 }

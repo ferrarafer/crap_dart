@@ -104,7 +104,8 @@ class _DeclarationVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitFieldDeclaration(FieldDeclaration node) {
-    final inPrivateContainer = node
+    final inPrivateContainer =
+        node
             .thisOrAncestorOfType<ClassDeclaration>()
             ?.namePart
             .typeName

@@ -28,10 +28,12 @@ void main() {
       expect(config.gates.testCoverage.minPercent, 80.0);
       expect(config.gates.complexity.maxComplexity, 10);
       expect(config.gates.methodSize.maxParams, 6);
-      expect(
-        config.gates.accessibility.requireLabelFor,
-        ['IconButton', 'Image', 'GestureDetector', 'InkWell'],
-      );
+      expect(config.gates.accessibility.requireLabelFor, [
+        'IconButton',
+        'Image',
+        'GestureDetector',
+        'InkWell',
+      ]);
     });
 
     test('merges a partial config with defaults', () {
@@ -54,8 +56,9 @@ gates:
 
     test('coverage.unloaded_as_uncovered defaults to true and parses', () {
       expect(loader.loadString('').coverage.unloadedAsUncovered, isTrue);
-      final off =
-          loader.loadString('coverage:\n  unloaded_as_uncovered: false\n');
+      final off = loader.loadString(
+        'coverage:\n  unloaded_as_uncovered: false\n',
+      );
       expect(off.coverage.unloadedAsUncovered, isFalse);
     });
 

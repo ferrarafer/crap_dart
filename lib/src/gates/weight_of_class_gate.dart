@@ -20,21 +20,20 @@ class WeightOfClassGate implements Gate {
   @override
   Future<GateResult> run(GateContext context) async {
     final config = context.config.gates.weightOfClass;
-    final (checked, violations) = visitGateFiles(
-      context,
-      config.exclude,
-      (relative, parsed) {
-        final visitor = _WeightVisitor(relative, parsed);
-        parsed.unit.accept(visitor);
-        return (
-          visitor.checked,
-          visitor.weighted
-              .where((c) => c.weight > config.maxWeight)
-              .map((c) => c.violation)
-              .toList(),
-        );
-      },
-    );
+    final (checked, violations) = visitGateFiles(context, config.exclude, (
+      relative,
+      parsed,
+    ) {
+      final visitor = _WeightVisitor(relative, parsed);
+      parsed.unit.accept(visitor);
+      return (
+        visitor.checked,
+        visitor.weighted
+            .where((c) => c.weight > config.maxWeight)
+            .map((c) => c.violation)
+            .toList(),
+      );
+    });
     final max = _format(config.maxWeight);
     final summary = violations.isEmpty
         ? '$checked classes within weight $max'

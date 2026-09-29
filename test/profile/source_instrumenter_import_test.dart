@@ -17,8 +17,10 @@ class Foo {
       final result = instrumenter.instrument(source);
 
       // The import must come AFTER the library directive.
-      expect(result.indexOf('library;'),
-          lessThan(result.indexOf('__crap_collector')));
+      expect(
+        result.indexOf('library;'),
+        lessThan(result.indexOf('__crap_collector')),
+      );
     });
 
     test('inserts import after named library directive', () {

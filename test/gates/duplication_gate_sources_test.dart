@@ -15,27 +15,29 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
-  test('per-gate sources pull in files outside the analyzed source set',
-      () async {
-    // Cross-module setup: `extra/` is NOT part of the analyzed source set
-    // (only lib/a.dart is), but the gate's sources add it to the scan.
-    writeSingleMethod(project, 'lib/a.dart', 'processA');
-    writeSingleMethod(project, 'extra/b.dart', 'processB');
-    final result = await gate.run(
-      makeContext(
-        project,
-        ['lib/a.dart'],
-        configYaml: '''
+  test(
+    'per-gate sources pull in files outside the analyzed source set',
+    () async {
+      // Cross-module setup: `extra/` is NOT part of the analyzed source set
+      // (only lib/a.dart is), but the gate's sources add it to the scan.
+      writeSingleMethod(project, 'lib/a.dart', 'processA');
+      writeSingleMethod(project, 'extra/b.dart', 'processB');
+      final result = await gate.run(
+        makeContext(
+          project,
+          ['lib/a.dart'],
+          configYaml: '''
 gates:
   duplication:
     enabled: true
     sources: [extra]
 ''',
-      ),
-    );
-    expect(result.passed, isFalse);
-    expect(result.violations.map((v) => v.file), contains('extra/b.dart'));
-  });
+        ),
+      );
+      expect(result.passed, isFalse);
+      expect(result.violations.map((v) => v.file), contains('extra/b.dart'));
+    },
+  );
 
   test('without per-gate sources the extra module stays unseen', () async {
     writeSingleMethod(project, 'lib/a.dart', 'processA');

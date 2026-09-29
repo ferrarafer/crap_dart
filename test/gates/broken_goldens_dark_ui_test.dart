@@ -35,9 +35,13 @@ void main() {
       return _tuiBlack;
     });
     final result = await gate.run(makeContext(project, const []));
-    expect(result.passed, isTrue,
-        reason: 'sparse yellow-on-black text must not be flagged: '
-            '${result.violations}');
+    expect(
+      result.passed,
+      isTrue,
+      reason:
+          'sparse yellow-on-black text must not be flagged: '
+          '${result.violations}',
+    );
   });
 
   test('a dense diagonal stripe band IS overflow', () async {

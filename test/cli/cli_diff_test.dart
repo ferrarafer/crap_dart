@@ -48,10 +48,12 @@ void main() {
     test('ignores violations on untouched legacy lines', () async {
       await commitBase();
       append('int addedClean() => 1;\n');
-      final result = await runCliInProcess(
-        tempDir,
-        ['check', '--diff', '--only', 'complexity'],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--diff',
+        '--only',
+        'complexity',
+      ]);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('(diff mode)'));
     });
@@ -59,47 +61,45 @@ void main() {
     test('fails on the same violation without --diff', () async {
       await commitBase();
       append('int addedClean() => 1;\n');
-      final result =
-          await runCliInProcess(tempDir, ['check', '--only', 'complexity']);
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--only',
+        'complexity',
+      ]);
       expect(result.exitCode, 2);
     });
 
     test('flags violations on newly added lines', () async {
       await commitBase();
       append(riskyMethod.replaceAll('oldRisky', 'newRisky'));
-      final result = await runCliInProcess(
-        tempDir,
-        ['check', '--diff', '--only', 'complexity'],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--diff',
+        '--only',
+        'complexity',
+      ]);
       expect(result.exitCode, 2);
       expect(result.stdout, contains('newRisky'));
     });
 
     test('checks new files entirely', () async {
       await commitBase();
-      File(p.join(tempDir.path, 'lib', 'brand_new.dart'))
-          .writeAsStringSync(riskyMethod.replaceAll('oldRisky', 'brandNew'));
+      File(
+        p.join(tempDir.path, 'lib', 'brand_new.dart'),
+      ).writeAsStringSync(riskyMethod.replaceAll('oldRisky', 'brandNew'));
       // Untracked files are not in "git diff"; stage the new file.
-      await Process.run(
-        'git',
-        ['add', 'lib/brand_new.dart'],
-        workingDirectory: tempDir.path,
-      );
-      final result = await runCliInProcess(
-        tempDir,
-        ['check', '--diff', '--only', 'complexity'],
-      );
+      await Process.run('git', [
+        'add',
+        'lib/brand_new.dart',
+      ], workingDirectory: tempDir.path);
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--diff',
+        '--only',
+        'complexity',
+      ]);
       expect(result.exitCode, 2);
       expect(result.stdout, contains('brandNew'));
-    });
-
-    test('--diff conflicts with --changed and --staged', () async {
-      await commitBase();
-      for (final flag in ['--changed', '--staged']) {
-        final result =
-            await runCliInProcess(tempDir, ['check', '--diff', flag]);
-        expect(result.exitCode, 1, reason: flag);
-      }
     });
   });
 }

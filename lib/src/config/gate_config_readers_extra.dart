@@ -22,7 +22,7 @@ class _ExtendedGateConfigReaders {
         _ignorableKey,
         _dirsKey,
         'min_stripe_run',
-        _excludeKey
+        _excludeKey,
       },
       (map, base, path, ctx) {
         final flags = _ConfigScalars.gateFlags(map, base, path, ctx);
@@ -32,9 +32,19 @@ class _ExtendedGateConfigReaders {
           ignorable: flags.ignorable,
           dirs: _ConfigScalars.strList(map, _dirsKey, base.dirs, path, ctx),
           minStripeRun: _ConfigScalars.readInt(
-              map, 'min_stripe_run', base.minStripeRun, path, ctx),
-          exclude:
-              _ConfigScalars.strList(map, _excludeKey, base.exclude, path, ctx),
+            map,
+            'min_stripe_run',
+            base.minStripeRun,
+            path,
+            ctx,
+          ),
+          exclude: _ConfigScalars.strList(
+            map,
+            _excludeKey,
+            base.exclude,
+            path,
+            ctx,
+          ),
         );
       },
     );
@@ -55,7 +65,7 @@ class _ExtendedGateConfigReaders {
         _severityKey,
         _ignorableKey,
         'min_assertions',
-        _excludeKey
+        _excludeKey,
       },
       (map, base, path, ctx) {
         final flags = _ConfigScalars.gateFlags(map, base, path, ctx);
@@ -64,9 +74,19 @@ class _ExtendedGateConfigReaders {
           severity: flags.severity,
           ignorable: flags.ignorable,
           minAssertions: _ConfigScalars.readInt(
-              map, 'min_assertions', base.minAssertions, path, ctx),
-          exclude:
-              _ConfigScalars.strList(map, _excludeKey, base.exclude, path, ctx),
+            map,
+            'min_assertions',
+            base.minAssertions,
+            path,
+            ctx,
+          ),
+          exclude: _ConfigScalars.strList(
+            map,
+            _excludeKey,
+            base.exclude,
+            path,
+            ctx,
+          ),
         );
       },
     );
@@ -88,7 +108,7 @@ class _ExtendedGateConfigReaders {
         _ignorableKey,
         _dirsKey,
         'max_loose_files',
-        _excludeKey
+        _excludeKey,
       },
       (map, base, path, ctx) {
         final flags = _ConfigScalars.gateFlags(map, base, path, ctx);
@@ -98,9 +118,19 @@ class _ExtendedGateConfigReaders {
           ignorable: flags.ignorable,
           dirs: _ConfigScalars.strList(map, _dirsKey, base.dirs, path, ctx),
           maxLooseFiles: _ConfigScalars.readInt(
-              map, 'max_loose_files', base.maxLooseFiles, path, ctx),
-          exclude:
-              _ConfigScalars.strList(map, _excludeKey, base.exclude, path, ctx),
+            map,
+            'max_loose_files',
+            base.maxLooseFiles,
+            path,
+            ctx,
+          ),
+          exclude: _ConfigScalars.strList(
+            map,
+            _excludeKey,
+            base.exclude,
+            path,
+            ctx,
+          ),
         );
       },
     );
@@ -137,9 +167,7 @@ class _ExtendedGateConfigReaders {
         'expected a list of rules',
       );
     }
-    return [
-      for (final n in node.nodes) _readExternalRule(n, path),
-    ];
+    return [for (final n in node.nodes) _readExternalRule(n, path)];
   }
 
   /// Parses one `gates.external.rules` entry.
@@ -149,11 +177,20 @@ class _ExtendedGateConfigReaders {
       throw ConfigException(path, ctx, 'expected rule maps');
     }
     _ConfigScalars.checkKeys(
-        n, const {'id', 'executable', 'arguments', 'report'}, path, ctx);
+      n,
+      const {'id', 'executable', 'arguments', 'report'},
+      path,
+      ctx,
+    );
     final id = _requiredString(n, 'id', ctx, path);
     final executable = _requiredString(n, 'executable', ctx, path);
-    final arguments =
-        _ConfigScalars.strList(n, 'arguments', const [], path, ctx);
+    final arguments = _ConfigScalars.strList(
+      n,
+      'arguments',
+      const [],
+      path,
+      ctx,
+    );
     final report = n['report'];
     if (report != null && report is! String) {
       throw ConfigException(path, '$ctx.report', 'expected a string');

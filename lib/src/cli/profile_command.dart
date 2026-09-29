@@ -21,8 +21,10 @@ const String _thresholdFlag = 'threshold';
 /// code and reports per-method timing data.
 class ProfileCommand extends Command<int> with CommandHelpers {
   /// Creates a [ProfileCommand].
-  ProfileCommand(
-      {this.projectRoot, this.profileRunner = const ProfileRunner()}) {
+  ProfileCommand({
+    this.projectRoot,
+    this.profileRunner = const ProfileRunner(),
+  }) {
     argParser
       ..addFlag(
         'changed',
@@ -38,10 +40,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
         _thresholdFlag,
         help: 'Warn on methods above this total time in milliseconds.',
       )
-      ..addOption(
-        'top',
-        help: 'Show only the top N methods (default: all).',
-      )
+      ..addOption('top', help: 'Show only the top N methods (default: all).')
       ..addOption(
         'name',
         help: 'Run only tests matching this name (substring or regex).',
@@ -54,10 +53,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
         'exclude-tags',
         help: 'Exclude tests with these tags (comma-separated).',
       )
-      ..addOption(
-        'config',
-        help: 'Path to a crap4dart.yaml config file.',
-      )
+      ..addOption('config', help: 'Path to a crap4dart.yaml config file.')
       ..addOption(
         'format',
         allowed: ['console', 'json'],
@@ -89,7 +85,8 @@ class ProfileCommand extends Command<int> with CommandHelpers {
   final description = 'Run instrumented tests and report per-method timing.';
 
   @override
-  String get invocation => 'crap4dart profile [options] [test_paths...]\n'
+  String get invocation =>
+      'crap4dart profile [options] [test_paths...]\n'
       '\n'
       'Examples:\n'
       '  crap4dart profile                          # all tests\n'
@@ -134,17 +131,17 @@ class ProfileCommand extends Command<int> with CommandHelpers {
     // test path must not shrink the attribution index (timings come
     // from all instrumented lib/ methods, test files declare none of
     // them).
-    final sourceFiles =
-        const SourceFinder().findDefaultSources(root, roots: config.sources);
-    final methods = _extractMethods(
-      const SourceFinder().filterByGlobs(
-        root,
-        sourceFiles,
-        config.exclude,
-      ),
+    final sourceFiles = const SourceFinder().findDefaultSources(
+      root,
+      roots: config.sources,
     );
-    final profiles =
-        const ProfileAttributor().attribute(result.timings, methods);
+    final methods = _extractMethods(
+      const SourceFinder().filterByGlobs(root, sourceFiles, config.exclude),
+    );
+    final profiles = const ProfileAttributor().attribute(
+      result.timings,
+      methods,
+    );
     final filtered = _filterByDiff(profiles, prepared.diffMap);
 
     final report = ProfileReport(profiles: filtered);
@@ -155,8 +152,9 @@ class ProfileCommand extends Command<int> with CommandHelpers {
     _printReport(report, thresholdMs, top, prepared.diffBase);
 
     if (thresholdMs != null) {
-      final exceeding =
-          filtered.where((p) => p.timing.totalMillis > thresholdMs);
+      final exceeding = filtered.where(
+        (p) => p.timing.totalMillis > thresholdMs,
+      );
       if (exceeding.isNotEmpty) {
         return ExitCodes.thresholdExceeded;
       }
@@ -217,10 +215,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
         ),
       );
       File(jsonPath).writeAsStringSync(
-        const JsonReporter().renderProfile(
-          report,
-          thresholdMs: thresholdMs,
-        ),
+        const JsonReporter().renderProfile(report, thresholdMs: thresholdMs),
       );
       stderr.writeln('Full report saved to $dir/');
     } on FileSystemException catch (e) {
@@ -258,10 +253,7 @@ class ProfileCommand extends Command<int> with CommandHelpers {
       final raw = argResults![_thresholdFlag] as String;
       final value = double.tryParse(raw);
       if (value == null) {
-        throw UsageException(
-          'Invalid --threshold value: "$raw"',
-          invocation,
-        );
+        throw UsageException('Invalid --threshold value: "$raw"', invocation);
       }
       return value;
     }

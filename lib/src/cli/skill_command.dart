@@ -98,22 +98,33 @@ cat ~/.agents/skills/crap4dart-profiling/SKILL.md
   File? _findSkillFile() {
     // Check several locations: source tree, installed package, compiled.
     final candidates = <String>[
-      p.join(Directory.current.path, '.agents', _skillsDirName, _skillDirName,
-          _skillFileName),
-      p.join(Directory.current.path, _skillsDirName, _skillDirName,
-          _skillFileName),
+      p.join(
+        Directory.current.path,
+        '.agents',
+        _skillsDirName,
+        _skillDirName,
+        _skillFileName,
+      ),
+      p.join(
+        Directory.current.path,
+        _skillsDirName,
+        _skillDirName,
+        _skillFileName,
+      ),
     ];
 
     // Also look relative to the crap4dart package itself.
     final scriptPath = Platform.script.toFilePath();
     if (scriptPath.isNotEmpty) {
-      candidates.add(p.join(
-        p.dirname(p.dirname(p.dirname(scriptPath))),
-        '.agents',
-        _skillsDirName,
-        _skillDirName,
-        _skillFileName,
-      ));
+      candidates.add(
+        p.join(
+          p.dirname(p.dirname(p.dirname(scriptPath))),
+          '.agents',
+          _skillsDirName,
+          _skillDirName,
+          _skillFileName,
+        ),
+      );
     }
 
     for (final path in candidates) {

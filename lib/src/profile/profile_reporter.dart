@@ -5,10 +5,7 @@ import 'profile_runner.dart';
 /// Per-method profile data combining [MethodInfo] with timing data.
 class MethodProfile {
   /// Creates a [MethodProfile].
-  const MethodProfile({
-    required this.method,
-    required this.timing,
-  });
+  const MethodProfile({required this.method, required this.timing});
 
   /// The analyzed method.
   final MethodInfo method;
@@ -56,14 +53,11 @@ class ProfileReport {
 
   /// Renders the report table, optionally limited to [top] entries and
   /// flagged against [thresholdMs].
-  String render({
-    int? top,
-    double? thresholdMs,
-    String? header,
-  }) {
+  String render({int? top, double? thresholdMs, String? header}) {
     final allSorted = sorted;
-    final shown =
-        top != null && top > 0 ? allSorted.take(top).toList() : allSorted;
+    final shown = top != null && top > 0
+        ? allSorted.take(top).toList()
+        : allSorted;
     final rows = shown.map(_rowFor).toList();
 
     final buffer = StringBuffer();
@@ -96,8 +90,9 @@ class ProfileReport {
   }
 
   List<String> _rowFor(MethodProfile p) {
-    final pct =
-        totalMicros > 0 ? p.timing.totalMicros / totalMicros * 100.0 : 0.0;
+    final pct = totalMicros > 0
+        ? p.timing.totalMicros / totalMicros * 100.0
+        : 0.0;
     // Estimate cost at 60fps: if a widget rebuilds every frame, calls ~60/sec.
     // This shows the "hidden" cost of frequently-rebuilt widgets.
     final fps60ms = p.timing.meanMicros * 60.0 / 1000.0;

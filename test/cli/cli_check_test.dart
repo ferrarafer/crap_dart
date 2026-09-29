@@ -55,8 +55,11 @@ gates:
 
     test('unknown gate id in --only exits 1', () async {
       writeCleanProject(tempDir);
-      final result =
-          await runCliInProcess(tempDir, ['check', '--only', 'bogus']);
+      final result = await runCliInProcess(tempDir, [
+        'check',
+        '--only',
+        'bogus',
+      ]);
       expect(result.exitCode, 1);
     });
   });

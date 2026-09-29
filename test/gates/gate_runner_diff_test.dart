@@ -53,9 +53,7 @@ void main() {
     final deletedOnly = await GateRunner().run(
       makeContext(project, ['lib/a.dart'], configYaml: config),
       only: {'loc'},
-      diff: diff({
-        'lib/a.dart': <int>{},
-      }),
+      diff: diff({'lib/a.dart': <int>{}}),
     );
     expect(deletedOnly.passed, isTrue);
     final withChanges = await GateRunner().run(

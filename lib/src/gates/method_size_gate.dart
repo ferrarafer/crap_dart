@@ -29,18 +29,26 @@ class MethodSizeGate implements Gate {
           (
             glob: Glob(path),
             maxLines: entry.maxLines,
-            maxParams: entry.maxParams
+            maxParams: entry.maxParams,
           ),
     ];
     final violations = <GateViolation>[];
     var checked = 0;
     for (final file in context.files) {
       final relative = context.relativePath(file);
-      final limits =
-          _limitsFor(relative, config.maxLines, config.maxParams, globs);
+      final limits = _limitsFor(
+        relative,
+        config.maxLines,
+        config.maxParams,
+        globs,
+      );
       final parsed = context.parsed(file);
-      final visitor =
-          _SizeVisitor(relative, parsed, limits.maxLines, limits.maxParams);
+      final visitor = _SizeVisitor(
+        relative,
+        parsed,
+        limits.maxLines,
+        limits.maxParams,
+      );
       parsed.unit.accept(visitor);
       checked += visitor.checked;
       violations.addAll(visitor.violations);
@@ -48,7 +56,7 @@ class MethodSizeGate implements Gate {
     final summary = violations.isEmpty
         ? '$checked methods within their size limits'
         : '${violations.length} violations in $checked methods over '
-            'their size limits';
+              'their size limits';
     return violations.isEmpty
         ? GateResult.pass(id, summary: summary)
         : GateResult.fail(id, violations, summary: summary);
@@ -60,13 +68,7 @@ class MethodSizeGate implements Gate {
     String relative,
     int defaultLines,
     int defaultParams,
-    List<
-            ({
-              Glob glob,
-              int? maxLines,
-              int? maxParams,
-            })>
-        globs,
+    List<({Glob glob, int? maxLines, int? maxParams})> globs,
   ) {
     for (final entry in globs) {
       if (entry.glob.matches(relative)) {
@@ -110,7 +112,8 @@ class _SizeVisitor extends RecursiveAstVisitor<void> {
   void visitConstructorDeclaration(ConstructorDeclaration node) {
     // Constructors are checked only for parameter count.
     checked++;
-    final name = node.name?.lexeme ??
+    final name =
+        node.name?.lexeme ??
         node
             .thisOrAncestorOfType<ClassDeclaration>()
             ?.namePart

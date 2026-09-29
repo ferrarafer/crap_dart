@@ -6,11 +6,12 @@ import '../files/flutter_project.dart';
 
 /// Signature of a process spawn — matches the relevant part of
 /// [Process.run] so tests can inject a fake.
-typedef ProcessSpawner = Future<ProcessResult> Function(
-  String executable,
-  List<String> arguments, {
-  String? workingDirectory,
-});
+typedef ProcessSpawner =
+    Future<ProcessResult> Function(
+      String executable,
+      List<String> arguments, {
+      String? workingDirectory,
+    });
 
 /// Runs the project's test suite to produce an LCOV coverage file.
 ///
@@ -75,23 +76,19 @@ class CoverageRunner {
 
   Future<void> _formatCoverage(String projectRoot) async {
     stderr.writeln('Formatting coverage with "coverage:format_coverage"...');
-    final result = await _spawn(
-      'dart',
-      const [
-        'pub',
-        'global',
-        'run',
-        'coverage:format_coverage',
-        '--lcov',
-        '--in',
-        'coverage',
-        '--out',
-        'coverage/lcov.info',
-        '--report-on',
-        'lib',
-      ],
-      workingDirectory: projectRoot,
-    );
+    final result = await _spawn('dart', const [
+      'pub',
+      'global',
+      'run',
+      'coverage:format_coverage',
+      '--lcov',
+      '--in',
+      'coverage',
+      '--out',
+      'coverage/lcov.info',
+      '--report-on',
+      'lib',
+    ], workingDirectory: projectRoot);
     if (result.exitCode != 0) {
       stderr.writeln(
         'Warning: format_coverage failed (is the "coverage" package '

@@ -23,9 +23,10 @@ void main() {
   });
 
   test('--version prints the pubspec version', () async {
-    final version = RegExp(r'^version:\s*(\S+)', multiLine: true)
-        .firstMatch(File('pubspec.yaml').readAsStringSync())!
-        .group(1);
+    final version = RegExp(
+      r'^version:\s*(\S+)',
+      multiLine: true,
+    ).firstMatch(File('pubspec.yaml').readAsStringSync())!.group(1);
     final result = await runCli(tempDir, ['--version']);
     expect(result.exitCode, 0);
     expect(result.stdout, contains('crap4dart $version'));

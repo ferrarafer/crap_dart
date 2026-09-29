@@ -46,8 +46,9 @@ class WorkspacePubspec {
         ..writeln('dependency_overrides:')
         ..write(overrides);
     }
-    File(p.join(tempDir.path, _pubspecFileName))
-        .writeAsStringSync(rewritten.toString());
+    File(
+      p.join(tempDir.path, _pubspecFileName),
+    ).writeAsStringSync(rewritten.toString());
   }
 
   /// The `dependency_overrides:` section (with body, without the
@@ -91,14 +92,16 @@ class WorkspacePubspec {
   }
 
   /// The `resolution: workspace` marker line of a member pubspec.
-  static final RegExp _workspaceMarker =
-      RegExp(r'^resolution:\s*workspace\s*$');
+  static final RegExp _workspaceMarker = RegExp(
+    r'^resolution:\s*workspace\s*$',
+  );
 
   /// The `dependency_overrides:` section header line.
   static final RegExp _overridesHeader = RegExp(r'^dependency_overrides:\s*$');
 
   /// A relative `path:` dependency line (`group(1)` is the prefix,
   /// `group(2)` the relative path).
-  static final RegExp _relativePathDep =
-      RegExp(r'^(\s*path:\s*)(\.\.?[/\\].*)$');
+  static final RegExp _relativePathDep = RegExp(
+    r'^(\s*path:\s*)(\.\.?[/\\].*)$',
+  );
 }

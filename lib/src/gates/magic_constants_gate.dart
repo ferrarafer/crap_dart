@@ -28,10 +28,7 @@ class MagicConstantsGate implements Gate {
       if (context.matchesAnyGlob(file, config.exclude)) continue;
       checked++;
       final parsed = context.parsed(file);
-      final visitor = _MagicLiteralsVisitor(
-        parsed.lineInfo,
-        config.minLength,
-      );
+      final visitor = _MagicLiteralsVisitor(parsed.lineInfo, config.minLength);
       parsed.unit.accept(visitor);
       final relative = context.relativePath(file);
       violations.addAll(_violations(relative, visitor, config));
@@ -73,7 +70,8 @@ class MagicConstantsGate implements Gate {
           GateViolation(
             file: relative,
             line: occurrence.line,
-            message: 'literal ${entry.key} repeats '
+            message:
+                'literal ${entry.key} repeats '
                 '${occurrences.length} times — extract a named constant',
             measure: occurrences.length,
           ),

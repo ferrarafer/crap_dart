@@ -44,60 +44,65 @@ void _invalidRulesTests() {
 
   test('rejects an empty from glob', () {
     expect(
-      () => loader.loadString(_rules('''
+      () => loader.loadString(
+        _rules('''
 rules:
   - from: ''
     forbid: ['dart:io']
-''')),
+'''),
+      ),
       _throwsAt('gates.banned_imports.rules.from'),
     );
   });
 
   test('rejects an empty forbid list', () {
     expect(
-      () => loader.loadString(_rules('''
+      () => loader.loadString(
+        _rules('''
 rules:
   - from: 'lib/**'
     forbid: []
-''')),
+'''),
+      ),
       _throwsAt('gates.banned_imports.rules.forbid'),
     );
   });
 
   test('rejects a non-string message', () {
     expect(
-      () => loader.loadString(_rules('''
+      () => loader.loadString(
+        _rules('''
 rules:
   - from: 'lib/**'
     forbid: ['dart:io']
     message: 42
-''')),
+'''),
+      ),
       _throwsAt('gates.banned_imports.rules.message'),
     );
   });
 
   test('rejects unknown keys in a rule', () {
     expect(
-      () => loader.loadString(_rules('''
+      () => loader.loadString(
+        _rules('''
 rules:
   - from: 'lib/**'
     forbid: ['dart:io']
     unknown: true
-''')),
+'''),
+      ),
       _throwsAt('gates.banned_imports.rules.unknown'),
     );
   });
 }
 
 /// Wraps [inner] under `gates.banned_imports`, indenting it one level.
-String _rules(String inner) => 'gates:\n  banned_imports:\n'
+String _rules(String inner) =>
+    'gates:\n  banned_imports:\n'
     '${inner.split('\n').map((l) => '    $l').join('\n')}';
 
 /// Expects a [ConfigException] whose key starts with [key].
 Matcher _throwsAt(String key) => throwsA(
-      isA<ConfigException>().having(
-        (e) => e.key,
-        'key',
-        startsWith(key),
-      ),
-    );
+  isA<ConfigException>().having((e) => e.key, 'key', startsWith(key)),
+);

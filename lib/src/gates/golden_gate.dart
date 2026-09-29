@@ -37,12 +37,16 @@ class GoldenGate implements Gate {
       return GateResult.skip(id, 'not a Flutter project');
     }
     final config = context.config.gates.golden;
-    final widgets =
-        _findWidgets(context, config.widgetDirs, config.excludeWidgets.toSet());
+    final widgets = _findWidgets(
+      context,
+      config.widgetDirs,
+      config.excludeWidgets.toSet(),
+    );
     if (widgets.isEmpty) return GateResult.skip(id, 'no widgets found');
     final covered = _findCoveredWidgets(context, config.testDirs, widgets);
     final percent = covered.length / widgets.length * 100;
-    final summary = '${covered.length}/${widgets.length} widgets with golden '
+    final summary =
+        '${covered.length}/${widgets.length} widgets with golden '
         'tests (${percent.toStringAsFixed(1)}%)';
     if (percent >= config.minWidgetCoverage) {
       return GateResult.pass(id, summary: summary);
@@ -105,29 +109,28 @@ class GoldenGate implements Gate {
   Set<String> _widgetsFromImports(
     Set<String> importUris,
     List<_WidgetInfo> widgets,
-  ) =>
-      {
-        for (final widget in widgets)
-          if (importUris.any(
-            (uri) =>
-                uri.endsWith(widget.file) ||
-                uri.endsWith(_withoutLibPrefix(widget.file)),
-          ))
-            widget.name,
-      };
+  ) => {
+    for (final widget in widgets)
+      if (importUris.any(
+        (uri) =>
+            uri.endsWith(widget.file) ||
+            uri.endsWith(_withoutLibPrefix(widget.file)),
+      ))
+        widget.name,
+  };
 
   String _withoutLibPrefix(String path) =>
       path.startsWith('lib/') ? path.substring(4) : path;
 
   List<String> _dartFiles(String projectRoot, List<String> dirs) => [
-        for (final dir in dirs)
-          if (Directory(p.join(projectRoot, dir)).existsSync())
-            ...Directory(p.join(projectRoot, dir))
-                .listSync(recursive: true)
-                .whereType<File>()
-                .where((f) => f.path.endsWith('.dart'))
-                .map((f) => f.path),
-      ];
+    for (final dir in dirs)
+      if (Directory(p.join(projectRoot, dir)).existsSync())
+        ...Directory(p.join(projectRoot, dir))
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((f) => f.path.endsWith('.dart'))
+            .map((f) => f.path),
+  ];
 }
 
 class _WidgetInfo {

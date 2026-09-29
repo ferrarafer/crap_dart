@@ -9,11 +9,7 @@ void main() {
       expect(
         () => loader.loadString('crap:\n  threshold: high\n'),
         throwsA(
-          isA<ConfigException>().having(
-            (e) => e.key,
-            'key',
-            'crap.threshold',
-          ),
+          isA<ConfigException>().having((e) => e.key, 'key', 'crap.threshold'),
         ),
       );
       expect(
@@ -44,9 +40,7 @@ void main() {
       );
       expect(
         () => loader.loadString('exclude: "example/**"\n'),
-        throwsA(
-          isA<ConfigException>().having((e) => e.key, 'key', 'exclude'),
-        ),
+        throwsA(isA<ConfigException>().having((e) => e.key, 'key', 'exclude')),
       );
     });
   });

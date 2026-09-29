@@ -46,8 +46,11 @@ void caller() => _aliveFunction();
       "import 'package:myapp/used.dart';\n\nvoid main() => u();\n",
     );
     final result = await UnusedFilesGate().run(
-      makeContext(
-          project, ['lib/used.dart', 'lib/orphan.dart', 'bin/main.dart']),
+      makeContext(project, [
+        'lib/used.dart',
+        'lib/orphan.dart',
+        'bin/main.dart',
+      ]),
     );
     expect(result.passed, isFalse);
     expect(result.violations.single.file, 'lib/orphan.dart');

@@ -56,24 +56,22 @@ class CoverageGate implements Gate {
     return GateResult.fail(id, violations, summary: summary);
   }
 
-  bool _isUnderDirs(String path, List<String> dirs) => dirs.any(
-        (dir) => path == dir || path.startsWith('$dir/'),
-      );
+  bool _isUnderDirs(String path, List<String> dirs) =>
+      dirs.any((dir) => path == dir || path.startsWith('$dir/'));
 
   List<GateViolation> _perFileViolations(
     List<FileCoverage> files,
     double minPercent,
-  ) =>
-      [
-        for (final file in files)
-          if (_percent(file) < minPercent)
-            GateViolation(
-              file: file.path,
-              message:
-                  'coverage ${_fmt(_percent(file))}% < min ${_fmt(minPercent)}%',
-              measure: 100 - _percent(file),
-            ),
-      ];
+  ) => [
+    for (final file in files)
+      if (_percent(file) < minPercent)
+        GateViolation(
+          file: file.path,
+          message:
+              'coverage ${_fmt(_percent(file))}% < min ${_fmt(minPercent)}%',
+          measure: 100 - _percent(file),
+        ),
+  ];
 
   ({int hit, int found}) _totals(List<FileCoverage> files) {
     var hit = 0;

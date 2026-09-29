@@ -28,6 +28,8 @@ import 'goldens_command.dart';
 import 'profile_command.dart';
 import 'skill_command.dart';
 
+part 'setup_commands.dart';
+
 /// Canonical absolute form of [path] (symlinks resolved — git reports
 /// /private/var on macOS while callers often hold /var).
 String canonicalPath(String path) => Directory(path).resolveSymbolicLinksSync();
@@ -36,10 +38,10 @@ String canonicalPath(String path) => Directory(path).resolveSymbolicLinksSync();
 /// report paths relative to this root (not to the current directory), so
 /// monorepo sub-package runs must join staged/changed paths against it.
 Future<String> gitTopLevel(String dir) async {
-  final result = await runGit(
-    const ['rev-parse', '--show-toplevel'],
-    workingDirectory: dir,
-  );
+  final result = await runGit(const [
+    'rev-parse',
+    '--show-toplevel',
+  ], workingDirectory: dir);
   if (result.exitCode != 0) {
     throw ProcessException(
       'git',
@@ -81,7 +83,7 @@ class Crap4DartRunner {
   /// [projectRoot] overrides the project root (default: the current
   /// working directory) — used by in-process invocations and tests.
   Crap4DartRunner({String? projectRoot, ProfileRunner? profileRunner})
-      : _runner = _buildRunner(projectRoot, profileRunner);
+    : _runner = _buildRunner(projectRoot, profileRunner);
 
   final CommandRunner<int> _runner;
 
@@ -89,20 +91,23 @@ class Crap4DartRunner {
     String? projectRoot,
     ProfileRunner? profileRunner,
   ) {
-    final runner = CommandRunner<int>(
-      'crap4dart',
-      'CRAP metric analyzer for Dart and Flutter projects.',
-    )
-      ..addCommand(AnalyzeCommand(projectRoot: projectRoot))
-      ..addCommand(CheckCommand(projectRoot: projectRoot))
-      ..addCommand(ProfileCommand(
-        projectRoot: projectRoot,
-        profileRunner: profileRunner ?? const ProfileRunner(),
-      ))
-      ..addCommand(SkillCommand(projectRoot: projectRoot))
-      ..addCommand(GoldensCommand(projectRoot: projectRoot))
-      ..addCommand(InitCommand(projectRoot: projectRoot))
-      ..addCommand(InstallCommand(projectRoot: projectRoot));
+    final runner =
+        CommandRunner<int>(
+            'crap4dart',
+            'CRAP metric analyzer for Dart and Flutter projects.',
+          )
+          ..addCommand(AnalyzeCommand(projectRoot: projectRoot))
+          ..addCommand(CheckCommand(projectRoot: projectRoot))
+          ..addCommand(
+            ProfileCommand(
+              projectRoot: projectRoot,
+              profileRunner: profileRunner ?? const ProfileRunner(),
+            ),
+          )
+          ..addCommand(SkillCommand(projectRoot: projectRoot))
+          ..addCommand(GoldensCommand(projectRoot: projectRoot))
+          ..addCommand(InitCommand(projectRoot: projectRoot))
+          ..addCommand(InstallCommand(projectRoot: projectRoot));
     runner.argParser.addFlag(
       'version',
       abbr: 'v',
@@ -216,8 +221,10 @@ mixin CommandHelpers on Command<int> {
     required bool staged,
   }) async {
     try {
-      final files =
-          await const ChangedFilesFinder().find(projectRoot, staged: staged);
+      final files = await const ChangedFilesFinder().find(
+        projectRoot,
+        staged: staged,
+      );
       final topLevel = canonicalPath(await gitTopLevel(projectRoot));
       final rootAbs = canonicalPath(projectRoot);
       return [
@@ -232,8 +239,9 @@ mixin CommandHelpers on Command<int> {
   /// Loads LCOV coverage data when the configured file exists.
   List<FileCoverage>? loadLcov(String projectRoot, Crap4DartConfig config) {
     final lcovPath = config.coverage.lcovPath;
-    final resolved =
-        p.isAbsolute(lcovPath) ? lcovPath : p.join(projectRoot, lcovPath);
+    final resolved = p.isAbsolute(lcovPath)
+        ? lcovPath
+        : p.join(projectRoot, lcovPath);
     final file = File(resolved);
     if (!file.existsSync()) return null;
     return LcovParser(projectRoot: projectRoot).parse(file.readAsStringSync());
@@ -243,8 +251,11 @@ mixin CommandHelpers on Command<int> {
   Set<String>? gateFilter(String option) {
     final raw = argResults![option] as String?;
     if (raw == null) return null;
-    final ids =
-        raw.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toSet();
+    final ids = raw
+        .split(',')
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toSet();
     for (final id in ids) {
       if (!ConfigLoader.knownGates.contains(id)) {
         throw UsageException('Unknown gate id: "$id"', invocation);
@@ -259,14 +270,16 @@ mixin CommandHelpers on Command<int> {
   /// Pass an already loaded [config] to avoid parsing it twice when the caller
   /// needs to validate command-specific arguments before file selection.
   Future<
-      ({
-        Crap4DartConfig? config,
-        List<String>? files,
-        DiffLineMap? diffMap,
-        String? diffBase,
-        bool partialSelection,
-        int? exitCode,
-      })> prepareRun(
+    ({
+      Crap4DartConfig? config,
+      List<String>? files,
+      DiffLineMap? diffMap,
+      String? diffBase,
+      bool partialSelection,
+      int? exitCode,
+    })
+  >
+  prepareRun(
     String projectRoot,
     String emptyMessage, {
     Crap4DartConfig? config,
@@ -279,7 +292,7 @@ mixin CommandHelpers on Command<int> {
         diffMap: null,
         diffBase: null,
         partialSelection: false,
-        exitCode: ExitCodes.usageError
+        exitCode: ExitCodes.usageError,
       );
     }
     final diff = await resolveDiff(projectRoot);
@@ -290,7 +303,7 @@ mixin CommandHelpers on Command<int> {
         diffMap: null,
         diffBase: null,
         partialSelection: false,
-        exitCode: ExitCodes.usageError
+        exitCode: ExitCodes.usageError,
       );
     }
     final partial = _isPartialSelection(diff.map);
@@ -309,7 +322,7 @@ mixin CommandHelpers on Command<int> {
         diffMap: null,
         diffBase: null,
         partialSelection: false,
-        exitCode: ExitCodes.success
+        exitCode: ExitCodes.success,
       );
     }
     return (
@@ -347,7 +360,8 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
       )
       ..addOption(
         _lcovFlag,
-        help: 'Path to an LCOV coverage file (overrides the config value; '
+        help:
+            'Path to an LCOV coverage file (overrides the config value; '
             'skips the automatic test run unless --run-tests is given).',
       )
       ..addFlag(
@@ -355,10 +369,7 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
         negatable: false,
         help: 'Run the test suite first to generate coverage.',
       )
-      ..addOption(
-        _configFlag,
-        help: _configHelp,
-      )
+      ..addOption(_configFlag, help: _configHelp)
       ..addOption(
         _formatFlag,
         allowed: [_consoleFormat, _jsonFormat],
@@ -521,7 +532,8 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
     // An explicit --lcov file is the coverage to use: the config's
     // run_tests (default true) must not replace it with a fresh run.
     // Only --run-tests still forces one.
-    final runTests = (argResults![_runTestsFlag] as bool) ||
+    final runTests =
+        (argResults![_runTestsFlag] as bool) ||
         (!explicitLcov && (config.crap.runTests || config.coverage.runTests));
     final lcovPath = explicitLcov
         ? argResults![_lcovFlag] as String
@@ -539,8 +551,9 @@ class AnalyzeCommand extends Command<int> with CommandHelpers {
       if (generated != null) return generated;
     }
     // Config-relative LCOV paths resolve against the project root.
-    final resolved =
-        p.isAbsolute(lcovPath) ? lcovPath : p.join(projectRoot, lcovPath);
+    final resolved = p.isAbsolute(lcovPath)
+        ? lcovPath
+        : p.join(projectRoot, lcovPath);
     return File(resolved).existsSync() ? resolved : null;
   }
 }
@@ -591,7 +604,8 @@ class CheckCommand extends Command<int> with CommandHelpers {
       ..addFlag(
         'save-baseline',
         negatable: false,
-        help: "Record current violations to $baselineFileName "
+        help:
+            "Record current violations to $baselineFileName "
             '(future runs fail only on new violations).',
       )
       ..addFlag(
@@ -602,7 +616,8 @@ class CheckCommand extends Command<int> with CommandHelpers {
       ..addFlag(
         _tightenBaselineFlag,
         negatable: false,
-        help: 'Lower the baseline to the current violations (drop fixed '
+        help:
+            'Lower the baseline to the current violations (drop fixed '
             'ones, shrink measures, never add new ones), then check '
             'against it like --baseline. Needs a full run.',
       );
@@ -686,113 +701,4 @@ class CheckCommand extends Command<int> with CommandHelpers {
     }
     return true;
   }
-}
-
-/// The `init` command: writes a default `crap4dart.yaml` config file.
-class InitCommand extends Command<int> {
-  /// Creates an [InitCommand].
-  InitCommand({this.projectRoot}) {
-    argParser.addFlag(
-      _forceFlag,
-      abbr: 'f',
-      negatable: false,
-      help: 'Overwrite an existing config file.',
-    );
-  }
-
-  /// Project root override (default: the current working directory).
-  final String? projectRoot;
-
-  @override
-  final String name = 'init';
-
-  @override
-  final String description =
-      'Create a default crap4dart.yaml config file in the current directory.';
-
-  @override
-  int run() {
-    final root = projectRoot ?? Directory.current.path;
-    final path = p.join(root, ConfigLoader.configFileName);
-    final file = File(path);
-    if (file.existsSync() && !(argResults![_forceFlag] as bool)) {
-      stderr.writeln(
-        '${ConfigLoader.configFileName} already exists '
-        '(use --force to overwrite).',
-      );
-      return ExitCodes.usageError;
-    }
-    file.writeAsStringSync(defaultConfigTemplate);
-    stdout.writeln('Created ${ConfigLoader.configFileName}');
-    return ExitCodes.success;
-  }
-}
-
-/// The `install` command: installs git hooks and CI workflow templates.
-class InstallCommand extends Command<int> {
-  /// Creates an [InstallCommand].
-  InstallCommand({this.projectRoot}) {
-    argParser
-      ..addOption(
-        'hook',
-        defaultsTo: 'pre-commit',
-        help: 'Name of the git hook to install.',
-      )
-      ..addFlag(
-        'ci',
-        negatable: false,
-        help: 'Also install the GitHub Actions quality workflow.',
-      )
-      ..addFlag(
-        _forceFlag,
-        abbr: 'f',
-        negatable: false,
-        help: 'Merge into existing hooks / overwrite existing files.',
-      )
-      ..addOption(_configFlag, help: _configHelp);
-  }
-
-  /// Project root override (default: the current working directory).
-  final String? projectRoot;
-
-  @override
-  final String name = 'install';
-
-  @override
-  final String description =
-      'Install the pre-commit hook and (with --ci) the CI workflow.';
-
-  @override
-  Future<int> run() async {
-    final projectRoot = this.projectRoot ?? Directory.current.path;
-    try {
-      final config = const ConfigLoader().load(
-        projectRoot,
-        configPath: argResults![_configFlag] as String?,
-      );
-      final force = argResults![_forceFlag] as bool;
-      final hookPath = await const HookInstaller().installHook(
-        projectRoot,
-        hookName: argResults!['hook'] as String,
-        force: force,
-        runTests: config.coverage.runTests,
-      );
-      stdout.writeln('Installed git hook: ${_relative(hookPath)}');
-      if (argResults!['ci'] as bool) {
-        final workflowPath =
-            const CiInstaller().installCi(projectRoot, force: force);
-        stdout.writeln('Installed CI workflow: ${_relative(workflowPath)}');
-      }
-      return ExitCodes.success;
-    } on ConfigException catch (e) {
-      stderr.writeln(e);
-      return ExitCodes.usageError;
-    } on HookInstallException catch (e) {
-      stderr.writeln(e);
-      return ExitCodes.usageError;
-    }
-  }
-
-  String _relative(String path) =>
-      p.relative(path, from: projectRoot ?? Directory.current.path);
 }

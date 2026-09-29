@@ -57,13 +57,17 @@ void undocumented() {}
 ''');
     final runner = GateRunner();
     final result = await runner.run(
-      makeContext(project, ['lib/undocumented.dart'], configYaml: '''
+      makeContext(
+        project,
+        ['lib/undocumented.dart'],
+        configYaml: '''
 coverage:
   required: false
 gates:
   folder_structure:
     max_loose_files: 5
-'''),
+''',
+      ),
     );
     expect(result.passed, isFalse);
     // public_docs (missing dartdoc) and unused_files (never imported).

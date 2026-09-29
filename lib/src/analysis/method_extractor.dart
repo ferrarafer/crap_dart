@@ -70,10 +70,11 @@ class MethodExtractor {
     CompilationUnit unit,
     LineInfo lineInfo, {
     String filePath = '',
-  }) =>
-      extractWithNodes(unit, lineInfo, filePath: filePath)
-          .map((e) => e.info)
-          .toList();
+  }) => extractWithNodes(
+    unit,
+    lineInfo,
+    filePath: filePath,
+  ).map((e) => e.info).toList();
 
   /// Like [extract], but also returns the declaration [AstNode] of each
   /// method (a [MethodDeclaration] or a top-level [FunctionDeclaration]),
@@ -132,10 +133,10 @@ class _MethodVisitor extends RecursiveAstVisitor<void> {
   }
 
   String _containerName(AstNode node) => switch (enclosingContainerName(node)) {
-        null => topLevelClassName,
-        '' => unnamedExtensionName,
-        final name => name,
-      };
+    null => topLevelClassName,
+    '' => unnamedExtensionName,
+    final name => name,
+  };
 
   void _add(String name, AnnotatedNode node, String className) {
     final start = node.firstTokenAfterCommentAndMetadata.offset;

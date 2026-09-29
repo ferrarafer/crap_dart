@@ -18,11 +18,11 @@ Directory createCliTestProject() =>
 /// Used only for smoke tests of the real binary; prefer
 /// [runCliInProcess] so coverage is attributed to the test run.
 Future<ProcessResult> runCli(Directory workDir, List<String> args) =>
-    Process.run(
-      'dart',
-      ['run', binScript, ...args],
-      workingDirectory: workDir.path,
-    );
+    Process.run('dart', [
+      'run',
+      binScript,
+      ...args,
+    ], workingDirectory: workDir.path);
 
 /// Outcome of an in-process CLI invocation.
 class CliResult {
@@ -183,9 +183,10 @@ void writeCleanProject(Directory root) {
 void documented() {}
 ''');
   File(p.join(root.path, 'bin', 'main.dart')).createSync(recursive: true);
-  File(p.join(root.path, 'bin', 'main.dart'))
-      .writeAsStringSync("import '../lib/src/a.dart';\n\n/// Runs the app.\n"
-          'void main() => documented();\n');
+  File(p.join(root.path, 'bin', 'main.dart')).writeAsStringSync(
+    "import '../lib/src/a.dart';\n\n/// Runs the app.\n"
+    'void main() => documented();\n',
+  );
   File(p.join(root.path, 'crap4dart.yaml')).writeAsStringSync('''
 coverage:
   required: false

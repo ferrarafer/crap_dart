@@ -48,8 +48,10 @@ void main() {
     });
 
     test('keeps N/A when the option is off', () {
-      final metrics =
-          analyze(unloadedCopy('lib/src/unloaded.dart'), unloaded: false);
+      final metrics = analyze(
+        unloadedCopy('lib/src/unloaded.dart'),
+        unloaded: false,
+      );
       expect(metrics.map((m) => m.crap), everyElement(isNull));
     });
 

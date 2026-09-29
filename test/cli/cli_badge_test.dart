@@ -19,10 +19,11 @@ void main() {
   group('crap4dart analyze --badge', () {
     test('writes a green SVG badge below the threshold', () async {
       writeMiniProject(tempDir, lcov: fullCoverageLcov);
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', '--badge', badgePath()],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--badge',
+        badgePath(),
+      ]);
       expect(result.exitCode, 0);
       expect(result.stderr, contains('Badge written to ${badgePath()}'));
       expect(result.stderr, contains('![CRAP](${badgePath()})'));
@@ -35,10 +36,11 @@ void main() {
 
     test('writes a badge even when the threshold is exceeded', () async {
       writeMiniProject(tempDir, lcov: zeroCoverageLcov);
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', '--badge', badgePath()],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--badge',
+        badgePath(),
+      ]);
       expect(result.exitCode, 2);
       // The badge reflects the actual state (8.0 < 12.00 <= 16.0 → yellow).
       final svg = File(badgePath()).readAsStringSync();
@@ -49,10 +51,11 @@ void main() {
     test('writes an N/A badge when coverage is missing', () async {
       writeMiniProject(tempDir, lcov: '');
       File(p.join(tempDir.path, 'coverage', 'lcov.info')).deleteSync();
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', '--badge', badgePath()],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--badge',
+        badgePath(),
+      ]);
       expect(result.exitCode, 0);
       final svg = File(badgePath()).readAsStringSync();
       expect(svg, contains('fill="#9f9f9f"'));
@@ -61,10 +64,13 @@ void main() {
 
     test('works together with --format json', () async {
       writeMiniProject(tempDir, lcov: fullCoverageLcov);
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', '--format', 'json', '--badge', badgePath()],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--format',
+        'json',
+        '--badge',
+        badgePath(),
+      ]);
       expect(result.exitCode, 0);
       expect(result.stdout.trim(), startsWith('{'));
       expect(File(badgePath()).existsSync(), isTrue);

@@ -41,7 +41,8 @@ bool _tofuPixel(int x, int y, int left, int top, int right, int bottom) {
 /// Whether (x, y) lies on the box's border strokes.
 bool _onTofuBorder(int x, int y, int left, int top, int right, int bottom) {
   final onTop = x >= left && x < right && (y == top || y == top + 1);
-  final onSide = y > top &&
+  final onSide =
+      y > top &&
       y < bottom &&
       (x == left || x == left + 1 || x == right - 1 || x == right - 2);
   return onTop || onSide;
@@ -56,7 +57,8 @@ bool _onTofuDiagonal(int dx, int dy, int width) =>
 void writeOutlinedDigitGolden(Directory project, String relative) {
   writePng(project, relative, 120, 120, (x, y) {
     const left = 40, top = 40, right = 80, bottom = 110;
-    final onShape = x >= left &&
+    final onShape =
+        x >= left &&
         x < right &&
         y >= top &&
         y < bottom &&

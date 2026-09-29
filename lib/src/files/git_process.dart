@@ -12,20 +12,19 @@ const Set<String> _repoPinningVariables = {'GIT_DIR', 'GIT_WORK_TREE'};
 /// pre-commit hook for `git commit <paths>` stages into a temporary index
 /// that `--staged` must read.
 Map<String, String> gitEnvironment(Map<String, String> parent) => {
-      for (final entry in parent.entries)
-        if (!_repoPinningVariables.contains(entry.key)) entry.key: entry.value,
-    };
+  for (final entry in parent.entries)
+    if (!_repoPinningVariables.contains(entry.key)) entry.key: entry.value,
+};
 
 /// Runs `git` with [args] in [workingDirectory], discovering the
 /// repository from there even when invoked from a git hook.
 Future<ProcessResult> runGit(
   List<String> args, {
   required String workingDirectory,
-}) =>
-    Process.run(
-      'git',
-      args,
-      workingDirectory: workingDirectory,
-      environment: gitEnvironment(Platform.environment),
-      includeParentEnvironment: false,
-    );
+}) => Process.run(
+  'git',
+  args,
+  workingDirectory: workingDirectory,
+  environment: gitEnvironment(Platform.environment),
+  includeParentEnvironment: false,
+);

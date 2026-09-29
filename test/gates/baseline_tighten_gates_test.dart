@@ -7,10 +7,10 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 GateViolation _loc(int lines) => GateViolation(
-      file: 'lib/a.dart',
-      message: '$lines lines > max 400',
-      measure: lines,
-    );
+  file: 'lib/a.dart',
+  message: '$lines lines > max 400',
+  measure: lines,
+);
 
 void main() {
   late Directory root;
@@ -21,9 +21,9 @@ void main() {
   void save(List<GateResult> results) => writeBaseline(root.path, results);
 
   List<Map<String, dynamic>> stored() {
-    final json = jsonDecode(
-      File(p.join(root.path, baselineFileName)).readAsStringSync(),
-    ) as Map<String, dynamic>;
+    final json =
+        jsonDecode(File(p.join(root.path, baselineFileName)).readAsStringSync())
+            as Map<String, dynamic>;
     return (json['violations'] as List).cast<Map<String, dynamic>>();
   }
 

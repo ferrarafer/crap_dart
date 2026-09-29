@@ -95,9 +95,7 @@ class HookInstaller {
       ..writeln('elif [ -f bin/crap4dart.dart ]; then')
       ..writeln('  CRAP4DART="dart run bin/crap4dart.dart"')
       ..writeln('else')
-      ..writeln(
-        '  echo "crap4dart not found; skipping quality checks." >&2',
-      )
+      ..writeln('  echo "crap4dart not found; skipping quality checks." >&2')
       ..writeln('  exit 0')
       ..writeln('fi');
     if (runTests) {

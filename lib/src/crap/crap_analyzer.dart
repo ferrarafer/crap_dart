@@ -69,8 +69,9 @@ class CrapAnalyzer {
         : const <String>{};
     final parser = DartParser();
     final extractor = MethodExtractor(countConstructors: countConstructors);
-    final complexityCalculator =
-        ComplexityCalculator(countLambdas: countLambdas);
+    final complexityCalculator = ComplexityCalculator(
+      countLambdas: countLambdas,
+    );
     const coverageCalculator = MethodCoverageCalculator();
 
     final results = <MethodMetrics>[];
@@ -83,7 +84,8 @@ class CrapAnalyzer {
         filePath: filePath,
       );
       final fileCoverage = _coverageFor(coverageByFile, filePath, projectRoot);
-      final unloaded = fileCoverage == null &&
+      final unloaded =
+          fileCoverage == null &&
           _inCoveredRoot(filePath, projectRoot, coveredRoots);
       for (final extracted in methods) {
         final method = extracted.info;
@@ -91,8 +93,8 @@ class CrapAnalyzer {
         final coverage = unloaded
             ? 0.0
             : fileCoverage == null
-                ? null
-                : coverageCalculator.lineCoverage(method, fileCoverage);
+            ? null
+            : coverageCalculator.lineCoverage(method, fileCoverage);
         final branchCoverage = fileCoverage == null
             ? null
             : coverageCalculator.branchCoverage(method, fileCoverage);

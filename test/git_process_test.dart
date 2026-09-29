@@ -12,8 +12,10 @@ void main() {
       'GIT_INDEX_FILE': '/repo/.git/index.lock',
       'PATH': '/usr/bin',
     });
-    expect(
-        env, {'GIT_INDEX_FILE': '/repo/.git/index.lock', 'PATH': '/usr/bin'});
+    expect(env, {
+      'GIT_INDEX_FILE': '/repo/.git/index.lock',
+      'PATH': '/usr/bin',
+    });
   });
 
   test('runGit discovers the repository from a subdirectory', () async {
@@ -21,10 +23,10 @@ void main() {
     addTearDown(() => root.deleteSync(recursive: true));
     final pkg = Directory(p.join(root.path, 'pkg'))..createSync();
     await runGit(const ['init', '.'], workingDirectory: root.path);
-    final result = await runGit(
-      const ['rev-parse', '--show-toplevel'],
-      workingDirectory: pkg.path,
-    );
+    final result = await runGit(const [
+      'rev-parse',
+      '--show-toplevel',
+    ], workingDirectory: pkg.path);
     expect(
       p.canonicalize('${result.stdout}'.trim()),
       p.canonicalize(root.resolveSymbolicLinksSync()),

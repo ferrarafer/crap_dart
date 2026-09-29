@@ -86,7 +86,8 @@ void main() {
       makeContext(
         project,
         const [],
-        configYaml: 'gates:\n  broken_goldens:\n    exclude:\n'
+        configYaml:
+            'gates:\n  broken_goldens:\n    exclude:\n'
             "      - 'test/goldens/reference.png'\n",
       ),
     );

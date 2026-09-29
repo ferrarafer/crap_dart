@@ -47,7 +47,7 @@ class BrokenGoldensGate implements Gate {
     final summary = violations.isEmpty
         ? '$checked golden images clean'
         : '${violations.length}/$checked golden images contain error '
-            'artifacts';
+              'artifacts';
     return violations.isEmpty
         ? GateResult.pass(id, summary: summary)
         : GateResult.fail(id, violations, summary: summary);
@@ -58,21 +58,16 @@ class BrokenGoldensGate implements Gate {
     Directory directory,
     List<String> exclude,
     GateContext context,
-  ) =>
-      [
-        for (final entity in directory.listSync(recursive: true))
-          if (entity is File &&
-              entity.path.endsWith('.png') &&
-              !context.matchesAnyGlob(entity.path, exclude))
-            entity,
-      ];
+  ) => [
+    for (final entity in directory.listSync(recursive: true))
+      if (entity is File &&
+          entity.path.endsWith('.png') &&
+          !context.matchesAnyGlob(entity.path, exclude))
+        entity,
+  ];
 
   /// The violation for [png], or `null` when the image is clean.
-  GateViolation? _violation(
-    File png,
-    int minStripeRun,
-    GateContext context,
-  ) {
+  GateViolation? _violation(File png, int minStripeRun, GateContext context) {
     final message = _analyze(png, minStripeRun);
     if (message == null) return null;
     return GateViolation(
@@ -134,11 +129,7 @@ class BrokenGoldensGate implements Gate {
   /// a stripe run: a mix of yellow and black pixels, long enough, with
   /// real alternation (>= 4 color transitions) and a yellow share of
   /// at least a third — dark UIs with sparse yellow text never qualify.
-  bool _alternatingRun(
-    int length,
-    int minRun,
-    int Function(int i) kindAt,
-  ) {
+  bool _alternatingRun(int length, int minRun, int Function(int i) kindAt) {
     var run = 0;
     var transitions = 0;
     var last = _noneCode;
@@ -199,11 +190,7 @@ class _PixelStats {
       kinds[i++] = kind;
     }
     final total = kinds.length;
-    return _PixelStats(
-      kinds,
-      hasYellow,
-      total > 0 ? red / total : 0.0,
-    );
+    return _PixelStats(kinds, hasYellow, total > 0 ? red / total : 0.0);
   }
 
   /// The classification of one pixel: none, stripe yellow, stripe

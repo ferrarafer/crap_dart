@@ -33,9 +33,10 @@ EOF
 
 /// A gate context config running [tool] as the `external` rule `fake`.
 GateContext externalContext(Directory project, String tool) => makeContext(
-      project,
-      const [],
-      configYaml: '''
+  project,
+  const [],
+  configYaml:
+      '''
 gates:
   external:
     rules:
@@ -43,4 +44,4 @@ gates:
         executable: '$tool'
         arguments: ['{report}']
 ''',
-    );
+);

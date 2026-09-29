@@ -20,8 +20,9 @@ void main() {
       final clean = await runCliInProcess(tempDir, ['analyze', '--changed']);
       expect(clean.stdout, contains('No Dart files to analyze.'));
 
-      File('${tempDir.path}/lib/a.dart')
-          .writeAsStringSync('/// Docs.\nvoid changed() {}\n');
+      File(
+        '${tempDir.path}/lib/a.dart',
+      ).writeAsStringSync('/// Docs.\nvoid changed() {}\n');
       final result = await runCliInProcess(tempDir, ['analyze', '--changed']);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('changed'));
@@ -42,13 +43,17 @@ void main() {
     test('--diff conflicts with --changed and explicit paths', () async {
       writeCleanProject(tempDir);
       await gitInitAndCommit(tempDir, 'base');
-      final withChanged =
-          await runCliInProcess(tempDir, ['analyze', '--diff', '--changed']);
+      final withChanged = await runCliInProcess(tempDir, [
+        'analyze',
+        '--diff',
+        '--changed',
+      ]);
       expect(withChanged.exitCode, 1);
-      final withPath = await runCliInProcess(
-        tempDir,
-        ['analyze', '--diff', 'lib/a.dart'],
-      );
+      final withPath = await runCliInProcess(tempDir, [
+        'analyze',
+        '--diff',
+        'lib/a.dart',
+      ]);
       expect(withPath.exitCode, 1);
     });
   });

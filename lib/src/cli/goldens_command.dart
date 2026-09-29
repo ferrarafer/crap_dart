@@ -43,12 +43,12 @@ class GoldensCommand extends Command<int> {
   Future<int> run() async {
     if (argResults!['write'] as bool) {
       final root = projectRoot ?? Directory.current.path;
-      final file = File(
-        p.join(root, 'test', 'goldens_guard.dart'),
-      );
+      final file = File(p.join(root, 'test', 'goldens_guard.dart'));
       if (file.existsSync()) {
-        stderr.writeln('${p.relative(file.path, from: root)} already '
-            'exists.');
+        stderr.writeln(
+          '${p.relative(file.path, from: root)} already '
+          'exists.',
+        );
         return ExitCodes.usageError;
       }
       file.createSync(recursive: true);

@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 - Merged upstream IstiN/crap4dart 0.10.0: `analyzer` 7.3 -> 14.4 (new
   "parts" AST), `xml` 7.1, `test` 1.32, `lints` 6.1. The SDK floor rises
   to 3.11 with analyzer 14.
+- SDK constraint `^3.11.0`; sources use the Dart 3.7+ "tall" formatter
+  style. `runner.dart` and the gate config readers were split to stay
+  within the project's own `loc` and `method_size` gates.
 
 ## 0.12.3
 

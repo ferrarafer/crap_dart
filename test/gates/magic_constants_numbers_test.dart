@@ -40,10 +40,7 @@ int d() => 7;
     final result = await gate.run(makeContext(project, ['lib/numbers.dart']));
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(3));
-    expect(
-      result.violations.every((v) => v.message.contains('1000')),
-      isTrue,
-    );
+    expect(result.violations.every((v) => v.message.contains('1000')), isTrue);
   });
 
   test('honors min_duplicates and flag_hex_colors config', () async {

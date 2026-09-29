@@ -76,13 +76,13 @@ class CrapReport {
   }
 
   List<String> _rowFor(MethodMetrics m) => [
-        m.crap == null ? 'N/A' : _fmt(m.crap!),
-        _percent(m.coverage),
-        _percent(m.branchCoverage),
-        '${m.complexity}',
-        '${m.method.className}.${m.method.methodName}',
-        '${m.method.filePath}:${m.method.startLine}',
-      ];
+    m.crap == null ? 'N/A' : _fmt(m.crap!),
+    _percent(m.coverage),
+    _percent(m.branchCoverage),
+    '${m.complexity}',
+    '${m.method.className}.${m.method.methodName}',
+    '${m.method.filePath}:${m.method.startLine}',
+  ];
 
   static String _percent(double? value) =>
       value == null ? 'N/A' : (value * 100).toStringAsFixed(1);

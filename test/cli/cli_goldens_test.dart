@@ -7,8 +7,10 @@ import 'cli_test_utils.dart';
 
 void main() {
   test('goldens --print-snippet prints the guard source', () async {
-    final result = await runCliInProcess(
-        Directory.current, ['goldens', '--print-snippet']);
+    final result = await runCliInProcess(Directory.current, [
+      'goldens',
+      '--print-snippet',
+    ]);
     expect(result.exitCode, ExitCodes.success);
     expect(result.stdout, contains('guardGoldens'));
     expect(result.stdout, contains('Unable to load asset'));

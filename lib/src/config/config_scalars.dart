@@ -38,7 +38,12 @@ class _ConfigScalars {
   }
 
   static bool readBool(
-      YamlMap map, String key, bool base, String path, String ctx) {
+    YamlMap map,
+    String key,
+    bool base,
+    String path,
+    String ctx,
+  ) {
     final value = map[key];
     if (value == null) return base;
     if (value is bool) return value;
@@ -57,15 +62,16 @@ class _ConfigScalars {
     if (value is String && (value == 'error' || value == 'warning')) {
       return GateSeverity.parse(value);
     }
-    throw ConfigException(
-      path,
-      '$ctx.$key',
-      "expected 'error' or 'warning'",
-    );
+    throw ConfigException(path, '$ctx.$key', "expected 'error' or 'warning'");
   }
 
   static double readNum(
-      YamlMap map, String key, double base, String path, String ctx) {
+    YamlMap map,
+    String key,
+    double base,
+    String path,
+    String ctx,
+  ) {
     final value = map[key];
     if (value == null) return base;
     if (value is num) return value.toDouble();
@@ -86,7 +92,12 @@ class _ConfigScalars {
   }
 
   static String str(
-      YamlMap map, String key, String base, String path, String ctx) {
+    YamlMap map,
+    String key,
+    String base,
+    String path,
+    String ctx,
+  ) {
     final value = map[key];
     if (value == null) return base;
     if (value is String) return value;
@@ -162,9 +173,7 @@ class _ConfigScalars {
     if (paths is YamlList &&
         paths.nodes.isNotEmpty &&
         paths.nodes.every((n) => n is YamlScalar && n.value is String)) {
-      return [
-        for (final n in paths.nodes) (n as YamlScalar).value as String,
-      ];
+      return [for (final n in paths.nodes) (n as YamlScalar).value as String];
     }
     throw ConfigException(
       path,

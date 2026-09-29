@@ -59,9 +59,8 @@ class GateContext {
   String? _packageName;
 
   /// The `name:` of the project's pubspec.yaml, or `null` when absent.
-  String? get packageName => _packageName ??= _readPackageName(
-        p.join(projectRoot, 'pubspec.yaml'),
-      );
+  String? get packageName =>
+      _packageName ??= _readPackageName(p.join(projectRoot, 'pubspec.yaml'));
 
   String? _readPackageName(String pubspecPath) {
     try {
@@ -79,12 +78,12 @@ class GateContext {
   /// The lines of the file at [path], read and cached on first access;
   /// empty for unreadable files.
   List<String> _lines(String path) => _linesCache.putIfAbsent(path, () {
-        try {
-          return File(path).readAsStringSync().split('\n');
-        } on FileSystemException {
-          return const [];
-        }
-      });
+    try {
+      return File(path).readAsStringSync().split('\n');
+    } on FileSystemException {
+      return const [];
+    }
+  });
 
   /// 1-based [lineNumber] of the file at [path], or `null` when out of
   /// range or the file is unreadable.
@@ -103,12 +102,10 @@ class GateContext {
   /// it on first access. AST gates share this cache because parsing is
   /// expensive.
   ParsedUnit parsed(String path) => _astCache.putIfAbsent(
-        path,
-        () => DartParser().parse(
-          content: File(path).readAsStringSync(),
-          path: path,
-        ),
-      );
+    path,
+    () =>
+        DartParser().parse(content: File(path).readAsStringSync(), path: path),
+  );
 
   /// [path] made relative to [projectRoot] when possible.
   String relativePath(String path) =>

@@ -62,13 +62,11 @@ void f(List<int> xs) {
   xs.where((x) => x > 0 && x < 10).forEach(print);
 }
 ''');
+      expect(const ComplexityCalculator().compute(methods.single.node), 2);
       expect(
-        const ComplexityCalculator().compute(methods.single.node),
-        2,
-      );
-      expect(
-        const ComplexityCalculator(countLambdas: false)
-            .compute(methods.single.node),
+        const ComplexityCalculator(
+          countLambdas: false,
+        ).compute(methods.single.node),
         1,
       );
     });

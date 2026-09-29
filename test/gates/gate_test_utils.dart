@@ -19,13 +19,13 @@ void writeFile(Directory root, String relative, String content) {
 
 /// Adds a pubspec marking [root] as a Flutter project.
 void makeFlutterProject(Directory root) => writeFile(
-      root,
-      'pubspec.yaml',
-      'name: fixture\n'
-          'dependencies:\n'
-          '  flutter:\n'
-          '    sdk: flutter\n',
-    );
+  root,
+  'pubspec.yaml',
+  'name: fixture\n'
+      'dependencies:\n'
+      '  flutter:\n'
+      '    sdk: flutter\n',
+);
 
 /// Builds a [GateContext] over [relativeFiles] of [root].
 GateContext makeContext(

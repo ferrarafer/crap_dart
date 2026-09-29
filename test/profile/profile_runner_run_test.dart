@@ -40,13 +40,13 @@ Future<ProcessResult> fakeTestRun(
 
 /// Runner double that records the spawned test args and writes timing JSON.
 ProfileRunner capturingRunner(List<List<String>> captured) => ProfileRunner(
-      runner: (exe, args, {workingDirectory, environment}) async {
-        captured.add(args);
-        final output = environment!['CRAP_PROFILE_OUTPUT']!;
-        File(output).writeAsStringSync(timingJson);
-        return ProcessResult(0, 0, 'ok', '');
-      },
-    );
+  runner: (exe, args, {workingDirectory, environment}) async {
+    captured.add(args);
+    final output = environment!['CRAP_PROFILE_OUTPUT']!;
+    File(output).writeAsStringSync(timingJson);
+    return ProcessResult(0, 0, 'ok', '');
+  },
+);
 
 void main() {
   test('run returns parsed timings sorted by total time', () async {
@@ -65,8 +65,11 @@ void main() {
     expect(result.timings.first.className, 'Foo');
     expect(result.timings.first.totalMicros, 500);
     expect(result.timings.last.className, '(top-level)');
-    expect(Directory('${root.path}/.crap_profile_temp').existsSync(), isFalse,
-        reason: 'temp dir must be cleaned up');
+    expect(
+      Directory('${root.path}/.crap_profile_temp').existsSync(),
+      isFalse,
+      reason: 'temp dir must be cleaned up',
+    );
   });
 
   test('run forwards filter flags to dart test', () async {
@@ -87,20 +90,24 @@ void main() {
     // act as a whole-suite directory selector (flutter treats a bare `test`
     // positional as one). Only the requested file is passed as selector.
     expect(args.first, 'test');
-    expect(args.skip(1), isNot(contains('test')),
-        reason: 'explicit paths must be the only selectors');
+    expect(
+      args.skip(1),
+      isNot(contains('test')),
+      reason: 'explicit paths must be the only selectors',
+    );
     expect(args, containsAllInOrder(['--compiler', 'source']));
     expect(
-        args,
-        containsAll([
-          '--name',
-          'golden',
-          '--tags',
-          'integration',
-          '-x',
-          'slow',
-          'test/a_test.dart'
-        ]));
+      args,
+      containsAll([
+        '--name',
+        'golden',
+        '--tags',
+        'integration',
+        '-x',
+        'slow',
+        'test/a_test.dart',
+      ]),
+    );
   });
 
   test('run keeps default test dir when no explicit paths given', () async {

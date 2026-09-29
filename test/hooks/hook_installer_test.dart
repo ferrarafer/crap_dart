@@ -42,10 +42,7 @@ void main() {
       await installer.installHook(tempDir.path, runTests: true);
       final content = File(hookPath(tempDir)).readAsStringSync();
       expect(content, contains('dart test --coverage || exit 1'));
-      expect(
-        HookInstaller.beginMarker.allMatches(content),
-        hasLength(1),
-      );
+      expect(HookInstaller.beginMarker.allMatches(content), hasLength(1));
     });
 
     test('throws outside a git repository', () {

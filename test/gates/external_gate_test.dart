@@ -25,7 +25,9 @@ void main() {
     final result = await gate.run(externalContext(project, tool));
     expect(result.passed, isFalse);
     expect(
-        result.violations.single.file, 'android/app/src/main/MainActivity.kt');
+      result.violations.single.file,
+      'android/app/src/main/MainActivity.kt',
+    );
     expect(result.violations.single.line, 14);
     expect(result.violations.single.message, contains('LongMethod'));
   });

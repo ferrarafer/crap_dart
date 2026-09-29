@@ -39,8 +39,11 @@ void main() {
     });
 
     test('invalid arguments exit 1', () async {
-      final result =
-          await runCliInProcess(tempDir, ['analyze', '--threshold', 'nan']);
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        '--threshold',
+        'nan',
+      ]);
       expect(result.exitCode, 1);
     });
 
@@ -51,10 +54,10 @@ void main() {
 
     test('explicit path analysis works', () async {
       writeMiniProject(tempDir, lcov: fullCoverageLcov);
-      final result = await runCliInProcess(
-        tempDir,
-        ['analyze', p.join(tempDir.path, 'lib', 'sample.dart')],
-      );
+      final result = await runCliInProcess(tempDir, [
+        'analyze',
+        p.join(tempDir.path, 'lib', 'sample.dart'),
+      ]);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('Max CRAP: 3.00'));
     });

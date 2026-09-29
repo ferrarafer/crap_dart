@@ -64,7 +64,8 @@ class ExternalGate implements Gate {
       return [
         GateViolation(
           file: '(external)',
-          message: '${rule.id} exited with ${result.exitCode} and no '
+          message:
+              '${rule.id} exited with ${result.exitCode} and no '
               'report was produced: ${_trim(result.stderr)}',
         ),
       ];
@@ -89,7 +90,8 @@ class ExternalGate implements Gate {
           GateViolation(
             file: _relative(path, context),
             line: line,
-            message: '${child.getAttribute('message') ?? 'finding'} '
+            message:
+                '${child.getAttribute('message') ?? 'finding'} '
                 '[${child.getAttribute('source') ?? ruleId}]',
           ),
         );
@@ -101,8 +103,8 @@ class ExternalGate implements Gate {
   /// [path] made relative to the project root when possible.
   String _relative(String path, GateContext context) =>
       path.startsWith('${context.projectRoot}/')
-          ? path.substring(context.projectRoot.length + 1)
-          : path;
+      ? path.substring(context.projectRoot.length + 1)
+      : path;
 
   String _trim(dynamic output) =>
       output == null ? '' : '$output'.trim().split('\n').first;

@@ -23,15 +23,11 @@ class CiInstaller {
   String installCi(String projectRoot, {bool force = false}) {
     final file = File(p.join(projectRoot, workflowPath));
     if (file.existsSync() && !force) {
-      throw HookInstallException(
-        '$workflowPath already exists, use --force',
-      );
+      throw HookInstallException('$workflowPath already exists, use --force');
     }
     file.parent.createSync(recursive: true);
     final isFlutter = GateContext.isFlutterProjectAt(projectRoot);
-    file.writeAsStringSync(
-      isFlutter ? _flutterWorkflow() : _dartWorkflow(),
-    );
+    file.writeAsStringSync(isFlutter ? _flutterWorkflow() : _dartWorkflow());
     return file.path;
   }
 

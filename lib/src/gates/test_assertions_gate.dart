@@ -47,7 +47,8 @@ class TestAssertionsGate implements Gate {
             GateViolation(
               file: context.relativePath(file),
               line: candidate.line,
-              message: "'${candidate.name}' has ${candidate.assertions} "
+              message:
+                  "'${candidate.name}' has ${candidate.assertions} "
                   'assertion(s) — a test without assertions verifies '
                   'nothing',
             ),

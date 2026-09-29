@@ -198,8 +198,9 @@ class _StringsVisitor extends RecursiveAstVisitor<void> {
   }
 
   void _add(AstNode node, String preview, String where) {
-    final short =
-        preview.length > 40 ? '${preview.substring(0, 37)}...' : preview;
+    final short = preview.length > 40
+        ? '${preview.substring(0, 37)}...'
+        : preview;
     violations.add(
       GateViolation(
         file: _file,

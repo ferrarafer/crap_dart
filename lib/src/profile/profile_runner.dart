@@ -78,12 +78,13 @@ class ProfileResult {
 
 /// Signature of a process run — matches [Process.run] so tests can inject
 /// a fake.
-typedef ProcessRunner = Future<ProcessResult> Function(
-  String executable,
-  List<String> arguments, {
-  String? workingDirectory,
-  Map<String, String>? environment,
-});
+typedef ProcessRunner =
+    Future<ProcessResult> Function(
+      String executable,
+      List<String> arguments, {
+      String? workingDirectory,
+      Map<String, String>? environment,
+    });
 
 /// Test selection options forwarded to `dart test` / `flutter test`.
 class TestFilter {
@@ -119,7 +120,7 @@ class ProfileRunner {
   ///
   /// [runner] defaults to [Process.run]; tests inject a fake.
   const ProfileRunner({ProcessRunner? runner})
-      : _runner = runner ?? Process.run;
+    : _runner = runner ?? Process.run;
 
   final ProcessRunner _runner;
 
@@ -244,10 +245,7 @@ class ProfileRunner {
     String projectRoot,
     Directory tempDir,
     List<String> paths,
-  ) =>
-      [
-        for (final path in paths) _remapPath(projectRoot, tempDir.path, path),
-      ];
+  ) => [for (final path in paths) _remapPath(projectRoot, tempDir.path, path)];
 
   String _remapPath(String projectRoot, String tempRoot, String path) {
     if (p.isAbsolute(path)) {
@@ -287,15 +285,17 @@ class ProfileRunner {
       final key = entry.key;
       final stats = entry.value as Map<String, dynamic>;
       final dotIndex = key.indexOf('.');
-      timings.add(MethodTiming(
-        className: dotIndex > 0 ? key.substring(0, dotIndex) : '(top-level)',
-        methodName: dotIndex > 0 ? key.substring(dotIndex + 1) : key,
-        calls: stats['calls'] as int? ?? 0,
-        totalMicros: stats['totalMicros'] as int? ?? 0,
-        totalSelfMicros: stats['totalSelfMicros'] as int? ?? 0,
-        minMicros: stats['minMicros'] as int? ?? 0,
-        maxMicros: stats['maxMicros'] as int? ?? 0,
-      ));
+      timings.add(
+        MethodTiming(
+          className: dotIndex > 0 ? key.substring(0, dotIndex) : '(top-level)',
+          methodName: dotIndex > 0 ? key.substring(dotIndex + 1) : key,
+          calls: stats['calls'] as int? ?? 0,
+          totalMicros: stats['totalMicros'] as int? ?? 0,
+          totalSelfMicros: stats['totalSelfMicros'] as int? ?? 0,
+          minMicros: stats['minMicros'] as int? ?? 0,
+          maxMicros: stats['maxMicros'] as int? ?? 0,
+        ),
+      );
     }
     timings.sort((a, b) => b.totalMicros.compareTo(a.totalMicros));
     return ProfileResult(timings: timings);
@@ -308,9 +308,7 @@ class ProfileRunner {
   ) async {
     // Create temp dir as a sibling of the project so workspace path
     // dependencies resolve correctly.
-    final tempDir = Directory(
-      p.join(projectRoot, '.crap_profile_temp'),
-    );
+    final tempDir = Directory(p.join(projectRoot, '.crap_profile_temp'));
     if (tempDir.existsSync()) {
       tempDir.deleteSync(recursive: true);
     }
@@ -424,15 +422,19 @@ class ProfileRunner {
   ) {
     for (final entity in src.listSync()) {
       final relative = p.relative(entity.path, from: projectRoot);
-      final destPath =
-          p.join(dest.path, p.relative(entity.path, from: src.path));
+      final destPath = p.join(
+        dest.path,
+        p.relative(entity.path, from: src.path),
+      );
       if (entity is Directory) {
         Directory(destPath).createSync(recursive: true);
         _instrumentDir(entity, Directory(destPath), instrumenter, projectRoot);
       } else if (entity is File && entity.path.endsWith('.dart')) {
         final source = entity.readAsStringSync();
-        final instrumented =
-            instrumenter.instrument(source, filePath: relative);
+        final instrumented = instrumenter.instrument(
+          source,
+          filePath: relative,
+        );
         File(destPath).writeAsStringSync(instrumented);
       }
     }

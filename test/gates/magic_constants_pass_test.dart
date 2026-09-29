@@ -38,9 +38,7 @@ void b() => print('long message part one '
 void c() => print('long message part one '
     'continued here');
 ''');
-    final result = await gate.run(
-      makeContext(project, ['lib/adjacent.dart']),
-    );
+    final result = await gate.run(makeContext(project, ['lib/adjacent.dart']));
     expect(result.passed, isFalse);
     expect(result.violations, hasLength(3));
   });

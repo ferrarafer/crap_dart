@@ -10,8 +10,9 @@ List<ExtractedMethod> parseMethods(
   bool countConstructors = false,
 }) {
   final parsed = DartParser().parse(content: source, path: 'test.dart');
-  return MethodExtractor(countConstructors: countConstructors)
-      .extractWithNodes(parsed.unit, parsed.lineInfo, filePath: 'test.dart');
+  return MethodExtractor(
+    countConstructors: countConstructors,
+  ).extractWithNodes(parsed.unit, parsed.lineInfo, filePath: 'test.dart');
 }
 
 /// Returns the cyclomatic complexity of the single method in [source].

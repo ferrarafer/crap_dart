@@ -37,16 +37,17 @@ void documented() {}
   test('--skip excludes the selected gates', () async {
     final runner = GateRunner();
     final result = await runner.run(
-      makeContext(project, ['lib/a.dart'], configYaml: '''
+      makeContext(
+        project,
+        ['lib/a.dart'],
+        configYaml: '''
 coverage:
   required: false
-'''),
+''',
+      ),
       skip: {'public_docs', 'golden'},
     );
-    expect(
-      result.results.map((r) => r.gateId),
-      isNot(contains('public_docs')),
-    );
+    expect(result.results.map((r) => r.gateId), isNot(contains('public_docs')));
     expect(result.results.map((r) => r.gateId), isNot(contains('golden')));
   });
 }

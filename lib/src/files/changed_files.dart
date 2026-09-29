@@ -36,9 +36,9 @@ class ChangedFilesFinder {
   }
 
   List<String> _parseNameOnly(String output) => [
-        for (final line in output.split('\n'))
-          if (line.trim().isNotEmpty) line.trim(),
-      ];
+    for (final line in output.split('\n'))
+      if (line.trim().isNotEmpty) line.trim(),
+  ];
 
   List<String> _parsePorcelain(String output) {
     final paths = <String>[];

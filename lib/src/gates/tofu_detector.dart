@@ -113,9 +113,11 @@ class TofuDetector {
     var misses = 0;
     for (var dy = 2; dy < height; dy++) {
       final row = y + dy;
-      final left = _isInk(image.getPixel(leftEdge, row), background) ||
+      final left =
+          _isInk(image.getPixel(leftEdge, row), background) ||
           _isInk(image.getPixel(leftEdge + 1, row), background);
-      final right = _isInk(image.getPixel(rightEdge, row), background) ||
+      final right =
+          _isInk(image.getPixel(rightEdge, row), background) ||
           _isInk(image.getPixel(rightEdge - 1, row), background);
       if (!left || !right) misses++;
     }

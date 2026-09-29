@@ -367,12 +367,7 @@ class UnusedCodeGateConfig {
     this.enabled = true,
     this.severity = GateSeverity.error,
     this.ignorable = false,
-    this.exclude = const [
-      _generatedGlob,
-      _freezedGlob,
-      _mocksGlob,
-      'bin/**',
-    ],
+    this.exclude = const [_generatedGlob, _freezedGlob, _mocksGlob, 'bin/**'],
   });
 
   /// Whether the gate is enabled.
@@ -398,11 +393,7 @@ class UnusedFilesGateConfig {
     this.severity = GateSeverity.error,
     this.ignorable = false,
     this.dirs = const ['lib'],
-    this.exclude = const [
-      _generatedGlob,
-      _freezedGlob,
-      _mocksGlob,
-    ],
+    this.exclude = const [_generatedGlob, _freezedGlob, _mocksGlob],
   });
 
   /// Whether the gate is enabled.
@@ -528,12 +519,7 @@ class MagicConstantsGateConfig {
     this.flagHexColors = true,
     this.minDuplicates = 3,
     this.minLength = 4,
-    this.exclude = const [
-      _generatedGlob,
-      _freezedGlob,
-      _mocksGlob,
-      _testGlob,
-    ],
+    this.exclude = const [_generatedGlob, _freezedGlob, _mocksGlob, _testGlob],
   });
 
   /// Whether the gate is enabled.
@@ -620,12 +606,7 @@ class FileNamingGateConfig {
     this.enabled = true,
     this.severity = GateSeverity.error,
     this.ignorable = false,
-    this.exclude = const [
-      _generatedGlob,
-      _freezedGlob,
-      _mocksGlob,
-      _testGlob,
-    ],
+    this.exclude = const [_generatedGlob, _freezedGlob, _mocksGlob, _testGlob],
     this.allow = defaultAllowedStems,
   });
 
@@ -732,12 +713,7 @@ class DuplicationGateConfig {
     this.threshold = 1.0,
     this.minTokens = 50,
     this.minLines = 5,
-    this.exclude = const [
-      _generatedGlob,
-      _freezedGlob,
-      _mocksGlob,
-      _testGlob,
-    ],
+    this.exclude = const [_generatedGlob, _freezedGlob, _mocksGlob, _testGlob],
     this.sources = const [],
   });
 

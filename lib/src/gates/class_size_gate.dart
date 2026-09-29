@@ -30,9 +30,9 @@ class ClassSizeGate implements Gate {
     }
     final summary = violations.isEmpty
         ? '$checked classes within ${config.maxMethods} methods/'
-            'WMC ${config.maxWmc}'
+              'WMC ${config.maxWmc}'
         : '${violations.length} violations in $checked classes over '
-            '${config.maxMethods} methods/WMC ${config.maxWmc}';
+              '${config.maxMethods} methods/WMC ${config.maxWmc}';
     return violations.isEmpty
         ? GateResult.pass(id, summary: summary)
         : GateResult.fail(id, violations, summary: summary);
@@ -47,8 +47,10 @@ class ClassSizeGate implements Gate {
   ) {
     final parsed = context.parsed(file);
     final totals = <String, _ClassTotals>{};
-    for (final method
-        in extractor.extractWithNodes(parsed.unit, parsed.lineInfo)) {
+    for (final method in extractor.extractWithNodes(
+      parsed.unit,
+      parsed.lineInfo,
+    )) {
       final info = method.info;
       if (info.className == topLevelClassName) continue;
       final classTotals = totals.putIfAbsent(
@@ -79,7 +81,8 @@ class ClassSizeGate implements Gate {
           GateViolation(
             file: file_,
             line: line,
-            message: '${entry.key} has ${classTotals.methods} methods '
+            message:
+                '${entry.key} has ${classTotals.methods} methods '
                 '> max ${config.maxMethods}',
             measure: classTotals.methods,
           ),
@@ -90,7 +93,8 @@ class ClassSizeGate implements Gate {
           GateViolation(
             file: file_,
             line: line,
-            message: '${entry.key} WMC=${classTotals.wmc} '
+            message:
+                '${entry.key} WMC=${classTotals.wmc} '
                 '> max ${config.maxWmc}',
             measure: classTotals.wmc,
           ),
